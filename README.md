@@ -21,9 +21,9 @@ Our application is designed to improve the "Object Oriented Programming" course 
 <a name="tech-stack"></a>
 ## Tech stack
 
-- For the frontend, the app uses PLACEHOLDER
-- For the backend. the app uses PLACEHOLDER
-- For persistent storage, the app uses PLACEHOLDER
+- For the frontend, the app uses React.js
+- For the backend. the app uses Spring Boot
+- For persistent storage, the app uses PostgreSQL
 
 ![divider](assets/divider.png)
 <a name="key-features"></a>

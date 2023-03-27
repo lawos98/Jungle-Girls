@@ -1,4 +1,4 @@
-package pl.edu.agh.ii.io.jungleGirls.db
+package pl.edu.agh.ii.io.jungleGirls.config
 
 import io.r2dbc.postgresql.PostgresqlConnectionConfiguration
 import io.r2dbc.postgresql.PostgresqlConnectionFactory

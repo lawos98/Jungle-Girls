@@ -6,7 +6,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.JwtEncoder
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters
 import org.springframework.stereotype.Service
-import pl.edu.agh.ii.io.jungleGirls.model.Student
+import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import java.lang.Exception
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -18,21 +18,21 @@ class TokenService(
     private val jwtEncoder: JwtEncoder,
     private val studentService: StudentService,
 ) {
-    fun createToken(user: Student): String {
+    fun createToken(user: LoginUser): String {
         val jwsHeader = JwsHeader.with { "HS256" }.build()
         val claims = JwtClaimsSet.builder()
             .issuedAt(Instant.now())
             .expiresAt(Instant.now().plus(30L, ChronoUnit.DAYS))
-            .subject(user.nick)
-            .claim("userIndex", user.index)
+            .subject(user.username)
+            .claim("userId", user.id)
             .build()
         return jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).tokenValue
     }
 
-    fun parseToken(token: String): Student? {
+    fun parseToken(token: String): LoginUser? {
         return try {
             val jwt = jwtDecoder.decode(token)
-            val userIndex = jwt.claims["userIndex"] as Long
+            val userIndex = jwt.claims["userId"] as Long
             studentService.findByIndex(userIndex)
         } catch (e: Exception) {
             null

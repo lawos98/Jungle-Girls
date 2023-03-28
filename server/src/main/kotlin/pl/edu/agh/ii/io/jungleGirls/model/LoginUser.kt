@@ -8,9 +8,11 @@ import org.springframework.data.annotation.Id
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-data class Student(
-    @Id val index: Long,
-    val nick: String,
+data class LoginUser(
+    @Id
+    val id: Long? = null,
+    val username: String,
     val password: String,
-    val github_link: String="",
+    val firstname: String,
+    val lastname: String,
 )

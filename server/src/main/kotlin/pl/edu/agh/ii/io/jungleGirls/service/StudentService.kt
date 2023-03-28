@@ -3,25 +3,25 @@ package pl.edu.agh.ii.io.jungleGirls.service
 import arrow.core.*
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
-import pl.edu.agh.ii.io.jungleGirls.db.StudentDao
-import pl.edu.agh.ii.io.jungleGirls.model.Student
+import pl.edu.agh.ii.io.jungleGirls.repository.StudentRepository
+import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 
 
 @Service
 class StudentService(
-    private val studentDao: StudentDao
+    private val studentDao: StudentRepository
 ) {
 
-    fun findByIndex(index:Long):Student?{
-        return studentDao.findByIndex(index).block()
+    fun findByIndex(index:Long):LoginUser?{
+        return studentDao.findById(index).block()
     }
 
-    fun findByUsername(username:String):Student?{
-        return studentDao.findByNick(username).block()
+    fun findByUsername(username:String):LoginUser?{
+        return studentDao.findByUsername(username).block()
     }
 
-    fun createOrUpdateUser(user: Student): Either<String, Student> {
-        return validateUser(user).flatMap { _ ->
+    fun createUser(user: LoginUser): Either<String, LoginUser> {
+        return validateNewUser(user).flatMap { _ ->
             try{ return studentDao.save(user).block()!!.right()}
             catch (e:DataIntegrityViolationException){
                 return "User with this email already exists".left()
@@ -31,9 +31,9 @@ class StudentService(
             }
         }
     }
-    fun login(username:String, password:String): Either<String,Student>{
+    fun login(username:String, password:String): Either<String,LoginUser>{
         return checkEmptyName(username).flatMap { _ -> checkEmptyPassword(password)}.flatMap { _ ->
-            val user = studentDao.findByNick(username).block()
+            val user = studentDao.findByUsername(username).block()
                 ?: return "No user found".left()
             return user.right()
         }
@@ -53,13 +53,13 @@ class StudentService(
     }
 
     private fun checkGithubLink(link:String):Either<String, None> {
-        if(!link.matches("/((git|ssh|http(s)?)|(git@[\\w\\.]+))(:(//)?)([\\w\\.@\\:/\\-~]+)(\\.git)(/)?/g".toRegex())){
+        if(!link.matches("/((git|ssh|http(s)?)|(git@[\\w.]+))(:(//)?)([\\w.@:/\\-~]+)(\\.git)(/)?/g".toRegex())){
             return "Incorrect GitHub link".left()
         }
         return None.right()
     }
 
-    private fun validateUser(user:Student):Either<String, None> {
-        return checkEmptyName(user.nick).flatMap { _ -> checkEmptyPassword(user.password) }.flatMap{_ -> checkGithubLink(user.github_link)}
+    private fun validateNewUser(user:LoginUser):Either<String, None> {
+        return checkEmptyName(user.username).flatMap { _ -> checkEmptyPassword(user.password) }
     }
 }

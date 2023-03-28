@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import * as actions from './RegisterActions';
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -9,7 +10,7 @@ const Register: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: Add register logic using axios (probably in a separate file)
+        actions.register(email, studentIndex, repositoryLink, password);
         console.log('Email:', email, 'Student Index:', studentIndex, 'Repository Link:', repositoryLink, 'Password:', password, 'Confirm Password:', confirmPassword);
     };
 

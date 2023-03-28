@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import * as actions from "./LoginActions";
 
 const Login: React.FC = () => {
     const [nick, setNick] = useState('');
@@ -6,8 +7,7 @@ const Login: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: Add login logic using axios (probably in a separate file)
-        console.log('Nick:', nick, 'Password:', password);
+        actions.login(nick, password);
     };
 
     return (

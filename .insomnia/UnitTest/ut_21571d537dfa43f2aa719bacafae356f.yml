@@ -1,0 +1,11 @@
+_id: ut_21571d537dfa43f2aa719bacafae356f
+type: UnitTest
+parentId: uts_3bef602133f24788adc52f4f0e422705
+modified: 1680197855937
+created: 1680197838374
+requestId: req_b6ba37c52cdc47d7a162708d81c0124f
+name: Register missing password
+code: |
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Password cannot be empty");

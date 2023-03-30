@@ -6,7 +6,7 @@ import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import reactor.core.publisher.Mono
 
 @Repository
-interface StudentRepository : ReactiveCrudRepository<LoginUser, Long> {
+interface LoginUserRepository : ReactiveCrudRepository<LoginUser, Long> {
     fun findByUsername(username: String): Mono<LoginUser>
     override fun findById(id: Long): Mono<LoginUser>
 }

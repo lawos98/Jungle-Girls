@@ -26,6 +26,7 @@ class SecurityConfig (
         http.authorizeHttpRequests()
             .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/activity/create").permitAll()
             .requestMatchers("/api/**").authenticated()
             .anyRequest().permitAll()
 

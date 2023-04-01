@@ -1,0 +1,31 @@
+_id: req_2ac00616031d4d22938b46c945dde6de
+type: Request
+parentId: fld_95a8a441b12f4f04b6c1e048b5be2d95
+modified: 1680207819078
+created: 1680199022843
+url: http://localhost:8080/api/register
+name: Register missing firstname
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username":"hero",
+    	"password":"test",
+    	"firstname":"",
+    	"lastname":"Kowalski"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1680068611490.6562
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

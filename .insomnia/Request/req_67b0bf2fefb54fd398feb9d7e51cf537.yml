@@ -1,0 +1,29 @@
+_id: req_67b0bf2fefb54fd398feb9d7e51cf537
+type: Request
+parentId: fld_95a8a441b12f4f04b6c1e048b5be2d95
+modified: 1680207675871
+created: 1680207673456
+url: http://localhost:8080/api/login
+name: Login incorrect password
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username":"test",
+    	"password":"test2"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1680068611455.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

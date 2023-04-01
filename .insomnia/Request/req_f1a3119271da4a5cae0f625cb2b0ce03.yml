@@ -1,0 +1,29 @@
+_id: req_f1a3119271da4a5cae0f625cb2b0ce03
+type: Request
+parentId: fld_95a8a441b12f4f04b6c1e048b5be2d95
+modified: 1680207625045
+created: 1680196884507
+url: http://localhost:8080/api/login
+name: Login
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username":"test",
+    	"password":"test"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1680068611468
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

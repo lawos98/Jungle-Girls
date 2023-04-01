@@ -1,16 +1,15 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-03-30 19:03:43.387
+-- Last modification date: 2023-04-01 15:19:41.421
 
 -- tables
 -- Table: activity
 CREATE TABLE activity (
                           id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
                           name varchar  NOT NULL,
-                          startDate date  NOT NULL,
-                          endDate int  NOT NULL,
+                          start_date date  NOT NULL,
+                          end_date date  NOT NULL,
                           max_score int  NOT NULL,
                           description text  NOT NULL,
-                          group_id int  NOT NULL,
                           activity_type_id int  NOT NULL,
                           activity_category_id int  NOT NULL,
                           CONSTRAINT activity_ak_1 UNIQUE (name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
@@ -34,23 +33,30 @@ CREATE TABLE activity_type (
                                CONSTRAINT activity_type_pk PRIMARY KEY (id)
 );
 
--- Table: group
-CREATE TABLE "group" (
-                         id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
-                         name varchar  NOT NULL,
-                         instructor_id int  NOT NULL,
-                         secret_code varchar  NOT NULL,
-                         CONSTRAINT group_pk PRIMARY KEY (id)
+-- Table: course_group
+CREATE TABLE course_group (
+                              id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
+                              name varchar  NOT NULL,
+                              instructor_id int  NOT NULL,
+                              secret_code varchar  NOT NULL,
+                              CONSTRAINT course_group_pk PRIMARY KEY (id)
 );
 
--- Table: group_notification
-CREATE TABLE group_notification (
-                                    id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
-                                    group_id int  NOT NULL,
-                                    date timestamp  NOT NULL,
-                                    description varchar  NOT NULL,
-                                    autor_id int  NOT NULL,
-                                    CONSTRAINT group_notification_pk PRIMARY KEY (id)
+-- Table: course_group_activity
+CREATE TABLE course_group_activity (
+                                       activity_id int  NOT NULL,
+                                       course_group_id int  NOT NULL,
+                                       CONSTRAINT activity_id PRIMARY KEY (activity_id,course_group_id)
+);
+
+-- Table: course_group_notification
+CREATE TABLE course_group_notification (
+                                           id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
+                                           course_group_id int  NOT NULL,
+                                           date timestamp  NOT NULL,
+                                           description varchar  NOT NULL,
+                                           autor_id int  NOT NULL,
+                                           CONSTRAINT course_group_notification_pk PRIMARY KEY (id)
 );
 
 -- Table: login_user
@@ -105,7 +111,7 @@ CREATE TABLE student_description (
                                      id int  NOT NULL,
                                      index int  NOT NULL,
                                      github_link varchar  NOT NULL DEFAULT '',
-                                     group_id int  NOT NULL,
+                                     course_group_id int  NOT NULL,
                                      CONSTRAINT student_description_ak_1 UNIQUE (index, github_link) NOT DEFERRABLE  INITIALLY IMMEDIATE,
                                      CONSTRAINT student_description_pk PRIMARY KEY (id)
 );
@@ -121,10 +127,10 @@ CREATE TABLE student_notification (
 );
 
 -- foreign keys
--- Reference: Copy_of_group_notification_group (table: group_notification)
-ALTER TABLE group_notification ADD CONSTRAINT Copy_of_group_notification_group
-    FOREIGN KEY (group_id)
-        REFERENCES "group" (id)
+-- Reference: Copy_of_group_notification_group (table: course_group_notification)
+ALTER TABLE course_group_notification ADD CONSTRAINT Copy_of_group_notification_group
+    FOREIGN KEY (course_group_id)
+        REFERENCES course_group (id)
         NOT DEFERRABLE
             INITIALLY IMMEDIATE
 ;
@@ -153,6 +159,22 @@ ALTER TABLE activity ADD CONSTRAINT activity_activity_type
             INITIALLY IMMEDIATE
 ;
 
+-- Reference: activity_group_activity (table: course_group_activity)
+ALTER TABLE course_group_activity ADD CONSTRAINT activity_group_activity
+    FOREIGN KEY (activity_id)
+        REFERENCES activity (id)
+        NOT DEFERRABLE
+            INITIALLY IMMEDIATE
+;
+
+-- Reference: activity_group_group (table: course_group_activity)
+ALTER TABLE course_group_activity ADD CONSTRAINT activity_group_group
+    FOREIGN KEY (course_group_id)
+        REFERENCES course_group (id)
+        NOT DEFERRABLE
+            INITIALLY IMMEDIATE
+;
+
 -- Reference: autor_notification_login_user (table: student_notification)
 ALTER TABLE student_notification ADD CONSTRAINT autor_notification_login_user
     FOREIGN KEY (autor_id)
@@ -161,16 +183,16 @@ ALTER TABLE student_notification ADD CONSTRAINT autor_notification_login_user
             INITIALLY IMMEDIATE
 ;
 
--- Reference: group_login_user (table: group)
-ALTER TABLE "group" ADD CONSTRAINT group_login_user
+-- Reference: group_login_user (table: course_group)
+ALTER TABLE course_group ADD CONSTRAINT group_login_user
     FOREIGN KEY (instructor_id)
         REFERENCES login_user (id)
         NOT DEFERRABLE
             INITIALLY IMMEDIATE
 ;
 
--- Reference: group_notification_login_user (table: group_notification)
-ALTER TABLE group_notification ADD CONSTRAINT group_notification_login_user
+-- Reference: group_notification_login_user (table: course_group_notification)
+ALTER TABLE course_group_notification ADD CONSTRAINT group_notification_login_user
     FOREIGN KEY (autor_id)
         REFERENCES login_user (id)
         NOT DEFERRABLE
@@ -211,8 +233,8 @@ ALTER TABLE score ADD CONSTRAINT score_student_description
 
 -- Reference: student_group (table: student_description)
 ALTER TABLE student_description ADD CONSTRAINT student_group
-    FOREIGN KEY (group_id)
-        REFERENCES "group" (id)
+    FOREIGN KEY (course_group_id)
+        REFERENCES course_group (id)
         NOT DEFERRABLE
             INITIALLY IMMEDIATE
 ;

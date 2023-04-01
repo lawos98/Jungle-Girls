@@ -1,0 +1,38 @@
+_id: req_e7f29e8722c0463bb6176684d0115012
+type: Request
+parentId: wrk_af575f2537074b14bd2ae28ae4281a6b
+modified: 1680377159991
+created: 1680377090342
+url: http://localhost:8080/api/activity/create
+name: Group names are not specified
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "kartkowka",
+    	"description": "łatwizna!!",
+    	"maxScore": "5.0",
+    	"courseGroupNames": [],
+    	"activityTypeName": "compulsory",
+    	"activityCategoryName": "wejsciowki",
+    	"startDate": "2023-04-02 12:00:00",
+    	"endDate": "2023-04-03 12:00:00"
+
+    }
+parameters: []
+headers:
+  - id: pair_03fc85737959413eb6c6a894deb588f2
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication: {}
+metaSortKey: -1680222418220
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

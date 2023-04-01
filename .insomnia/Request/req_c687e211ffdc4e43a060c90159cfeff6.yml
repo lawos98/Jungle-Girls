@@ -1,0 +1,38 @@
+_id: req_c687e211ffdc4e43a060c90159cfeff6
+type: Request
+parentId: wrk_af575f2537074b14bd2ae28ae4281a6b
+modified: 1680381967726
+created: 1680381341495
+url: http://localhost:8080/api/activity/create
+name: Activity category is empty
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "kartkowka32",
+    	"description": "łatwizna!!",
+    	"maxScore": "5.0",
+    	"courseGroupNames": ["inf2"],
+    	"activityTypeName": "compulsory",
+    	"activityCategoryName": "",
+    	"startDate": "2023-04-02 12:00:00",
+    	"endDate": "2023-04-03 12:00:00"
+
+    }
+parameters: []
+headers:
+  - id: pair_03fc85737959413eb6c6a894deb588f2
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication: {}
+metaSortKey: -1680078224413.4375
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

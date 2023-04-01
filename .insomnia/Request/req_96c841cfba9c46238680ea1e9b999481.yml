@@ -1,0 +1,38 @@
+_id: req_96c841cfba9c46238680ea1e9b999481
+type: Request
+parentId: wrk_af575f2537074b14bd2ae28ae4281a6b
+modified: 1680382272434
+created: 1680382260344
+url: http://localhost:8080/api/activity/create
+name: score is not positive
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "kartkowka999",
+    	"description": "łatwizna!!",
+    	"maxScore": "0",
+    	"courseGroupNames": ["inf1", "inf2"],
+    	"activityTypeName": "compulsory",
+    	"activityCategoryName": "wejsciowki",
+    	"startDate": "2023-04-02 12:00:00",
+    	"endDate": "2023-04-03 12:00:00"
+
+    }
+parameters: []
+headers:
+  - id: pair_03fc85737959413eb6c6a894deb588f2
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication: {}
+metaSortKey: -1680356999106.125
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

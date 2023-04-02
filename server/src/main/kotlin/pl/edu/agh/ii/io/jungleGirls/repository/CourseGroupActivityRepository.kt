@@ -6,5 +6,4 @@ import pl.edu.agh.ii.io.jungleGirls.model.CourseGroupActivity
 
 @Repository
 interface CourseGroupActivityRepository : ReactiveCrudRepository <CourseGroupActivity,Long> {
-
 }

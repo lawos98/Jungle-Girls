@@ -29,4 +29,10 @@ class ActivityTypeService(private val activityTypeRepository: ActivityTypeReposi
     fun validateName(name: String): Either<String, Long> {
         return checkIfNameIsBlank(name).flatMap { _ -> checkIfTypeExists(name)}
     }
+
+    fun getAllNames():ArrayList<String>{
+        val result = ArrayList<String>()
+        activityTypeRepository.findAllNames().all{result.add(it)  }.block();
+        return result;
+    }
 }

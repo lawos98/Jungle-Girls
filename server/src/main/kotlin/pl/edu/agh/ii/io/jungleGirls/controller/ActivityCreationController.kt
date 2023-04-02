@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
+import pl.edu.agh.ii.io.jungleGirls.dto.ActivityCreationResponseDto
 import pl.edu.agh.ii.io.jungleGirls.dto.CreateActivityDto
 import pl.edu.agh.ii.io.jungleGirls.model.Activity
 import pl.edu.agh.ii.io.jungleGirls.service.ActivityCategoryService
@@ -27,8 +28,12 @@ class ActivityCreationController(
 ) {
 
     @GetMapping("/create")
-    fun getData(){
-
+    fun getData():ActivityCreationResponseDto{
+        return ActivityCreationResponseDto(
+            groupNames = courseGroupService.getAllNames(),
+            activityTypeNames = activityTypeService.getAllNames(),
+            activityCategoryNames = activityCategoryService.getAllNames()
+        )
     }
     @PostMapping("/create")
     fun createActivity(@RequestBody payload:CreateActivityDto): String{

@@ -27,4 +27,10 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
     fun getIdByName(name: String):Long?{
         return activityCategoryRepository.getIdByName(name).block()
     }
+
+    fun getAllNames():ArrayList<String>{
+        val result = ArrayList<String>()
+        activityCategoryRepository.findAllNames().all{result.add(it)  }.block();
+        return result;
+    }
 }

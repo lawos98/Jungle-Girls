@@ -10,14 +10,6 @@ class CourseGroupService(private val courseGroupRepository: CourseGroupRepositor
         return courseGroupRepository.existsByName(name).block() ?: false
     }
 
-//    private fun checkIfAllCourseGroupsExist(names:ArrayList<String>) : Either<String, None>{
-//        return if(names.all{existsByName(it)}) None.right() else "Requested group does not exist".left()
-//    }
-//
-//    private fun checkIsEmpty(names:ArrayList<String>): Either<String, None>{
-//        return if(names.isNotEmpty()) None.right() else "Did not specified course group".left()
-//    }
-
     private fun checkIsEmpty(names: ArrayList<String>): Either<String, None> {
         return if(names.isEmpty()) "Group name not specified".left() else None.right()
     }
@@ -32,5 +24,11 @@ class CourseGroupService(private val courseGroupRepository: CourseGroupRepositor
 
     fun validateNames(names: ArrayList<String>): Either<String, ArrayList<Long>> {
         return checkIsEmpty(names).flatMap { _ -> checkIfCourseGroupsExist(names)}
+    }
+
+    fun getAllNames():ArrayList<String>{
+        val result = ArrayList<String>()
+        courseGroupRepository.findAllNames().all{result.add(it)  }.block();
+        return result;
     }
 }

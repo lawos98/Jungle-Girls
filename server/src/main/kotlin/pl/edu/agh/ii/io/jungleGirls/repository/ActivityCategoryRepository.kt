@@ -1,8 +1,10 @@
 package pl.edu.agh.ii.io.jungleGirls.repository
 
+import org.springframework.data.r2dbc.repository.Query
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Repository
 import pl.edu.agh.ii.io.jungleGirls.model.ActivityCategory
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 @Repository
 interface ActivityCategoryRepository : ReactiveCrudRepository<ActivityCategory, Long> {
@@ -11,4 +13,7 @@ interface ActivityCategoryRepository : ReactiveCrudRepository<ActivityCategory, 
     override fun existsById(id: Long): Mono<Boolean>
     fun existsByName(name: String): Mono<Boolean>
     fun getIdByName(name: String): Mono<Long>
+
+    @Query("select name from activity_category;")
+    fun findAllNames(): Flux<String>
 }

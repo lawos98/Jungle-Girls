@@ -1,7 +1,7 @@
 _id: req_23ea993ec6fe4b99bb7be4c6b2f48016
 type: Request
 parentId: wrk_af575f2537074b14bd2ae28ae4281a6b
-modified: 1680377357958
+modified: 1680416843183
 created: 1680377312221
 url: http://localhost:8080/api/activity/create
 name: Activity category does not exist
@@ -27,7 +27,9 @@ headers:
     name: Content-Type
     value: application/json
     description: ""
-authentication: {}
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
 metaSortKey: -1680087837333.875
 isPrivate: false
 settingStoreCookies: true

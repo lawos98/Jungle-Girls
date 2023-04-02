@@ -1,7 +1,7 @@
 _id: req_349ffa783ed5410abd6e90e2a405aed4
 type: Request
 parentId: wrk_af575f2537074b14bd2ae28ae4281a6b
-modified: 1680382091807
+modified: 1680416820196
 created: 1680382086183
 url: http://localhost:8080/api/activity/create
 name: Name is already taken
@@ -27,7 +27,9 @@ headers:
     name: Content-Type
     value: application/json
     description: ""
-authentication: {}
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
 metaSortKey: -1680260869901.75
 isPrivate: false
 settingStoreCookies: true

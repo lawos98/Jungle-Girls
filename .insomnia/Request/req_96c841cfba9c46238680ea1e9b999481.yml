@@ -1,7 +1,7 @@
 _id: req_96c841cfba9c46238680ea1e9b999481
 type: Request
 parentId: wrk_af575f2537074b14bd2ae28ae4281a6b
-modified: 1680382272434
+modified: 1680416796799
 created: 1680382260344
 url: http://localhost:8080/api/activity/create
 name: score is not positive
@@ -27,7 +27,9 @@ headers:
     name: Content-Type
     value: application/json
     description: ""
-authentication: {}
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
 metaSortKey: -1680356999106.125
 isPrivate: false
 settingStoreCookies: true

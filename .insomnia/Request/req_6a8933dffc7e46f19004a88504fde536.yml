@@ -1,0 +1,40 @@
+_id: req_6a8933dffc7e46f19004a88504fde536
+type: Request
+parentId: wrk_af575f2537074b14bd2ae28ae4281a6b
+modified: 1680416829189
+created: 1680377197623
+url: http://localhost:8080/api/activity/create
+name: At least one group name does not exist
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "kartkowka",
+    	"description": "łatwizna!!",
+    	"maxScore": "5.0",
+    	"courseGroupNames": ["inf2","inf4"],
+    	"activityTypeName": "compulsory",
+    	"activityCategoryName": "wejsciowki",
+    	"startDate": "2023-04-02 12:00:00",
+    	"endDate": "2023-04-03 12:00:00"
+
+    }
+parameters: []
+headers:
+  - id: pair_03fc85737959413eb6c6a894deb588f2
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
+metaSortKey: -1680145514856.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,5 +1,6 @@
 package pl.edu.agh.ii.io.jungleGirls.service
 
+import arrow.core.*
 import org.springframework.stereotype.Service
 import pl.edu.agh.ii.io.jungleGirls.repository.ActivityCategoryRepository
 import pl.edu.agh.ii.io.jungleGirls.repository.ActivityTypeRepository
@@ -12,5 +13,20 @@ class ActivityTypeService(private val activityTypeRepository: ActivityTypeReposi
 
     fun getIdByName(name: String):Long?{
         return activityTypeRepository.getIdByName(name).block()
+    }
+
+    private fun checkIfNameIsBlank(name: String): Either<String, None> {
+        return if(name.isBlank()) "Activity type name is empty!".left() else None.right()
+    }
+    private fun checkIfTypeExists(name: String): Either<String, Long> {
+        return when(val id = getIdByName(name)) {
+            null -> { "Activity type does not exist!".left() }
+            else -> { id.right() }
+        }
+
+    }
+
+    fun validateName(name: String): Either<String, Long> {
+        return checkIfNameIsBlank(name).flatMap { _ -> checkIfTypeExists(name)}
     }
 }

@@ -32,14 +32,20 @@ class ActivityCreationController(
     }
     @PostMapping("/create")
     fun createActivity(@RequestBody payload:CreateActivityDto): String{
-        val courseIds = courseGroupService.getIds(payload.courseGroupNames)
-            ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Requested group does not exist!");
-        val activityTypeId = activityTypeService.getIdByName(payload.activityTypeName)
-            ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Requested activity type does not exist!");
-        val activityCategoryId = activityCategoryService.getIdByName(payload.activityCategoryName)
-            ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Requested activity category does not exist!")
 
+        val courseIds = when(val result = courseGroupService.validateNames(payload.courseGroupNames)){
+            is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
+            is Either.Right -> result.value
+        }
+        val activityCategoryId = when(val result = activityCategoryService.validateName(payload.activityCategoryName)){
+            is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
+            is Either.Right -> result.value
+        }
 
+        val activityTypeId = when(val result = activityTypeService.validateName(payload.activityTypeName)){
+            is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
+            is Either.Right -> result.value
+        }
 
         val activity = Activity(
             name = payload.name,

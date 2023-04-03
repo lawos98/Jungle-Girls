@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service
 import pl.edu.agh.ii.io.jungleGirls.repository.LoginUserRepository
 import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import pl.edu.agh.ii.io.jungleGirls.util.Bcrypt
+import pl.edu.agh.ii.io.jungleGirls.util.checkIsBlank
 
 
 @Service
@@ -39,12 +40,7 @@ class LoginUserService(
         }
     }
 
-    private fun checkIsBlank(username: String, errorMessage: String): Either<String, None> {
-        if (username.isBlank()) {
-            return errorMessage.left()
-        }
-        return None.right()
-    }
+
 
     private fun checkPassword(password: String): Either<String, None> {
 //        At least one upper case English letter

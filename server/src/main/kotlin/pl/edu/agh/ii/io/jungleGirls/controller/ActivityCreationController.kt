@@ -62,12 +62,8 @@ class ActivityCreationController(
             activityCategoryId = activityCategoryId
         )
         when(val result = activityService.createActivity(activity,courseIds)){
-            is Either.Right -> {
-                return "Activity created successfully"
-            }
-            is Either.Left -> {
-                throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
-            }
+            is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
+            is Either.Right -> return "Activity created successfully"
         }
 
 

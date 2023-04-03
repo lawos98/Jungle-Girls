@@ -2,15 +2,15 @@ package pl.edu.agh.ii.io.jungleGirls.service
 
 import arrow.core.*
 import org.springframework.stereotype.Service
+import pl.edu.agh.ii.io.jungleGirls.model.Activity
+import pl.edu.agh.ii.io.jungleGirls.model.ActivityCategory
 import pl.edu.agh.ii.io.jungleGirls.repository.ActivityCategoryRepository
+import pl.edu.agh.ii.io.jungleGirls.util.checkIsBlank
 
 @Service
 class ActivityCategoryService(private val activityCategoryRepository: ActivityCategoryRepository){
     fun existsById(id: Long):Boolean{
         return activityCategoryRepository.existsById(id).block() ?: false
-    }
-    private fun checkIfNameIsBlank(name: String): Either<String, None> {
-        return if(name.isBlank()) "Activity category name is empty!".left() else None.right()
     }
     private fun checkIfCategoryExists(name: String): Either<String, Long> {
          return when(val id = getIdByName(name)) {
@@ -21,7 +21,7 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
     }
 
     fun validateName(name: String): Either<String, Long> {
-        return checkIfNameIsBlank(name).flatMap { _ -> checkIfCategoryExists(name)}
+        return checkIsBlank(name,"Activity category name is empty!").flatMap { _ -> checkIfCategoryExists(name)}
     }
 
     fun getIdByName(name: String):Long?{
@@ -32,5 +32,26 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
         val result = ArrayList<String>()
         activityCategoryRepository.findAllNames().all{result.add(it)  }.block();
         return result;
+    }
+
+    fun existsByName(name: String): Boolean {
+        return activityCategoryRepository.existsByName(name).block() ?: false
+    }
+
+    private fun checkIfNameIsNotTaken(name: String):Either<String, None>{
+        return if(existsByName(name)) "Activity category name is already taken!".left() else None.right()
+    }
+
+    private fun validateActivityCategory(activityCategory: ActivityCategory): Either<String, None> {
+        return checkIsBlank(activityCategory.name,"name can not be empty")
+            .flatMap {_ -> checkIfNameIsNotTaken(activityCategory.name)
+                .flatMap {_ -> checkIsBlank(activityCategory.description,"description can not be empty") }}
+    }
+
+    public fun createCategory(activityCategory: ActivityCategory): Either<String, None>{
+        return validateActivityCategory(activityCategory).flatMap { _ ->
+            activityCategoryRepository.save(activityCategory).block() ?: return "Error while saving activity category".left()
+            return None.right()
+        }
     }
 }

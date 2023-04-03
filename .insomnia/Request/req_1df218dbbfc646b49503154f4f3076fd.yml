@@ -1,36 +1,29 @@
-_id: req_8a5208f54c25482da5472d199d03246d
+_id: req_1df218dbbfc646b49503154f4f3076fd
 type: Request
-parentId: wrk_af575f2537074b14bd2ae28ae4281a6b
-modified: 1680416815889
-created: 1680382056843
-url: http://localhost:8080/api/activity/create
-name: Name is empty
+parentId: wrk_d2c94732f320498e825e2449139b6c4e
+modified: 1680512656749
+created: 1680512641276
+url: http://localhost:8080/api/activity_category/create
+name: Description is empty
 description: ""
 method: POST
 body:
   mimeType: application/json
   text: |-
     {
-    	"name": "",
-    	"description": "łatwizna!!",
-    	"maxScore": "5.0",
-    	"courseGroupNames": ["inf1", "inf2"],
-    	"activityTypeName": "compulsory",
-    	"activityCategoryName": "wejsciowki",
-    	"startDate": "2023-08-02 12:00:00",
-    	"endDate": "2023-08-03 12:00:00"
-
+    	"name":"name",
+    	"description": ""
     }
 parameters: []
 headers:
-  - id: pair_03fc85737959413eb6c6a894deb588f2
+  - id: pair_585df9604d0a40bbaa675983b8101aca
     name: Content-Type
     value: application/json
     description: ""
 authentication:
   type: bearer
   token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
-metaSortKey: -1680299321583.5
+metaSortKey: -1680393188466.125
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

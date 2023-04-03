@@ -1,0 +1,30 @@
+_id: req_327e72eaa1b04622bcded78aefc13a92
+type: Request
+parentId: wrk_af575f2537074b14bd2ae28ae4281a6b
+modified: 1680420610111
+created: 1680420591718
+url: http://localhost:8080/api/activity/create
+name: Get data
+description: ""
+method: GET
+body:
+  mimeType: application/json
+  text: ""
+parameters: []
+headers:
+  - id: pair_03fc85737959413eb6c6a894deb588f2
+    name: Content-Type
+    value: application/json
+    description: ""
+    disabled: true
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
+metaSortKey: -1680373821716.8906
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,10 @@
+_id: ut_2c5e2b77433948a3b78acaa155c3ba31
+type: UnitTest
+parentId: uts_e71df1c122f54bb09f8b6c454a3de7fa
+modified: 1680419075117
+created: 1680417230185
+requestId: req_9ceda6d33cd448ae8f921990bb302caa
+name: Create activity
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

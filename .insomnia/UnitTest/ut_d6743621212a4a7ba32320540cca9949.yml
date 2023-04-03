@@ -1,0 +1,11 @@
+_id: ut_d6743621212a4a7ba32320540cca9949
+type: UnitTest
+parentId: uts_e71df1c122f54bb09f8b6c454a3de7fa
+modified: 1680417505398
+created: 1680417398623
+requestId: req_a2d59c245ea845edab2fdc2789e777ba
+name: Activity type does not exist
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Activity type does not exist!");

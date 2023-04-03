@@ -27,8 +27,6 @@ class CourseGroupService(private val courseGroupRepository: CourseGroupRepositor
     }
 
     fun getAllNames():ArrayList<String>{
-        val result = ArrayList<String>()
-        courseGroupRepository.findAllNames().all{result.add(it)  }.block();
-        return result;
+        return courseGroupRepository.findAllNames().collectList().block() as ArrayList<String>
     }
 }

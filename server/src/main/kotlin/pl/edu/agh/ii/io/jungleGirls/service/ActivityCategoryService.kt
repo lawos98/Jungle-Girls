@@ -29,9 +29,7 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
     }
 
     fun getAllNames():ArrayList<String>{
-        val result = ArrayList<String>()
-        activityCategoryRepository.findAllNames().all{result.add(it)  }.block();
-        return result;
+        return activityCategoryRepository.findAllNames().collectList().block() as ArrayList<String>
     }
 
     fun existsByName(name: String): Boolean {

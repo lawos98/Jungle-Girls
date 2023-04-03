@@ -30,8 +30,6 @@ class ActivityTypeService(private val activityTypeRepository: ActivityTypeReposi
     }
 
     fun getAllNames():ArrayList<String>{
-        val result = ArrayList<String>()
-        activityTypeRepository.findAllNames().all{result.add(it)  }.block();
-        return result;
+        return activityTypeRepository.findAllNames().collectList().block() as ArrayList<String>
     }
 }

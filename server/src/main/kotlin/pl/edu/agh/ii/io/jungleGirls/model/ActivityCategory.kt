@@ -1,16 +1,17 @@
 package pl.edu.agh.ii.io.jungleGirls.model
 
-
 import lombok.AllArgsConstructor
 import lombok.Data
 import lombok.NoArgsConstructor
 import org.springframework.data.annotation.Id
+import java.time.LocalDateTime
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-data class Student(
-    @Id val index: Long,
-    val nick: String,
-    val password: String,
-    val github_link: String="",
-)
+data class ActivityCategory (
+    @Id
+    var id: Long? = null,
+    var name: String,
+    var description: String,
+    )

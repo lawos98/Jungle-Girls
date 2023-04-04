@@ -1,58 +1,59 @@
 package pl.edu.agh.ii.io.jungleGirls.controller
 
 import arrow.core.Either
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import pl.edu.agh.ii.io.jungleGirls.dto.ApiException
+import org.springframework.web.server.ResponseStatusException
 import pl.edu.agh.ii.io.jungleGirls.dto.LoginDto
-import pl.edu.agh.ii.io.jungleGirls.dto.LoginResponseDto
+import pl.edu.agh.ii.io.jungleGirls.dto.AuthResponseDto
 import pl.edu.agh.ii.io.jungleGirls.dto.RegisterDto
-import pl.edu.agh.ii.io.jungleGirls.model.Student
+import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import pl.edu.agh.ii.io.jungleGirls.service.TokenService
-import pl.edu.agh.ii.io.jungleGirls.service.StudentService
+import pl.edu.agh.ii.io.jungleGirls.service.LoginUserService
 
 @RestController
 @RequestMapping("/api")
 class AuthController(
     private val tokenService: TokenService,
-    private val studentService: StudentService,
+    private val loginUserService: LoginUserService,
 ) {
     @PostMapping("/login")
-    fun login(@RequestBody payload: LoginDto): LoginResponseDto {
-        when(val user = studentService.login(payload.name,payload.password)){
+    fun login(@RequestBody payload: LoginDto): AuthResponseDto {
+        when(val user = loginUserService.login(payload.username,payload.password)){
             is Either.Right -> {
-                return LoginResponseDto(
+                return AuthResponseDto(
                     token = tokenService.createToken(user.value),
                 )
             }
             is Either.Left -> {
-                throw ApiException(400,user.value)
+                throw ResponseStatusException(HttpStatus.BAD_REQUEST, user.value)
             }
         }
     }
 
     @PostMapping("/register")
-    fun register(@RequestBody payload: RegisterDto): LoginResponseDto {
-        if (studentService.findByUsername(payload.name)!=null) {
-            throw ApiException(400, "Name already exists")
+    fun register(@RequestBody payload: RegisterDto): AuthResponseDto {
+        if (loginUserService.findByUsername(payload.username)!=null) {
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists")
         }
-
-        val user = Student(
-            index = payload.index,
-            nick = payload.name,
-            password = payload.password
+        val user = LoginUser(
+            username = payload.username,
+            password = payload.password,
+            firstname = payload.firstname,
+            lastname = payload.lastname,
+            roleId = 1
         )
-
-        when(val savedUser = studentService.createOrUpdateUser(user)){
+        when(val savedUser = loginUserService.createUser(user)){
             is Either.Right -> {
-                return LoginResponseDto(
+                return AuthResponseDto(
                     token = tokenService.createToken(savedUser.value),
                 )
             }
             is Either.Left -> {
-                throw ApiException(401,savedUser.value)
+                throw ResponseStatusException(HttpStatus.BAD_REQUEST, savedUser.value)
             }
         }
     }

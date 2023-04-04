@@ -16,9 +16,6 @@ import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import pl.edu.agh.ii.io.jungleGirls.service.TokenService
 
-/**
- * This class sets all security related configuration.
- */
 @Configuration
 @EnableWebSecurity
 class SecurityConfig (

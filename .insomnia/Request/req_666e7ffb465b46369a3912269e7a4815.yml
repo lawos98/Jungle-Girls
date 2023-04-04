@@ -1,0 +1,31 @@
+_id: req_666e7ffb465b46369a3912269e7a4815
+type: Request
+parentId: fld_df40fb31187e4fb99f5fcd2ae5a0f72e
+modified: 1680617366514
+created: 1680616335678
+url: "{{ _.ServerAddress }}/api/register"
+name: Register incorrect username
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username":"11",
+    	"password":"test",
+    	"firstname":"Jan",
+    	"lastname":"Kowalski"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1680616335678
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

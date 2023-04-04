@@ -1,0 +1,29 @@
+_id: req_8d3cd5a60b93489aaa6f64930484738a
+type: Request
+parentId: fld_df40fb31187e4fb99f5fcd2ae5a0f72e
+modified: 1680617325501
+created: 1680616551825
+url: "{{ _.ServerAddress }}/api/login"
+name: Login incorrect password
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username":"test",
+    	"password":"test2"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1680616551825
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,12 @@
+_id: ut_d85357c062e34f1ea16137bd6e0f41b1
+type: UnitTest
+parentId: uts_ab23c073e12a47e4a58fd747f588eab7
+modified: 1680617455793
+created: 1680616982061
+requestId: req_fc1352d87d24469f964578ddc4d7a29f
+name: Register incorrect firstname
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Firstname is incorrect");
+  expect(response.status).to.equal(400);

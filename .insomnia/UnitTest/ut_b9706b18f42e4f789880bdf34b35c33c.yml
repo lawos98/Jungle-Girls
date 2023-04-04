@@ -1,0 +1,12 @@
+_id: ut_b9706b18f42e4f789880bdf34b35c33c
+type: UnitTest
+parentId: uts_ab23c073e12a47e4a58fd747f588eab7
+modified: 1680617458698
+created: 1680616999944
+requestId: req_018926de1c4645a0b0dab6c7dd0eadcc
+name: Register incorrect lastname
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Lastname is incorrect");
+  expect(response.status).to.equal(400);

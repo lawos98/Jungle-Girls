@@ -1,7 +1,7 @@
 _id: ut_d41463a8cc93428d9c2f3a674fa5c68c
 type: UnitTest
 parentId: uts_e71df1c122f54bb09f8b6c454a3de7fa
-modified: 1680419077334
+modified: 1680619165651
 created: 1680418997906
 requestId: req_349ffa783ed5410abd6e90e2a405aed4
 name: Name is already taken
@@ -9,3 +9,4 @@ code: |-
   const response = await insomnia.send();
   const body = JSON.parse(response.data);
   expect(body.message).to.equal("Activity name is already taken!");
+  expect(response.status).to.equal(400);

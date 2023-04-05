@@ -1,8 +1,19 @@
 import api from "../../api/axios";
-import {set} from "js-cookie";
+import Cookies from "js-cookie";
 
-export const register = (email: string, studentIndex: string, repositoryLink: string, password: string) => {
-    api.post('/register', {email, studentIndex, password}).then(response => {
-        set('token', response.data.token, {httpOnly: true})
+export const register = (username: string, firstname: string, lastname: string, password: string) => {
+    console.log("Registering user: " + username + " " + firstname + " " + lastname + " " + password)
+    api.post('/register', {
+            username,
+            firstname,
+            lastname,
+            password
+        },
+        {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+        Cookies.set('token', response.data.token, {httpOnly: true})
     })
 }

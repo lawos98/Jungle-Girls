@@ -1,11 +1,11 @@
 import axios from 'axios';
-import {get} from 'js-cookie';
+import Cookies from "js-cookie";
 
 
 const api = axios.create({
-    baseURL: 'http://localhost:3333',
+    baseURL: 'http://localhost:8080/api',
     headers: {
-        Authorization: `Bearer ${get('token')}`
+        Authorization: `Bearer ${Cookies.get('token')}`,
     },
 });
 

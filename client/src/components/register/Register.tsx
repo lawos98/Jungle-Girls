@@ -2,16 +2,19 @@ import React, { useState } from 'react';
 import * as actions from './RegisterActions';
 
 const Register: React.FC = () => {
-    const [email, setEmail] = useState('');
-    const [studentIndex, setStudentIndex] = useState('');
-    const [repositoryLink, setRepositoryLink] = useState('');
+    const [username, setUsername] = useState('');
+    const [firstname, setFirstName] = useState('');
+    const [lastname, setLastName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        actions.register(email, studentIndex, repositoryLink, password);
-        console.log('Email:', email, 'Student Index:', studentIndex, 'Repository Link:', repositoryLink, 'Password:', password, 'Confirm Password:', confirmPassword);
+        if (password !== confirmPassword) {
+            alert('Hasła nie są takie same!');
+            return;
+        }
+        actions.register(username, firstname, lastname, password);
     };
 
     return (
@@ -23,46 +26,46 @@ const Register: React.FC = () => {
                 <h2 className="text-2xl font-bold mb-6">Rejestracja</h2>
                 <div className="mb-4">
                     <label
-                        htmlFor="email"
+                        htmlFor="username"
                         className="block text-gray-700 font-medium text-center"
                     >
-                        Email
+                        Nazwa użytkownika
                     </label>
                     <input
-                        id="email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        id="username"
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                 </div>
                 <div className="mb-4">
                     <label
-                        htmlFor="studentIndex"
+                        htmlFor="firstname"
                         className="block text-gray-700 font-medium text-center"
                     >
-                        Index studenta
+                        Imię
                     </label>
                     <input
-                        id="studentIndex"
+                        id="firstname"
                         type="text"
-                        value={studentIndex}
-                        onChange={(e) => setStudentIndex(e.target.value)}
+                        value={firstname}
+                        onChange={(e) => setFirstName(e.target.value)}
                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                 </div>
                 <div className="mb-4">
                     <label
-                        htmlFor="repositoryLink"
+                        htmlFor="lastname"
                         className="block text-gray-700 font-medium text-center"
                     >
-                        Link do repozytorium
+                        Nazwisko
                     </label>
                     <input
-                        id="repositoryLink"
+                        id="lastname"
                         type="text"
-                        value={repositoryLink}
-                        onChange={(e) => setRepositoryLink(e.target.value)}
+                        value={lastname}
+                        onChange={(e) => setLastName(e.target.value)}
                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                 </div>

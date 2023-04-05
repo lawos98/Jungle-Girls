@@ -1,0 +1,12 @@
+_id: ut_a3ea2b3e2dc947e1962eb81f89e55fc4
+type: UnitTest
+parentId: uts_ab23c073e12a47e4a58fd747f588eab7
+modified: 1680617439517
+created: 1680616749637
+requestId: req_d7224970e4724dc1b360deb7ba08654a
+name: Register missing firstname
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Firstname cannot be empty");
+  expect(response.status).to.equal(400);

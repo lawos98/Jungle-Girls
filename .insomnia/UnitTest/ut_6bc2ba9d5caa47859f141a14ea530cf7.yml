@@ -1,7 +1,7 @@
 _id: ut_6bc2ba9d5caa47859f141a14ea530cf7
 type: UnitTest
 parentId: uts_e71df1c122f54bb09f8b6c454a3de7fa
-modified: 1680417114765
+modified: 1680619135273
 created: 1680417097810
 requestId: req_96c841cfba9c46238680ea1e9b999481
 name: Score is not positive
@@ -9,3 +9,4 @@ code: |-
   const response = await insomnia.send();
   const body = JSON.parse(response.data);
   expect(body.message).to.equal("Max Score must be positive!");
+  expect(response.status).to.equal(400);

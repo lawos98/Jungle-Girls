@@ -1,0 +1,12 @@
+_id: ut_d672bb09c2874b9f963ab433ef0237d7
+type: UnitTest
+parentId: uts_ab23c073e12a47e4a58fd747f588eab7
+modified: 1680617463580
+created: 1680617036001
+requestId: req_8d3cd5a60b93489aaa6f64930484738a
+name: Login incorrect password
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Not correct password");
+  expect(response.status).to.equal(400);

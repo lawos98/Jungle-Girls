@@ -1,0 +1,12 @@
+_id: ut_8de24b2717324a119d851d204c0b24e2
+type: UnitTest
+parentId: uts_ab23c073e12a47e4a58fd747f588eab7
+modified: 1680617432654
+created: 1680616713697
+requestId: req_f0da45aed4064663969fa6a552bd8b7d
+name: Register missing username
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Username cannot be empty");
+  expect(response.status).to.equal(400);

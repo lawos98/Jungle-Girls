@@ -1,0 +1,29 @@
+_id: req_a0745a8f4c034e64b07f2a9475e3cf04
+type: Request
+parentId: fld_df40fb31187e4fb99f5fcd2ae5a0f72e
+modified: 1680616628740
+created: 1680616585031
+url: "{{ _.ServerAddress }}/api/login"
+name: Login missing password
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username":"test",
+    	"password":""
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1680616585031
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

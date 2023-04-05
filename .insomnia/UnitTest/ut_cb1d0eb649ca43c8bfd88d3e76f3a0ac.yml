@@ -1,7 +1,7 @@
 _id: ut_cb1d0eb649ca43c8bfd88d3e76f3a0ac
 type: UnitTest
 parentId: uts_e71df1c122f54bb09f8b6c454a3de7fa
-modified: 1680417316718
+modified: 1680619145390
 created: 1680417272567
 requestId: req_e7f29e8722c0463bb6176684d0115012
 name: Group names are not specified
@@ -9,3 +9,4 @@ code: |-
   const response = await insomnia.send();
   const body = JSON.parse(response.data);
   expect(body.message).to.equal("Group name not specified");
+  expect(response.status).to.equal(400);

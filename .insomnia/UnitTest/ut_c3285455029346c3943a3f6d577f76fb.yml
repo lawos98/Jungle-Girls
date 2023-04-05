@@ -1,0 +1,12 @@
+_id: ut_c3285455029346c3943a3f6d577f76fb
+type: UnitTest
+parentId: uts_ab23c073e12a47e4a58fd747f588eab7
+modified: 1680617442337
+created: 1680616759164
+requestId: req_cb5248dcc2b7429b894f17724acbf874
+name: Register missing lastname
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Lastname cannot be empty");
+  expect(response.status).to.equal(400);

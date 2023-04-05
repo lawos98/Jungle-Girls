@@ -12,24 +12,24 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
     fun existsById(id: Long):Boolean{
         return activityCategoryRepository.existsById(id).block() ?: false
     }
-    private fun checkIfCategoryExists(name: String): Either<String, Long> {
-         return when(val id = getIdByName(name)) {
+    private fun checkIfCategoryExistsById(instructorId: Long, name: String): Either<String, Long> {
+         return when(val id = getIdByInstructorIdAndName(instructorId,name)) {
             null -> { "Activity category does not exist!".left() }
             else -> { id.right() }
         }
 
     }
 
-    fun validateName(name: String): Either<String, Long> {
-        return checkIsBlank(name,"Activity category name is empty!").flatMap { _ -> checkIfCategoryExists(name)}
+    fun validateName(instructorId: Long, name: String): Either<String, Long> {
+        return checkIsBlank(name,"Activity category name is empty!").flatMap { _ -> checkIfCategoryExistsById(instructorId,name)}
     }
 
-    fun getIdByName(name: String):Long?{
-        return activityCategoryRepository.getIdByName(name).block()
+    fun getIdByInstructorIdAndName(instructorId: Long, name: String):Long?{
+        return activityCategoryRepository.getIdByInstructorIdAndName(instructorId,name).block()
     }
 
-    fun getAllNames():ArrayList<String>{
-        return activityCategoryRepository.findAllNames().collectList().block() as ArrayList<String>
+    fun getAllNames(instructorId:Long):ArrayList<String>{
+        return activityCategoryRepository.findAllNamesById(instructorId).collectList().block() as ArrayList<String>
     }
 
     fun existsByName(name: String): Boolean {

@@ -1,18 +1,16 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-04-01 15:19:41.421
+-- Last modification date: 2023-04-05 21:49:50.404
 
 -- tables
 -- Table: activity
 CREATE TABLE activity (
                           id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
                           name varchar  NOT NULL,
-                          start_date date  NOT NULL,
-                          end_date date  NOT NULL,
-                          max_score int  NOT NULL,
+                          duration varchar  NOT NULL,
+                          max_score decimal  NOT NULL,
                           description text  NOT NULL,
                           activity_type_id int  NOT NULL,
                           activity_category_id int  NOT NULL,
-                          CONSTRAINT activity_ak_1 UNIQUE (name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
                           CONSTRAINT activity_pk PRIMARY KEY (id)
 );
 
@@ -21,7 +19,8 @@ CREATE TABLE activity_category (
                                    id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
                                    name varchar  NOT NULL,
                                    description varchar  NOT NULL,
-                                   CONSTRAINT activity_category_ak_1 UNIQUE (name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
+                                   instructor_id int  NOT NULL,
+                                   CONSTRAINT activity_category_ak_1 UNIQUE (name, instructor_id) NOT DEFERRABLE  INITIALLY IMMEDIATE,
                                    CONSTRAINT activity_category_pk PRIMARY KEY (id)
 );
 
@@ -46,6 +45,7 @@ CREATE TABLE course_group (
 CREATE TABLE course_group_activity (
                                        activity_id int  NOT NULL,
                                        course_group_id int  NOT NULL,
+                                       start_date timestamp  NOT NULL,
                                        CONSTRAINT activity_id PRIMARY KEY (activity_id,course_group_id)
 );
 
@@ -75,7 +75,6 @@ CREATE TABLE login_user (
 CREATE TABLE permission (
                             id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
                             name varchar  NOT NULL,
-                            should_be_displayed boolean  NOT NULL,
                             CONSTRAINT permission_ak_1 UNIQUE (name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
                             CONSTRAINT permission_pk PRIMARY KEY (id)
 );
@@ -84,6 +83,7 @@ CREATE TABLE permission (
 CREATE TABLE permission_role (
                                  role_id int  NOT NULL,
                                  permission_id int  NOT NULL,
+                                 should_be_displayed boolean  NOT NULL,
                                  CONSTRAINT permission_role_pk PRIMARY KEY (role_id,permission_id)
 );
 
@@ -91,7 +91,7 @@ CREATE TABLE permission_role (
 CREATE TABLE role (
                       id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
                       name varchar  NOT NULL,
-                      description text  NOT NULL,
+                      description varchar  NOT NULL,
                       secret_code varchar  NOT NULL,
                       CONSTRAINT role_ak_1 UNIQUE (name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
                       CONSTRAINT role_pk PRIMARY KEY (id)
@@ -155,6 +155,14 @@ ALTER TABLE activity ADD CONSTRAINT activity_activity_category
 ALTER TABLE activity ADD CONSTRAINT activity_activity_type
     FOREIGN KEY (activity_type_id)
         REFERENCES activity_type (id)
+        NOT DEFERRABLE
+            INITIALLY IMMEDIATE
+;
+
+-- Reference: activity_category_login_user (table: activity_category)
+ALTER TABLE activity_category ADD CONSTRAINT activity_category_login_user
+    FOREIGN KEY (instructor_id)
+        REFERENCES login_user (id)
         NOT DEFERRABLE
             INITIALLY IMMEDIATE
 ;

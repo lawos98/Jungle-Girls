@@ -1,26 +1,21 @@
-_id: req_f62d6b969b1d4238857717e94cf36008
+_id: req_d978783fb87a42b5b708b0a25bbd694f
 type: Request
-parentId: fld_d8ba47e1b735453e8b7c8359ee50eb41
-modified: 1680953805982
-created: 1680936918975
-url: "{{ _.ServerAddress }}/api/activity/create"
-name: Get data
+parentId: fld_e1cc76824917439ca2e34b5b642ad6e6
+modified: 1680951599703
+created: 1680946885218
+url: "{{ _.ServerAddress }}/api/activity_category/delete"
+name: Get activity categories (delete)
 description: ""
 method: GET
 body:
   mimeType: application/json
   text: ""
 parameters: []
-headers:
-  - id: pair_03fc85737959413eb6c6a894deb588f2
-    name: Content-Type
-    value: application/json
-    description: ""
-    disabled: true
+headers: []
 authentication:
   type: bearer
   token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
-metaSortKey: -1680373821716.8906
+metaSortKey: -1680444078873.5
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

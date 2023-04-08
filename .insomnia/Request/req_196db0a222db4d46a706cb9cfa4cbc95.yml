@@ -1,18 +1,17 @@
-_id: req_90846038a21a4c7b83d839c32db9bd1c
+_id: req_196db0a222db4d46a706cb9cfa4cbc95
 type: Request
-parentId: fld_09be314480954281acd119f886d53271
-modified: 1680951561836
-created: 1680938468350
-url: "{{ _.ServerAddress }}/api/activity_category/create"
-name: Description is empty
+parentId: fld_e1cc76824917439ca2e34b5b642ad6e6
+modified: 1680951592365
+created: 1680950595276
+url: "{{ _.ServerAddress }}/api/activity_category/delete"
+name: Category does not exist
 description: ""
 method: POST
 body:
   mimeType: application/json
   text: |-
     {
-    	"name":"name",
-    	"description": ""
+    	"name":"name"
     }
 parameters: []
 headers:
@@ -23,7 +22,7 @@ headers:
 authentication:
   type: bearer
   token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
-metaSortKey: -1680444078998.5
+metaSortKey: -1680444078898.5
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

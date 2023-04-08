@@ -1,0 +1,33 @@
+_id: req_9e296f9fcbec4d1eb52aa8222ac92947
+type: Request
+parentId: fld_d863bab1352c40a09ac4dad2d098198b
+modified: 1680938468345
+created: 1680938468345
+url: http://localhost:8080/api/activity_category/create
+name: Name is already taken
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name":"inne",
+    	"description": "dddddd"
+    }
+parameters: []
+headers:
+  - id: pair_585df9604d0a40bbaa675983b8101aca
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
+metaSortKey: -1680444078973.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

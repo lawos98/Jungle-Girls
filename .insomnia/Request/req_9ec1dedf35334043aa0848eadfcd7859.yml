@@ -1,9 +1,9 @@
-_id: req_c687e211ffdc4e43a060c90159cfeff6
+_id: req_9ec1dedf35334043aa0848eadfcd7859
 type: Request
-parentId: fld_581a0131755e4ba4a8684031c900a6db
-modified: 1680618088314
-created: 1680381341495
-url: "{{ _.ServerAddress }}/api/activity/create"
+parentId: fld_b41ed22d3f08423d87316e1f41e459af
+modified: 1680936918953
+created: 1680936918953
+url: http://localhost:8080/api/activity/create
 name: Activity category is empty
 description: ""
 method: POST
@@ -11,14 +11,14 @@ body:
   mimeType: application/json
   text: |-
     {
-    	"name": "kartkowka32",
+    	"name": "kartkowka99",
     	"description": "łatwizna!!",
-    	"maxScore": "5.0",
-    	"courseGroupNames": ["inf2"],
+    	"maxScore": "5.5",
+    	"courseGroupNames": ["inf1", "inf2"],
+    	"courseGroupStartDates": ["2023-08-02 12:00:00","2023-08-02 15:00:00"],
     	"activityTypeName": "compulsory",
     	"activityCategoryName": "",
-    	"startDate": "2024-04-02 12:00:00",
-    	"endDate": "2024-04-03 12:00:00"
+    	"duration":"PT124H30M"
 
     }
 parameters: []
@@ -29,9 +29,8 @@ headers:
     description: ""
 authentication:
   type: bearer
-  token: "{% response 'body', 'req_467dbe3fb0fc4a11b0b0c398679015e8',
-    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
-metaSortKey: -1680495613609.3906
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
+metaSortKey: -1680373821066.8906
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

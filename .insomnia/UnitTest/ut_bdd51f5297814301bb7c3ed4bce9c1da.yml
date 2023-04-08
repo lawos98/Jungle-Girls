@@ -1,0 +1,11 @@
+_id: ut_bdd51f5297814301bb7c3ed4bce9c1da
+type: UnitTest
+parentId: uts_9638c1f2259d45de9287498e3b361ce9
+modified: 1680937690373
+created: 1680937274260
+requestId: req_560458e88a394555be294506f1ae6c27
+name: Duration is not positive
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Duration must be positive!");

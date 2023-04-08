@@ -1,0 +1,40 @@
+_id: req_16887f8cd01e462098c610661b46ba52
+type: Request
+parentId: fld_b41ed22d3f08423d87316e1f41e459af
+modified: 1680936918939
+created: 1680936918939
+url: http://localhost:8080/api/activity/create
+name: Wrong group names
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "kartkowka99",
+    	"description": "łatwizna!!",
+    	"maxScore": "5.5",
+    	"courseGroupNames": ["inf1", "inf4"],
+    	"courseGroupStartDates": ["2023-08-02 12:00:00","2023-08-02 15:00:00"],
+    	"activityTypeName": "compulsory",
+    	"activityCategoryName": "wejsciowki",
+    	"duration":"PT124H30M"
+
+    }
+parameters: []
+headers:
+  - id: pair_03fc85737959413eb6c6a894deb588f2
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
+metaSortKey: -1680373821266.8906
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -19,6 +19,20 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
         }
 
     }
+    fun deleteCategory(activityCategory: ActivityCategory): Either<String, None>{
+        return checkIfCanBeDeleted(activityCategory.id!!).flatMap { _ ->
+            activityCategoryRepository.delete(activityCategory).block()
+            if(existsById(activityCategory.id!!)) return "Error while deleting activity category".left()
+            return None.right()
+        }
+    }
+    private fun canBeDeleted(id: Long):Boolean{
+        return activityCategoryRepository.canBeDeleted(id).block() ?: false
+    }
+
+    private fun checkIfCanBeDeleted(id: Long): Either<String, Long>{
+        return if(canBeDeleted(id)) id.right() else "There are activities belonging to this category!".left()
+    }
 
     fun validateName(instructorId: Long, name: String): Either<String, Long> {
         return checkIsBlank(name,"Activity category name is empty!").flatMap { _ -> checkIfCategoryExistsById(instructorId,name)}
@@ -41,16 +55,20 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
     }
 
 
-    private fun validateActivityCategory(instructorId: Long,activityCategory: ActivityCategory): Either<String, None> {
+    private fun validateActivityCategory(activityCategory: ActivityCategory): Either<String, None> {
         return checkIsBlank(activityCategory.name,"name can not be empty")
-            .flatMap {_ -> checkIfNameIsNotTaken(instructorId,activityCategory.name)
+            .flatMap {_ -> checkIfNameIsNotTaken(activityCategory.instructorId,activityCategory.name)
                 .flatMap {_ -> checkIsBlank(activityCategory.description,"description can not be empty") }}
     }
 
-    fun createCategory(activityCategory: ActivityCategory,instructorId: Long): Either<String, None>{
-        return validateActivityCategory(instructorId,activityCategory).flatMap { _ ->
+    fun createCategory(activityCategory: ActivityCategory): Either<String, None>{
+        return validateActivityCategory(activityCategory).flatMap { _ ->
             activityCategoryRepository.save(activityCategory).block() ?: return "Error while saving activity category".left()
             return None.right()
         }
+    }
+
+    fun findByInstructorIdAndName(instructorId:Long, name: String):ActivityCategory?{
+        return activityCategoryRepository.findByInstructorIdAndName(instructorId,name).block()
     }
 }

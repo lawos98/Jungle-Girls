@@ -102,7 +102,7 @@ CREATE TABLE score (
                        id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
                        student_id int  NOT NULL,
                        activity_id int  NOT NULL,
-                       value int  NOT NULL,
+                       value numeric  NOT NULL,
                        CONSTRAINT score_pk PRIMARY KEY (id)
 );
 

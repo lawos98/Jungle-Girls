@@ -1,5 +1,5 @@
 package pl.edu.agh.ii.io.jungleGirls.dto
 
-data class CreateActivityCategoryResponseDto (
+data class ActivityCategoryResponseDto (
     val name: ArrayList<String>,
 )

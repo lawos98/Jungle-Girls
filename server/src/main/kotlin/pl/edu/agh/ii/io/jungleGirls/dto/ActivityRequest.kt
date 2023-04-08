@@ -16,4 +16,7 @@ data class CreateActivityDto (
     val activityCategoryName: String,
 )
 
+data class DeleteActivityDto (
+    val name: String,
+)
 

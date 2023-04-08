@@ -47,7 +47,7 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
                 .flatMap {_ -> checkIsBlank(activityCategory.description,"description can not be empty") }}
     }
 
-    gfun createCategory(activityCategory: ActivityCategory,instructorId: Long): Either<String, None>{
+    fun createCategory(activityCategory: ActivityCategory,instructorId: Long): Either<String, None>{
         return validateActivityCategory(instructorId,activityCategory).flatMap { _ ->
             activityCategoryRepository.save(activityCategory).block() ?: return "Error while saving activity category".left()
             return None.right()

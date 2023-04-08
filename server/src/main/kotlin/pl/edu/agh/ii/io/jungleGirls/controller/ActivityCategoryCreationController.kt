@@ -21,7 +21,7 @@ class ActivityCategoryCreationController(
 
     @PostMapping("/create")
     fun createActivity(@RequestBody payload: CreateActivityCategoryDto,@RequestHeader("Authorization") token: String): String {
-        val user = tokenService.parseToken(token.substring("Bearer".length)) ?: throw InvalidBearerTokenException("Invalid token")
+        val user = tokenService.parseToken(token.substring("Bearer".length))
 
         val activityCategory = ActivityCategory(
             name = payload.name,
@@ -37,7 +37,7 @@ class ActivityCategoryCreationController(
 
     @GetMapping("/create")
     fun getAllActivityCategories(@RequestHeader("Authorization") token: String): CreateActivityCategoryResponseDto{
-        val user = tokenService.parseToken(token.substring("Bearer".length)) ?: throw InvalidBearerTokenException("Invalid token")
+        val user = tokenService.parseToken(token.substring("Bearer".length))
 
         return CreateActivityCategoryResponseDto(activityCategoryService.getAllNames(user.id!!))
     }

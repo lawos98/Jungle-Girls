@@ -22,7 +22,7 @@ class ActivityCreationController(
 
     @GetMapping("/create")
     fun getData(@RequestHeader("Authorization") token: String):ActivityCreationResponseDto{
-        val user = tokenService.parseToken(token.substring("Bearer".length)) ?: throw InvalidBearerTokenException("Invalid token")
+        val user = tokenService.parseToken(token.substring("Bearer".length))
 
         return ActivityCreationResponseDto(
             groupNames = courseGroupService.getAllNamesById(user.roleId),
@@ -32,7 +32,7 @@ class ActivityCreationController(
     }
     @PostMapping("/create")
     fun createActivity(@RequestBody payload:CreateActivityDto, @RequestHeader("Authorization") token: String): String{
-        val user = tokenService.parseToken(token.substring("Bearer".length)) ?: throw InvalidBearerTokenException("Invalid token")
+        val user = tokenService.parseToken(token.substring("Bearer".length))
 
         val courseGroupIds = when(val result = courseGroupService.validateNames(user.id!!,payload.courseGroupNames)){
             is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)

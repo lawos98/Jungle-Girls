@@ -12,7 +12,9 @@ interface ActivityCategoryRepository : ReactiveCrudRepository<ActivityCategory, 
 
     override fun findById(id: Long): Mono<ActivityCategory>
     override fun existsById(id: Long): Mono<Boolean>
-    fun existsByName(name: String): Mono<Boolean>
+    @Query("select CASE WHEN COUNT(name) > 0 THEN true ELSE false END from activity_category where instructor_id = :instructor_id and name = :name;")
+    fun existsByInstructorIdAndName(@Param("instructor_id")instructorId:Long, @Param("name")name: String): Mono<Boolean>
+
     @Query("select id from activity_category where instructor_id = :instructor_id and name = :name;")
     fun getIdByInstructorIdAndName(@Param("instructor_id")instructorId:Long,@Param("name")name: String): Mono<Long>
 

@@ -29,7 +29,7 @@ class ActivityCategoryCreationController(
             instructorId = user.id!!
         )
 
-        when(val result = activityCategoryService.createCategory(activityCategory)){
+        when(val result = activityCategoryService.createCategory(activityCategory,user.id)){
             is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
             is Either.Right -> return "Activity category created successfully"
         }

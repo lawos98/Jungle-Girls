@@ -32,22 +32,23 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
         return activityCategoryRepository.findAllNamesById(instructorId).collectList().block() as ArrayList<String>
     }
 
-    fun existsByName(name: String): Boolean {
-        return activityCategoryRepository.existsByName(name).block() ?: false
+    fun existsByInstructorIdAndName(instructorId:Long,name: String): Boolean {
+        return activityCategoryRepository.existsByInstructorIdAndName(instructorId,name).block() ?: false
     }
 
-    private fun checkIfNameIsNotTaken(name: String):Either<String, None>{
-        return if(existsByName(name)) "Activity category name is already taken!".left() else None.right()
+    private fun checkIfNameIsNotTaken(instructorId:Long, name: String):Either<String, None>{
+           return if(existsByInstructorIdAndName(instructorId,name)) "Activity category name is already taken!".left() else None.right()
     }
 
-    private fun validateActivityCategory(activityCategory: ActivityCategory): Either<String, None> {
+
+    private fun validateActivityCategory(instructorId: Long,activityCategory: ActivityCategory): Either<String, None> {
         return checkIsBlank(activityCategory.name,"name can not be empty")
-            .flatMap {_ -> checkIfNameIsNotTaken(activityCategory.name)
+            .flatMap {_ -> checkIfNameIsNotTaken(instructorId,activityCategory.name)
                 .flatMap {_ -> checkIsBlank(activityCategory.description,"description can not be empty") }}
     }
 
-    public fun createCategory(activityCategory: ActivityCategory): Either<String, None>{
-        return validateActivityCategory(activityCategory).flatMap { _ ->
+    gfun createCategory(activityCategory: ActivityCategory,instructorId: Long): Either<String, None>{
+        return validateActivityCategory(instructorId,activityCategory).flatMap { _ ->
             activityCategoryRepository.save(activityCategory).block() ?: return "Error while saving activity category".left()
             return None.right()
         }

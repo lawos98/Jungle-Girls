@@ -1,9 +1,9 @@
 _id: req_95d38aee7f654811a7a2f98196e6104b
 type: Request
 parentId: fld_d863bab1352c40a09ac4dad2d098198b
-modified: 1680938768883
+modified: 1680939954261
 created: 1680938468358
-url: http://localhost:8080/api/activity_category/create
+url: "{{ _.ServerAddress }}/api/activity_category/create"
 name: Get activity categories
 description: ""
 method: GET

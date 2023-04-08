@@ -1,9 +1,9 @@
 _id: req_f62d6b969b1d4238857717e94cf36008
 type: Request
 parentId: fld_b41ed22d3f08423d87316e1f41e459af
-modified: 1680936918975
+modified: 1680939963460
 created: 1680936918975
-url: http://localhost:8080/api/activity/create
+url: "{{ _.ServerAddress }}/api/activity/create"
 name: Get data
 description: ""
 method: GET

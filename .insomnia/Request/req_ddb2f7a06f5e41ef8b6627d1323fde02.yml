@@ -1,9 +1,9 @@
 _id: req_ddb2f7a06f5e41ef8b6627d1323fde02
 type: Request
 parentId: fld_b41ed22d3f08423d87316e1f41e459af
-modified: 1680937562425
+modified: 1680939980899
 created: 1680936918966
-url: http://localhost:8080/api/activity/create
+url: "{{ _.ServerAddress }}/api/activity/create"
 name: Score is not positive
 description: ""
 method: POST

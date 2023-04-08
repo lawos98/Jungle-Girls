@@ -1,9 +1,9 @@
 _id: req_30d3a82ec3cb458bb24b08745ffc0c80
 type: Request
 parentId: fld_b41ed22d3f08423d87316e1f41e459af
-modified: 1680936918935
+modified: 1680939991160
 created: 1680936918935
-url: http://localhost:8080/api/activity/create
+url: "{{ _.ServerAddress }}/api/activity/create"
 name: Group names are not specified
 description: ""
 method: POST

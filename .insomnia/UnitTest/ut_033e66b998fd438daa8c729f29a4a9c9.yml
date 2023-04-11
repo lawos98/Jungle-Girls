@@ -1,0 +1,13 @@
+_id: ut_033e66b998fd438daa8c729f29a4a9c9
+type: UnitTest
+parentId: uts_72ac15309ba44ff596c6bf6955259559
+modified: 1680951762007
+created: 1680951738742
+requestId: req_22d91d98729d45f4ae9ca1ef1df776d3
+name: There are activities belonging to this category
+code: >-
+  const response = await insomnia.send();
+
+  const body = JSON.parse(response.data);
+
+  expect(body.message).to.equal("There are activities belonging to this category!");

@@ -1,0 +1,11 @@
+_id: ut_c664fa170add4b278bf34f14c7d0cd3e
+type: UnitTest
+parentId: uts_9638c1f2259d45de9287498e3b361ce9
+modified: 1680937825450
+created: 1680937438613
+requestId: req_ac9334a154fc432fa2994945ee88341a
+name: Activity category does not exist
+code: |
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Activity category does not exist!");

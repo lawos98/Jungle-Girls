@@ -1,0 +1,12 @@
+_id: ut_b0a27b4ca83842a2aa25275acf397eca
+type: UnitTest
+parentId: uts_153ef86690f3488a87162fa6eec87270
+modified: 1680938842362
+created: 1680938794418
+requestId: req_9e296f9fcbec4d1eb52aa8222ac92947
+name: Name is already taken
+code: |-
+  
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Activity category name is already taken!");

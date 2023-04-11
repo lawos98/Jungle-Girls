@@ -10,4 +10,6 @@ import reactor.core.publisher.Mono
 interface RoleRepository: ReactiveCrudRepository<Role, Long> {
     override fun findAll():Flux<Role>
     fun findByName(name:String): Mono<Role>
+
+    override fun existsById(id: Long): Mono<Boolean>
 }

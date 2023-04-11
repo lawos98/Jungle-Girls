@@ -1,4 +1,8 @@
 insert into login_user(username,password,firstname,lastname,role_id) values ('test','$2a$10$LFqfv5Nt22enZ0pctrAT4e7Ru4RNc6rFeHGDWrhOyLQaaW2pygzTO','test','test',1);
+insert into login_user(username,password,firstname,lastname,role_id) values ('student','$2a$10$bzGDiQIL/YVOFAGXrAIXk.7hf4JioELIsmy6kwT39Gn4i.Q.CHpTy','student','test',2);
+insert into login_user(username,password,firstname,lastname,role_id) values ('mod','$2a$10$XwMIl8yC/TxaD4Xzpmla.OntZ3cnYIeW7OGSxFjCI3NVS3BY7KsWO','test','test',3);
+insert into login_user(username,password,firstname,lastname,role_id) values ('admin','$2a$10$5NEvaF7euFDlEwoVEWqD.eoNk356nt2DzxbYGrRrththXAZzv8rqi','test','test',4);
+
 insert into course_group(name, instructor_id, secret_code) values('inf1',1,'iLoveKotlin<3'),('inf2',1,'iLoveIcon<3');
 insert into activity_category(name, description, instructor_id)
 values

@@ -8,4 +8,6 @@ import reactor.core.publisher.Mono
 @Repository
 interface PermissionRepository: ReactiveCrudRepository<Permission, Long> {
     override fun findById(id:Long): Mono<Permission>
+
+    override fun existsById(id: Long): Mono<Boolean>
 }

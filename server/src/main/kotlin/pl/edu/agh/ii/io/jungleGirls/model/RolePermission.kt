@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor
 import lombok.Data
 import lombok.NoArgsConstructor
 import org.springframework.data.annotation.Id
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-data class PermissionRole(
+data class RolePermission(
     @Id
     val roleId: Long? = null,
     val permissionId: Long? = null,
-    val shouldBeDisplayed:Boolean
+    val shouldBeDisplayed: Boolean
 )

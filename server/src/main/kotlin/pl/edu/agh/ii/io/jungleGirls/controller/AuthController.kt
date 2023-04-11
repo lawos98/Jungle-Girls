@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
-import pl.edu.agh.ii.io.jungleGirls.dto.LoginDto
+import pl.edu.agh.ii.io.jungleGirls.dto.LoginRequest
 import pl.edu.agh.ii.io.jungleGirls.dto.AuthResponseDto
-import pl.edu.agh.ii.io.jungleGirls.dto.RegisterDto
+import pl.edu.agh.ii.io.jungleGirls.dto.RegisterRequest
 import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import pl.edu.agh.ii.io.jungleGirls.service.TokenService
 import pl.edu.agh.ii.io.jungleGirls.service.LoginUserService
@@ -21,7 +21,7 @@ class AuthController(
     private val loginUserService: LoginUserService,
 ) {
     @PostMapping("/login")
-    fun login(@RequestBody payload: LoginDto): AuthResponseDto {
+    fun login(@RequestBody payload: LoginRequest): AuthResponseDto {
         when(val user = loginUserService.login(payload.username,payload.password)){
             is Either.Right -> {
                 return AuthResponseDto(
@@ -35,7 +35,7 @@ class AuthController(
     }
 
     @PostMapping("/register")
-    fun register(@RequestBody payload: RegisterDto): AuthResponseDto {
+    fun register(@RequestBody payload: RegisterRequest): AuthResponseDto {
         if (loginUserService.findByUsername(payload.username)!=null) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists")
         }

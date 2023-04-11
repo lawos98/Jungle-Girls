@@ -1,11 +1,11 @@
 package pl.edu.agh.ii.io.jungleGirls.dto
 
-data class LoginDto(
+data class LoginRequest(
     val username: String,
     val password: String,
 )
 
-data class RegisterDto(
+data class RegisterRequest(
     val username: String,
     val password: String,
     val firstname: String,

@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-04-05 21:49:50.404
+-- Last modification date: 2023-04-11 15:19:29.861
 
 -- tables
 -- Table: activity
@@ -79,14 +79,6 @@ CREATE TABLE permission (
                             CONSTRAINT permission_pk PRIMARY KEY (id)
 );
 
--- Table: permission_role
-CREATE TABLE permission_role (
-                                 role_id int  NOT NULL,
-                                 permission_id int  NOT NULL,
-                                 should_be_displayed boolean  NOT NULL,
-                                 CONSTRAINT permission_role_pk PRIMARY KEY (role_id,permission_id)
-);
-
 -- Table: role
 CREATE TABLE role (
                       id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -97,12 +89,20 @@ CREATE TABLE role (
                       CONSTRAINT role_pk PRIMARY KEY (id)
 );
 
+-- Table: role_permission
+CREATE TABLE role_permission (
+                                 role_id int  NOT NULL,
+                                 permission_id int  NOT NULL,
+                                 should_be_displayed boolean  NOT NULL,
+                                 CONSTRAINT role_permission_pk PRIMARY KEY (role_id,permission_id)
+);
+
 -- Table: score
 CREATE TABLE score (
                        id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
                        student_id int  NOT NULL,
                        activity_id int  NOT NULL,
-                       value int  NOT NULL,
+                       value numeric  NOT NULL,
                        CONSTRAINT score_pk PRIMARY KEY (id)
 );
 
@@ -215,16 +215,16 @@ ALTER TABLE login_user ADD CONSTRAINT login_user_role
             INITIALLY IMMEDIATE
 ;
 
--- Reference: permission_role_permission (table: permission_role)
-ALTER TABLE permission_role ADD CONSTRAINT permission_role_permission
+-- Reference: permission_role_permission (table: role_permission)
+ALTER TABLE role_permission ADD CONSTRAINT permission_role_permission
     FOREIGN KEY (permission_id)
         REFERENCES permission (id)
         NOT DEFERRABLE
             INITIALLY IMMEDIATE
 ;
 
--- Reference: permission_role_role (table: permission_role)
-ALTER TABLE permission_role ADD CONSTRAINT permission_role_role
+-- Reference: permission_role_role (table: role_permission)
+ALTER TABLE role_permission ADD CONSTRAINT permission_role_role
     FOREIGN KEY (role_id)
         REFERENCES role (id)
         NOT DEFERRABLE

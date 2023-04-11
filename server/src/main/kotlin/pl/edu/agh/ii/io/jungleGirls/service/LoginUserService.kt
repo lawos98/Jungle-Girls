@@ -32,9 +32,6 @@ class LoginUserService(
     fun login(username: String, password: String): Either<String, LoginUser> {
         return checkBlankUser(username, password).flatMap { _ ->
             val user = loginUserRepository.findByUsername(username).block() ?: return "No user found".left()
-            println(Bcrypt.hashBcrypt(password))
-            println(user.password)
-            println(Bcrypt.checkBcrypt(password, user.password))
             if (Bcrypt.checkBcrypt(password, user.password)) return user.right()
             return "Not correct password".left()
         }
@@ -81,6 +78,7 @@ class LoginUserService(
             .flatMap { _ -> checkName(user.firstname, "Firstname is incorrect")
             .flatMap { _ -> checkName(user.lastname, "Lastname is incorrect")
             .flatMap { _ -> checkUsername(user.username)
-            .flatMap { _ -> checkPassword(user.password)}}}}}}
+            .flatMap { _ -> checkPassword(user.password) }
+                        }}}}}
     }
 }

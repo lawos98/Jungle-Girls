@@ -13,5 +13,5 @@ data class Role(
     val id: Long? = null,
     val name: String,
     val description: String,
-    val secretCode: String,
+    var secretCode: String,
 )

@@ -5,7 +5,6 @@ import arrow.core.left
 import arrow.core.right
 import org.springframework.stereotype.Service
 import pl.edu.agh.ii.io.jungleGirls.dto.SecretCodeResponse
-import pl.edu.agh.ii.io.jungleGirls.model.Role
 import pl.edu.agh.ii.io.jungleGirls.repository.RoleRepository
 import pl.edu.agh.ii.io.jungleGirls.util.Bcrypt
 

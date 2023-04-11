@@ -1,0 +1,11 @@
+_id: ut_07fd8212ac484fad9823bb2e71926034
+type: UnitTest
+parentId: uts_9638c1f2259d45de9287498e3b361ce9
+modified: 1680937750729
+created: 1680937299419
+requestId: req_d4bf9ce304664bb7a05eaadb208e0792
+name: Name is empty
+code: |
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("name can not be empty");

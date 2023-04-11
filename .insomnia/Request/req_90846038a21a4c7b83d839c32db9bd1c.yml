@@ -1,0 +1,33 @@
+_id: req_90846038a21a4c7b83d839c32db9bd1c
+type: Request
+parentId: fld_09be314480954281acd119f886d53271
+modified: 1680951561836
+created: 1680938468350
+url: "{{ _.ServerAddress }}/api/activity_category/create"
+name: Description is empty
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name":"name",
+    	"description": ""
+    }
+parameters: []
+headers:
+  - id: pair_585df9604d0a40bbaa675983b8101aca
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
+metaSortKey: -1680444078998.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

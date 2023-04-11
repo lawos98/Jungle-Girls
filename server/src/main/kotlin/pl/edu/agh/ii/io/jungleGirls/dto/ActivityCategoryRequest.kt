@@ -1,9 +1,9 @@
 package pl.edu.agh.ii.io.jungleGirls.dto
 
-data class CreateActivityCategoryDto (
+data class CreateActivityCategoryDto(
     val name: String,
-    val description: String,
+    val description: String
 )
-data class DeleteActivityCategoryDto (
-    val name: String,
+data class DeleteActivityCategoryDto(
+    val name: String
 )

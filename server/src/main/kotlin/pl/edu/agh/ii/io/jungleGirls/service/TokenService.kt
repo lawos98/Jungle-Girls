@@ -12,12 +12,11 @@ import java.lang.Exception
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
-
 @Service
 class TokenService(
     private val jwtDecoder: JwtDecoder,
     private val jwtEncoder: JwtEncoder,
-    private val loginUserService: LoginUserService,
+    private val loginUserService: LoginUserService
 ) {
     fun createToken(user: LoginUser): String {
         val jwsHeader = JwsHeader.with { "HS256" }.build()
@@ -34,7 +33,9 @@ class TokenService(
         return try {
             val jwt = jwtDecoder.decode(token)
             val userIndex = jwt.claims["userId"] as Long
-            loginUserService.findByIndex(userIndex) ?: throw InvalidBearerTokenException("Invalid token")
+            loginUserService.findByIndex(userIndex) ?: throw InvalidBearerTokenException(
+                "Invalid token"
+            )
         } catch (e: Exception) {
             throw e
         }

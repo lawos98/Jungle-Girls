@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import * as actions from "./LoginActions";
 
 const Login: React.FC = () => {
-    const [nick, setNick] = useState('');
-    const [password, setPassword] = useState('');
+    const [nick, setNick] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

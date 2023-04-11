@@ -7,9 +7,9 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Repository
-interface CourseGroupActivityRepository : ReactiveCrudRepository <CourseGroupActivity,Long> {
+interface CourseGroupActivityRepository : ReactiveCrudRepository<CourseGroupActivity, Long> {
     fun findAllByActivityId(activityId: Long): Flux<CourseGroupActivity>
     fun findByActivityIdAndCourseGroupId(activityId: Long, courseGroupId: Long): Mono<CourseGroupActivity>
 
-    fun deleteByActivityId(activityId: Long):Flux<Void>
+    fun deleteByActivityId(activityId: Long): Flux<Void>
 }

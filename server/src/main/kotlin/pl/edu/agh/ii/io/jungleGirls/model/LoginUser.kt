@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor
 import lombok.Data
 import lombok.NoArgsConstructor
 import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Table
 
 @Data
 @NoArgsConstructor
@@ -16,5 +15,5 @@ data class LoginUser(
     var password: String,
     var firstname: String,
     var lastname: String,
-    var roleId:Long,
+    var roleId: Long
 )

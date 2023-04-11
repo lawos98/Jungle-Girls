@@ -5,12 +5,11 @@ import lombok.Data
 import lombok.NoArgsConstructor
 import org.springframework.data.annotation.Id
 import java.time.Duration
-import java.time.LocalDateTime
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-data class Activity (
+data class Activity(
     @Id
     var id: Long? = null,
     var name: String,
@@ -18,6 +17,6 @@ data class Activity (
     var duration: Duration,
     var description: String,
     var activityTypeId: Long,
-    var activityCategoryId: Long,
+    var activityCategoryId: Long
 
-    )
+)

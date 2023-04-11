@@ -18,8 +18,8 @@ import pl.edu.agh.ii.io.jungleGirls.service.TokenService
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig (
-    private val tokenService: TokenService,
+class SecurityConfig(
+    private val tokenService: TokenService
 ) {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
@@ -29,11 +29,12 @@ class SecurityConfig (
             .requestMatchers("/api/**").authenticated()
             .anyRequest().permitAll()
 
-
         http.oauth2ResourceServer().jwt()
         http.authenticationManager { auth ->
             val jwt = auth as BearerTokenAuthenticationToken
-            val user = tokenService.parseToken(jwt.token) ?: throw InvalidBearerTokenException("Invalid token")
+            val user = tokenService.parseToken(jwt.token) ?: throw InvalidBearerTokenException(
+                "Invalid token"
+            )
             UsernamePasswordAuthenticationToken(user, "", listOf(SimpleGrantedAuthority("USER")))
         }
 
@@ -49,7 +50,10 @@ class SecurityConfig (
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("http://localhost:5173", "http://localhost:8080, http://127.0.0.1:5173")
+        configuration.allowedOrigins = listOf(
+            "http://localhost:5173",
+            "http://localhost:8080, http://127.0.0.1:5173"
+        )
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE")
         configuration.allowedHeaders = listOf("authorization", "content-type")
         val source = UrlBasedCorsConfigurationSource()

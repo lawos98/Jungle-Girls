@@ -1,6 +1,6 @@
 import React from 'react';
-// TODO check how to import correctly
 import EditableGrid from "../editableGrid/EditableGrid";
+import "./EditGrades.css";
 
 
 function EditGrades() {

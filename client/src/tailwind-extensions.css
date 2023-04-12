@@ -1,0 +1,16 @@
+@layer components {
+    .slide-in {
+        animation-name: slide-in;
+        animation-duration: 300ms;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes slide-in {
+        0% {
+            transform: translateX(-100%);
+        }
+        100% {
+            transform: translateX(0%);
+        }
+    }
+}

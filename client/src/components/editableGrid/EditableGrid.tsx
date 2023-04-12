@@ -1,4 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react';
+import Swiper from "swiper";
+import "swiper/css/bundle";
 
 type GridCellProps = {
     id: string;
@@ -61,6 +63,11 @@ const EditableGrid: React.FC = () => {
     const [zoomedRowIndex, setZoomedRowIndex] = useState<null | number>(null);
     const [zoomedColumnIndex, setZoomedColumnIndex] = useState<null | number>(null);
     const [isZoomedIn, setIsZoomedIn] = useState(false);
+    const [isSliding, setIsSliding] = useState(false);
+    const [swiper, setSwiper] = useState<any>(null);
+
+    const containerRef = useRef<HTMLDivElement>(null);
+    const swiperSetupFlag = useRef(false);
 
 
     //temp start
@@ -85,14 +92,61 @@ const EditableGrid: React.FC = () => {
         // setData(fetchedData);
         // setColumnLabels(fetchedColumnLabels);
         // setRowLabels(fetchedRowLabels);
+        setupSwiper();
+
+        document.addEventListener("click", handleBackgroundClick);
+        // Remove the event listener when the component is unmounted
+        return () => {
+            document.removeEventListener("click", handleBackgroundClick);
+        };
     }, []);
+
+    const setupSwiper = () => {
+        if (!swiperSetupFlag.current) {
+            // console.log("tworze swipera")
+            const swiperInstance = (new Swiper('.swiper', {
+                slidesPerView: 3,
+                spaceBetween: 10,
+                centeredSlides: true,
+                grabCursor: false,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                }
+            }));
+            // remove any existing event listeners
+            swiperInstance.off('slideChange');
+            swiperInstance.on('slideChange', () => {
+                setZoomedRowIndex(swiperInstance.activeIndex);
+            });
+            // set isSliding to true when the slide transition starts
+            swiperInstance.off('transitionStart');
+            swiperInstance.on('transitionStart', () => {
+                setIsSliding(true);
+            });
+            // set isSliding to false when the slide transition ends
+            swiperInstance.off('transitionEnd');
+            swiperInstance.on('transitionEnd', () => {
+                setIsSliding(false);
+            });
+            setSwiper(swiperInstance);
+            swiperSetupFlag.current = true;
+
+        }
+    }
     const handleCellChange = (row: number, col: number, value: string) => {
         if (validateFloat(value)) {
             const newData = data.map((r, i) => r.map((c, j) => (i === row && j === col ? value : c)));
             setData(newData);
         }
     };
-
+    const handleBackgroundClick = (e: MouseEvent) => {
+        if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+            setIsZoomedIn(false);
+            setZoomedRowIndex(null);
+            setZoomedColumnIndex(null);
+        }
+    };
     const focusNextCell = (row: number, col: number, direction: 'up' | 'down' | 'left' | 'right') => {
         let newRow = row;
         let newCol = col;
@@ -130,57 +184,106 @@ const EditableGrid: React.FC = () => {
 
     return (
         <div
-            className="flex flex-col w-min h-min transition-all duration-300 border"
-            style={{
-                transform: isZoomedIn ? 'scale(1.5)' : 'scale(1)',
-                transformOrigin: 'top left',
-            }}
+            ref={containerRef}
+            className={"min-w-0"}
             // onClick={handleBackgroundClick}
         >
-            <div className="flex pb-1">
-                <div className="w-20"></div>
-                {columnLabels.map((label, index) => (
-                    <div key={index}
-                         className={`text-center whitespace-nowrap cursor-pointer transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && index !== zoomedColumnIndex ? 'opacity-0 max-w-px w-0 overflow-hidden' : 'opacity-100 max-w-24 w-24'} `}
-                         onClick={() => {
-                             setZoomedColumnIndex(zoomedColumnIndex === index ? null : index);
-                             setIsZoomedIn(zoomedColumnIndex !== index);
-                         }}
-                    >
-                        {label}
-                    </div>
-                ))}
-            </div>
-            {data.map((row, rowIndex) => {
-                // if (zoomedRowIndex !== null && rowIndex !== zoomedRowIndex) return null;
-                return (
-                    <div key={`row-${rowIndex}`}
-                         className={`flex items-center cursor-pointer transition-all duration-500 ease-in-out ${zoomedRowIndex !== null && rowIndex !== zoomedRowIndex ? 'opacity-0 max-h-0 overflow-hidden' : 'opacity-100 max-h-20'}  `}>
-                        <div
-                            className="text-center w-20  "
-                            onClick={() => {
-                                setZoomedRowIndex(zoomedRowIndex === rowIndex ? null : rowIndex);
-                                setIsZoomedIn(zoomedRowIndex !== rowIndex);
-                            }}
+            <div
+                className="flex flex-col h-min transition-all duration-300  min-w-0"
+                style={{
+                    transform: isZoomedIn ? 'scale(1.5)' : 'scale(1)',
+                    transformOrigin: 'top left',
+                }}
+                // onClick={handleBackgroundClick}
+            >
+                <div className="flex pb-1">
+                    <div className="w-20"></div>
+                    {columnLabels.map((label, index) => (
+                        <div key={index}
+                             className={`text-center whitespace-nowrap cursor-pointer transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && index !== zoomedColumnIndex ? 'opacity-0 max-w-px w-0 overflow-hidden' : 'opacity-100 max-w-24 w-24'} `}
+                             onClick={() => {
+                                 // if the row is zoomed in, zoom out and zoom in the column
+                                 if (zoomedRowIndex !== null) {
+                                     setZoomedRowIndex(null);
+                                     setIsZoomedIn(false);
+                                     setTimeout(() => {
+                                         setZoomedColumnIndex(zoomedColumnIndex === index ? null : index);
+                                         setIsZoomedIn(zoomedColumnIndex !== index);
+                                     }, 300);
+                                 }
+                                 else {
+                                     setZoomedColumnIndex(zoomedColumnIndex === index ? null : index);
+                                     setIsZoomedIn(zoomedColumnIndex !== index);
+                                 }
+                             }}
                         >
-                            {rowLabels[rowIndex]}
+                            {label}
                         </div>
-                        {row.map((cell, colIndex) => (
-                            // transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && colIndex !== zoomedColumnIndex ? 'opacity-0 max-w-0 max-h-0 overflow-hidden' : 'opacity-100 max-w-24 max-h-20'
-                            <div key={`cell-${rowIndex}-${colIndex}`}
-                                 className={`w-24 transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && colIndex !== zoomedColumnIndex ? 'opacity-0 max-w-px w-0 max-h-0 overflow-hidden' : 'opacity-100 max-w-24 max-h-20'}`}>
-                                <GridCell
-                                    id={`cell-${rowIndex}-${colIndex}`}
-                                    value={cell}
-                                    onChange={(value) => handleCellChange(rowIndex, colIndex, value)}
-                                    focusNextCell={(direction) => focusNextCell(rowIndex, colIndex, direction)}
-                                />
+                    ))}
+                </div>
+                {data.map((row, rowIndex) => {
+                    // if (zoomedRowIndex !== null && rowIndex !== zoomedRowIndex) return null;
+                    return (
+                        <div key={`row-${rowIndex}`}
+                             className={`flex items-center cursor-pointer ${!isSliding ? 'transition-all duration-500 ease-in-out':''}  ${zoomedRowIndex !== null && rowIndex !== zoomedRowIndex ? 'opacity-0 max-h-0 overflow-hidden' : 'opacity-100 max-h-20'}  `}>
+                            <div
+                                className="text-center w-20  "
+                                onClick={() => {
+                                    // if the column is zoomed in, zoom out and zoom in the row
+                                    if (zoomedColumnIndex !== null) {
+                                        setZoomedColumnIndex(null);
+                                        setIsZoomedIn(false);
+                                        setTimeout(() => {
+                                            setZoomedRowIndex(zoomedRowIndex === rowIndex ? null : rowIndex);
+                                            setIsZoomedIn(zoomedRowIndex !== rowIndex);
+                                        }, 500);
+                                        }
+                                    else {
+                                    setZoomedRowIndex(zoomedRowIndex === rowIndex ? null : rowIndex);
+                                    setIsZoomedIn(zoomedRowIndex !== rowIndex);
+                                    }
+                                    // immidiately slide to the row
+                                    swiper.slideTo(rowIndex, 0);
+                                }}
+                            >
+                                {rowLabels[rowIndex]}
                             </div>
-                        ))}
+                            {row.map((cell, colIndex) => (
+                                // transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && colIndex !== zoomedColumnIndex ? 'opacity-0 max-w-0 max-h-0 overflow-hidden' : 'opacity-100 max-w-24 max-h-20'
+                                <div key={`cell-${rowIndex}-${colIndex}`}
+                                     className={`transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && colIndex !== zoomedColumnIndex ? 'opacity-0 max-w-px w-px max-h-0 overflow-hidden' : 'opacity-100 max-w-24 w-24 max-h-20'}`}>
+                                    <GridCell
+                                        id={`cell-${rowIndex}-${colIndex}`}
+                                        value={cell}
+                                        onChange={(value) => handleCellChange(rowIndex, colIndex, value)}
+                                        focusNextCell={(direction) => focusNextCell(rowIndex, colIndex, direction)}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    );
+                })}
+                {
+
+                    <div
+                        className={`scale-100 flex  mt-5 ${zoomedRowIndex !== null ? "visible" : "hidden"}`}>
+
+                        <div className="swiper">
+                            <div className="swiper-wrapper">
+                                {exampleRowLabels.map((label, index) => (
+                                    <div key={index} className="swiper-slide">{label}</div>
+                                ))}
+                            </div>
+
+                            <div className="swiper-button-prev"></div>
+                            <div className="swiper-button-next"></div>
+                        </div>
                     </div>
-                );
-            })}
+
+                }
+            </div>
         </div>
+
     );
 };
 

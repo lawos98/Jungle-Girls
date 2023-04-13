@@ -14,18 +14,27 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import pl.edu.agh.ii.io.jungleGirls.enum.Permissions
+import pl.edu.agh.ii.io.jungleGirls.service.RolePermissionService
+import pl.edu.agh.ii.io.jungleGirls.service.PermissionService
 import pl.edu.agh.ii.io.jungleGirls.service.TokenService
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig (
     private val tokenService: TokenService,
+    private val rolePermissionService: RolePermissionService,
+    private val permissionService: PermissionService
 ) {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeHttpRequests()
             .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
+            .requestMatchers(HttpMethod.PATCH,"api/role-permission").permitAll()
+            .requestMatchers(HttpMethod.PUT, "/api/role-permission").hasAuthority(Permissions.USERS_MANAGEMENT.permissionName)
+            .requestMatchers(HttpMethod.GET,"/api/role/secret-code").hasAuthority(Permissions.USERS_MANAGEMENT.permissionName)
+            .requestMatchers(HttpMethod.PUT, "/api/permission").hasAuthority(Permissions.USERS_MANAGEMENT.permissionName)
             .requestMatchers("/api/**").authenticated()
             .anyRequest().permitAll()
 
@@ -33,8 +42,10 @@ class SecurityConfig (
         http.oauth2ResourceServer().jwt()
         http.authenticationManager { auth ->
             val jwt = auth as BearerTokenAuthenticationToken
-            val user = tokenService.parseToken(jwt.token) ?: throw InvalidBearerTokenException("Invalid token")
-            UsernamePasswordAuthenticationToken(user, "", listOf(SimpleGrantedAuthority("USER")))
+            val user = tokenService.parseToken(jwt.token)
+            val authorities = rolePermissionService.getPermissionNamesByRoleId(user.roleId)
+                .map { elem -> SimpleGrantedAuthority(permissionService.findById(elem.permissionId!!).name) }
+            UsernamePasswordAuthenticationToken(user, "", authorities)
         }
 
         http.cors()

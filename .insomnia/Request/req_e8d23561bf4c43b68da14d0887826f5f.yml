@@ -1,0 +1,33 @@
+_id: req_e8d23561bf4c43b68da14d0887826f5f
+type: Request
+parentId: fld_4cf522bf5fb448348b6cae0141057b96
+modified: 1681366308654
+created: 1681236142976
+url: "{{ _.ServerAddress }}/api/role-permission"
+name: "Update role permission "
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"roleId":1,
+    	"permissionId":1,
+    	"shouldBedisplayed":true
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_26e8e873f87c40e491fc18638196bdbc',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1681156195298.375
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

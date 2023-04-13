@@ -31,7 +31,10 @@ class SecurityConfig (
         http.authorizeHttpRequests()
             .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
+            .requestMatchers(HttpMethod.PATCH,"api/role-permission").permitAll()
             .requestMatchers(HttpMethod.PUT, "/api/role-permission").hasAuthority(Permissions.USERS_MANAGEMENT.permissionName)
+            .requestMatchers(HttpMethod.GET,"/api/role/secret-code").hasAuthority(Permissions.USERS_MANAGEMENT.permissionName)
+            .requestMatchers(HttpMethod.PUT, "/api/permission").hasAuthority(Permissions.USERS_MANAGEMENT.permissionName)
             .requestMatchers("/api/**").authenticated()
             .anyRequest().permitAll()
 
@@ -39,7 +42,7 @@ class SecurityConfig (
         http.oauth2ResourceServer().jwt()
         http.authenticationManager { auth ->
             val jwt = auth as BearerTokenAuthenticationToken
-            val user = tokenService.parseToken(jwt.token) ?: throw InvalidBearerTokenException("Invalid token")
+            val user = tokenService.parseToken(jwt.token)
             val authorities = rolePermissionService.getPermissionNamesByRoleId(user.roleId)
                 .map { elem -> SimpleGrantedAuthority(permissionService.findById(elem.permissionId!!).name) }
             UsernamePasswordAuthenticationToken(user, "", authorities)

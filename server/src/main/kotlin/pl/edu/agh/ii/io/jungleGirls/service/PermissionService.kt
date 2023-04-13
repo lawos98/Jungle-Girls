@@ -11,4 +11,7 @@ class PermissionService(
     fun findById(id:Long): Permission{
         return permissionRepository.findById(id).block() ?: throw IllegalStateException("User id not found")
     }
+    fun getAll():ArrayList<Permission>{
+        return permissionRepository.findAll().collectList().block() as ArrayList<Permission>
+    }
 }

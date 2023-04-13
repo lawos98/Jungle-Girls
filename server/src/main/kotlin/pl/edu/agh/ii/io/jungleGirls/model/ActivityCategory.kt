@@ -14,4 +14,5 @@ data class ActivityCategory (
     var id: Long? = null,
     var name: String,
     var description: String,
+    var instructorId: Long,
     )

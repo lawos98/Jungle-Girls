@@ -1,0 +1,32 @@
+_id: req_8cc8ae4935664d2898073fad6083fb83
+type: Request
+parentId: fld_f968222b0fbb44709c9365b5a09596ce
+modified: 1680964147642
+created: 1680957774806
+url: "{{ _.ServerAddress }}/api/activity/delete"
+name: Activity does not exist
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name":"name"
+    }
+parameters: []
+headers:
+  - id: pair_585df9604d0a40bbaa675983b8101aca
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
+metaSortKey: -1680373821654.3906
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

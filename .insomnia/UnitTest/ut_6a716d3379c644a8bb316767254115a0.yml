@@ -1,0 +1,11 @@
+_id: ut_6a716d3379c644a8bb316767254115a0
+type: UnitTest
+parentId: uts_9638c1f2259d45de9287498e3b361ce9
+modified: 1680938276107
+created: 1680937344349
+requestId: req_16887f8cd01e462098c610661b46ba52
+name: Wrong group names
+code: |
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("wrong group names");

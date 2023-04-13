@@ -1,0 +1,11 @@
+_id: ut_648e2e43ceea4064983e1b778f487002
+type: UnitTest
+parentId: uts_9638c1f2259d45de9287498e3b361ce9
+modified: 1680937929968
+created: 1680937476264
+requestId: req_99054f17e5444f7098aa10394fe44743
+name: Incorrect number of start dates
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Incorrect number of start dates!");

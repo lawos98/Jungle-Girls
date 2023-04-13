@@ -1,0 +1,11 @@
+_id: ut_a1c23e2ec55740058d919263554094e3
+type: UnitTest
+parentId: uts_9638c1f2259d45de9287498e3b361ce9
+modified: 1680937670641
+created: 1680937258223
+requestId: req_83321a897dd843a592cbe619e237e1b0
+name: Start date in the past
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Activity can not start in the past!");

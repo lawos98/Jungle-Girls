@@ -1,0 +1,10 @@
+_id: ut_c1dc1b5fdbc945bcbdd07341a03e5221
+type: UnitTest
+parentId: uts_153ef86690f3488a87162fa6eec87270
+modified: 1680938741239
+created: 1680938727378
+requestId: req_95d38aee7f654811a7a2f98196e6104b
+name: Get activity categories
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

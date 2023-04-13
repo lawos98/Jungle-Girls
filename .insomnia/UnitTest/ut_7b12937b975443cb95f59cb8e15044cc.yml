@@ -1,0 +1,11 @@
+_id: ut_7b12937b975443cb95f59cb8e15044cc
+type: UnitTest
+parentId: uts_9638c1f2259d45de9287498e3b361ce9
+modified: 1680937872163
+created: 1680937394038
+requestId: req_9ec1dedf35334043aa0848eadfcd7859
+name: Activity category is empty
+code: |
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Activity category name is empty!");

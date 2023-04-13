@@ -10,23 +10,14 @@ class CourseGroupService(private val courseGroupRepository: CourseGroupRepositor
         return courseGroupRepository.existsByName(name).block() ?: false
     }
 
-    private fun checkIsEmpty(names: ArrayList<String>): Either<String, None> {
-        return if(names.isEmpty()) "Group name not specified".left() else None.right()
-    }
-    private fun checkIfCourseGroupsExist(names: ArrayList<String>): Either<String,ArrayList<Long>> {
-        val ids = ArrayList<Long>()
-        for(name in names){
-            val id = courseGroupRepository.getIdByName(name).block() ?: return "group does not exists".left()
-            ids.add(id)
-        }
-        return ids.right()
+    fun validateNames(instructorId : Long, names: ArrayList<String>): Either<String, ArrayList<Long>> {
+        if (names.isEmpty()) return "Group names not specified".left()
+        val result = getAllNamesById(instructorId)
+        if (!result.containsAll(names) || !names.containsAll(result)) return "wrong group names".left()
+        return (names.map{ courseGroupRepository.getIdByName(it).block() ?: return "group does not exists".left()} as ArrayList).right()
     }
 
-    fun validateNames(names: ArrayList<String>): Either<String, ArrayList<Long>> {
-        return checkIsEmpty(names).flatMap { _ -> checkIfCourseGroupsExist(names)}
-    }
-
-    fun getAllNames():ArrayList<String>{
-        return courseGroupRepository.findAllNames().collectList().block() as ArrayList<String>
+    fun getAllNamesById(instructorId: Long):ArrayList<String>{
+        return courseGroupRepository.findAllNamesById(instructorId).collectList().block() as ArrayList<String>
     }
 }

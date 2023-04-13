@@ -5,6 +5,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.JwtEncoder
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters
+import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException
 import org.springframework.stereotype.Service
 import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import java.lang.Exception
@@ -29,13 +30,13 @@ class TokenService(
         return jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).tokenValue
     }
 
-    fun parseToken(token: String): LoginUser? {
+    fun parseToken(token: String): LoginUser {
         return try {
             val jwt = jwtDecoder.decode(token)
             val userIndex = jwt.claims["userId"] as Long
-            loginUserService.findByIndex(userIndex)
+            loginUserService.findByIndex(userIndex) ?: throw InvalidBearerTokenException("Invalid token")
         } catch (e: Exception) {
-            null
+            throw e
         }
     }
 }

@@ -24,8 +24,14 @@ class AuthController(
     fun login(@RequestBody payload: LoginRequest): AuthResponseDto {
         when(val user = loginUserService.login(payload.username,payload.password)){
             is Either.Right -> {
+                val loginUser=user.value
                 return AuthResponseDto(
-                    token = tokenService.createToken(user.value),
+                    loginUser.id!!,
+                    loginUser.roleId,
+                    loginUser.username,
+                    loginUser.firstname,
+                    loginUser.lastname,
+                    tokenService.createToken(loginUser),
                 )
             }
             is Either.Left -> {
@@ -48,8 +54,14 @@ class AuthController(
         )
         when(val savedUser = loginUserService.createUser(user)){
             is Either.Right -> {
+                val loginUser=savedUser.value
                 return AuthResponseDto(
-                    token = tokenService.createToken(savedUser.value),
+                    loginUser.id!!,
+                    loginUser.roleId,
+                    loginUser.username,
+                    loginUser.firstname,
+                    loginUser.lastname,
+                    tokenService.createToken(loginUser),
                 )
             }
             is Either.Left -> {

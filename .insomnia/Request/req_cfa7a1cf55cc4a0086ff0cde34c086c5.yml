@@ -1,7 +1,7 @@
 _id: req_cfa7a1cf55cc4a0086ff0cde34c086c5
 type: Request
 parentId: fld_6816253707584f0091832c1b88d6f99c
-modified: 1681579308137
+modified: 1681589492969
 created: 1680616359523
 url: "{{ _.ServerAddress }}/api/register"
 name: Register incorrect username
@@ -11,8 +11,8 @@ body:
   mimeType: application/json
   text: |-
     {
-    	"username":"11",
-    	"password":"test",
+    	"username":"11&",
+    	"password":"Test123$",
     	"firstname":"Jan",
     	"lastname":"Kowalski"
     }

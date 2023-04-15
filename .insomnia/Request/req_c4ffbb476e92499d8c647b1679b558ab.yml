@@ -1,10 +1,10 @@
-_id: req_88d84ba0614e43fdbf513448e099a3d8
+_id: req_c4ffbb476e92499d8c647b1679b558ab
 type: Request
 parentId: fld_6816253707584f0091832c1b88d6f99c
-modified: 1681579312909
-created: 1680616177492
+modified: 1681589762498
+created: 1681589738275
 url: "{{ _.ServerAddress }}/api/register"
-name: Register missing password
+name: Register incorrect password White space
 description: ""
 method: POST
 body:
@@ -12,7 +12,7 @@ body:
   text: |-
     {
     	"username":"hero",
-    	"password":"",
+    	"password":"Ja1& ",
     	"firstname":"Jan",
     	"lastname":"Kowalski"
     }
@@ -21,7 +21,7 @@ headers:
   - name: Content-Type
     value: application/json
 authentication: {}
-metaSortKey: -1680616488862
+metaSortKey: -1680616489115.125
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

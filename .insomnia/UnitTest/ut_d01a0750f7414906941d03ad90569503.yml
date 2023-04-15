@@ -1,12 +1,15 @@
 _id: ut_d01a0750f7414906941d03ad90569503
 type: UnitTest
 parentId: uts_ab23c073e12a47e4a58fd747f588eab7
-modified: 1680617448633
+modified: 1681589592235
 created: 1680616829944
-requestId: req_666e7ffb465b46369a3912269e7a4815
+requestId: req_cfa7a1cf55cc4a0086ff0cde34c086c5
 name: Register incorrect username
-code: |-
+code: >-
   const response = await insomnia.send();
+
   const body = JSON.parse(response.data);
-  expect(body.message).to.equal("Username must meet the requirements");
+
+  expect(body.message).to.equal("Username must have only lowercase, uppercase letters and numbers");
+
   expect(response.status).to.equal(400);

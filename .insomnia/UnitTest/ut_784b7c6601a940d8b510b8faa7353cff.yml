@@ -1,0 +1,12 @@
+_id: ut_784b7c6601a940d8b510b8faa7353cff
+type: UnitTest
+parentId: uts_e961e6b2c4bf40e48e08abd224cd9f56
+modified: 1681586292956
+created: 1681585437265
+requestId: req_a83fedf0ceef45dd9bab2675b32794a2
+name: Update Role bad user Id
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("No user with that id exists");
+  expect(response.status).to.equal(400);

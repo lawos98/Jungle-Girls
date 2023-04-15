@@ -1,27 +1,25 @@
-_id: req_666e7ffb465b46369a3912269e7a4815
+_id: req_a6bf1102825a4228aa9432069951d5f4
 type: Request
-parentId: fld_6816253707584f0091832c1b88d6f99c
-modified: 1681579309110
-created: 1680616335678
-url: "{{ _.ServerAddress }}/api/register"
-name: Register incorrect username
+parentId: fld_582da470aae64d4db70915ff620287e6
+modified: 1681581334548
+created: 1681579146398
+url: "{{ _.ServerAddress }}/api/login"
+name: Login Lecturer
 description: ""
 method: POST
 body:
   mimeType: application/json
   text: |-
     {
-    	"username":"11",
-    	"password":"test",
-    	"firstname":"Jan",
-    	"lastname":"Kowalski"
+    	"username":"admin",
+    	"password":"admin"
     }
 parameters: []
 headers:
   - name: Content-Type
     value: application/json
 authentication: {}
-metaSortKey: -1680616489062
+metaSortKey: -1681579281327
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

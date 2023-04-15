@@ -1,0 +1,10 @@
+_id: ut_dcb157bd8b93487282337299e4cf71bf
+type: UnitTest
+parentId: uts_e961e6b2c4bf40e48e08abd224cd9f56
+modified: 1681585578192
+created: 1681585572472
+requestId: req_937175936c734564a8e4aab58d41d6bf
+name: Get role by ID
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

@@ -1,0 +1,24 @@
+_id: req_b3916acba145402fa7bed88fbe1dce7b
+type: Request
+parentId: fld_b87c27a307a14aada49feab267d5704c
+modified: 1681580847581
+created: 1681580770688
+url: "{{ _.ServerAddress }}/api/role"
+name: Get all roles
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_26ca87b2b6fb4f3285339e303793f642',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1681580770688
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

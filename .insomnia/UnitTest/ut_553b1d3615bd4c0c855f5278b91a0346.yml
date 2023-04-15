@@ -1,0 +1,10 @@
+_id: ut_553b1d3615bd4c0c855f5278b91a0346
+type: UnitTest
+parentId: uts_e961e6b2c4bf40e48e08abd224cd9f56
+modified: 1681585562595
+created: 1681585557863
+requestId: req_b3916acba145402fa7bed88fbe1dce7b
+name: Get all roles
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

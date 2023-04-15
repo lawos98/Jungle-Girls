@@ -51,9 +51,7 @@ class LoginUserService(
     }
 
     private fun checkUsername(username: String): Either<String,None>{
-        if(username.matches("^[a-zA-Z0-9]$".toRegex()))return "Username must have only lowercase, uppercase letters and numbers".left()
-        if (username.length<3) return "Username minimum length is 3".left()
-        if (username.length>20) return "Username maximum length is 20".left()
+        if(!username.matches("^[a-zA-Z0-9]+$".toRegex()))return "Username must have only lowercase, uppercase letters and numbers".left()
         return None.right()
     }
 

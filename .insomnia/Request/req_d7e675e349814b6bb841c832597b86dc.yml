@@ -1,0 +1,29 @@
+_id: req_d7e675e349814b6bb841c832597b86dc
+type: Request
+parentId: fld_582da470aae64d4db70915ff620287e6
+modified: 1681581319780
+created: 1681579156184
+url: "{{ _.ServerAddress }}/api/login"
+name: Login Coordinator
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username":"mod",
+    	"password":"mod"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1681579281314.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

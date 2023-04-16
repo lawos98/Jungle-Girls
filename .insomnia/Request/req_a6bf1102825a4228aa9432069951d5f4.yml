@@ -1,0 +1,29 @@
+_id: req_a6bf1102825a4228aa9432069951d5f4
+type: Request
+parentId: fld_582da470aae64d4db70915ff620287e6
+modified: 1681581334548
+created: 1681579146398
+url: "{{ _.ServerAddress }}/api/login"
+name: Login Lecturer
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username":"admin",
+    	"password":"admin"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1681579281327
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

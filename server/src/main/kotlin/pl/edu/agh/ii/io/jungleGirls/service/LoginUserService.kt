@@ -40,22 +40,18 @@ class LoginUserService(
 
 
     private fun checkPassword(password: String): Either<String, None> {
-//        At least one upper case English letter
-//        At least one lower case English letter
-//        At least one digit
-//        At least one special character
-//        Minimum 8 in length
-        if (!password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@\$%^&*-]).{8,}\$".toRegex())) {
-            return "Password must meet the requirements".left()
-        }
+        if (!password.matches(Regex("^(?=.*[A-Z]).+$")))return "Password must have at least one upper case English letter".left()
+        if (!password.matches(Regex("^(?=.*[a-z]).+$")))return "Password must have at least one lower case English letter".left()
+        if (!password.matches(Regex("^(?=.*[0-9]).+$")))return "Password must have at least one digit".left()
+        if (!password.matches(Regex("^(?=.*[#?!@\$%^&*-]).+$"))) return "Password must have at least one special character".left()
+        if (!password.matches(Regex("^\\S+$"))) return "Password cannot have any white space characters".left()
+        if (password.length<8) return "Password minimum length is 8".left()
+        if (password.length>20) return "Password maximum length is 20".left()
         return None.right()
     }
 
     private fun checkUsername(username: String): Either<String,None>{
-//        Alphanumeric string that may include _ and - having a length of 3 to 20 characters.
-        if(!username.matches("^[a-z0-9_-]{3,20}\$".toRegex())){
-            return "Username must meet the requirements".left()
-        }
+        if(!username.matches("^[a-zA-Z0-9]+$".toRegex()))return "Username must have only lowercase, uppercase letters and numbers".left()
         return None.right()
     }
 

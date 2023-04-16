@@ -48,8 +48,18 @@ class RoleService(
     }
 
     fun updateUserRole(roleId:Long,userId:Long):Either<String,LoginUser>{
-        loginUserRepository.existsById(userId).block() ?: return "No user with that id exists".left()
-        roleRepository.existsById(roleId).block() ?: return "No role with that id exists".left()
+        loginUserRepository.findById(userId).block() ?: return "No user with that id exists".left()
+        roleRepository.findById(roleId).block() ?: return "No role with that id exists".left()
         return loginUserRepository.updateUserRole(roleId,userId).block()?.right() ?: return "Server error cannot update user role".left()
     }
+
+    fun getRoleById(roleId:Long):Either<String,Role>{
+        val role=roleRepository.findById(roleId).block() ?: return "No role with that id exists".left()
+        return role.right()
+    }
+
+    fun getRoles():ArrayList<Role>{
+        return roleRepository.findAll().collectList().block() as ArrayList<Role>
+    }
+
 }

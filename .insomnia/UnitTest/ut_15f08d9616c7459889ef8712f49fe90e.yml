@@ -1,0 +1,12 @@
+_id: ut_15f08d9616c7459889ef8712f49fe90e
+type: UnitTest
+parentId: uts_e961e6b2c4bf40e48e08abd224cd9f56
+modified: 1681586231120
+created: 1681585353809
+requestId: req_d97f3258704d4890a0f09658af69f2da
+name: Update Role Permission bad permissionId
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Permission with that ID does not exist");
+  expect(response.status).to.equal(400);

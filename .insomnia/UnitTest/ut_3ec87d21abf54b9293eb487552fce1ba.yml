@@ -1,12 +1,15 @@
 _id: ut_3ec87d21abf54b9293eb487552fce1ba
 type: UnitTest
 parentId: uts_ab23c073e12a47e4a58fd747f588eab7
-modified: 1680617452738
+modified: 1681589829486
 created: 1680616894563
 requestId: req_296d2856a21549238644961f257200a7
-name: Register incorrect password
-code: |-
+name: Register incorrect password LowerCase
+code: >-
   const response = await insomnia.send();
+
   const body = JSON.parse(response.data);
-  expect(body.message).to.equal("Password must meet the requirements");
+
+  expect(body.message).to.equal("Password must have at least one lower case English letter");
+
   expect(response.status).to.equal(400);

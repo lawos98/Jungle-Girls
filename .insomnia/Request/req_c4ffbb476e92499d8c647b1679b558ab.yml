@@ -1,25 +1,27 @@
-_id: req_467dbe3fb0fc4a11b0b0c398679015e8
+_id: req_c4ffbb476e92499d8c647b1679b558ab
 type: Request
-parentId: fld_df40fb31187e4fb99f5fcd2ae5a0f72e
-modified: 1680617336554
-created: 1680616520048
-url: "{{ _.ServerAddress }}/api/login"
-name: Login
+parentId: fld_6816253707584f0091832c1b88d6f99c
+modified: 1681589762498
+created: 1681589738275
+url: "{{ _.ServerAddress }}/api/register"
+name: Register incorrect password White space
 description: ""
 method: POST
 body:
   mimeType: application/json
   text: |-
     {
-    	"username":"test",
-    	"password":"test"
+    	"username":"hero",
+    	"password":"Ja1& ",
+    	"firstname":"Jan",
+    	"lastname":"Kowalski"
     }
 parameters: []
 headers:
   - name: Content-Type
     value: application/json
 authentication: {}
-metaSortKey: -1680616520048
+metaSortKey: -1680616489115.125
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

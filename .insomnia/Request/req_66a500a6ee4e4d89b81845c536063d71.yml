@@ -1,10 +1,10 @@
-_id: req_88d84ba0614e43fdbf513448e099a3d8
+_id: req_66a500a6ee4e4d89b81845c536063d71
 type: Request
-parentId: fld_df40fb31187e4fb99f5fcd2ae5a0f72e
-modified: 1680616211770
-created: 1680616177492
+parentId: fld_6816253707584f0091832c1b88d6f99c
+modified: 1681589654422
+created: 1681589654422
 url: "{{ _.ServerAddress }}/api/register"
-name: Register missing password
+name: Register incorrect password UpperCase
 description: ""
 method: POST
 body:
@@ -12,7 +12,7 @@ body:
   text: |-
     {
     	"username":"hero",
-    	"password":"",
+    	"password":"12",
     	"firstname":"Jan",
     	"lastname":"Kowalski"
     }
@@ -21,7 +21,7 @@ headers:
   - name: Content-Type
     value: application/json
 authentication: {}
-metaSortKey: -1680616177492
+metaSortKey: -1680616489137
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

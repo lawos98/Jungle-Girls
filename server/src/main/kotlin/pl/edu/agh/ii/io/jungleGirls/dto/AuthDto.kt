@@ -11,3 +11,11 @@ data class RegisterRequest(
     val firstname: String,
     val lastname: String
 )
+data class AuthResponseDto(
+    val userId: Long,
+    val roleId: Long,
+    val username: String,
+    val firstname: String,
+    val lastname: String,
+    val token: String,
+)

@@ -1,0 +1,15 @@
+_id: ut_f30411c15c1f4b05967ad2bc3866e631
+type: UnitTest
+parentId: uts_c9ac2887038a40adafee101dd48f2e26
+modified: 1681775638767
+created: 1681775600497
+requestId: req_07893c65f615476b9559a026591d656d
+name: Edit Grade incorect activity id
+code: >-
+  const response = await insomnia.send();
+
+  const body = JSON.parse(response.data);
+
+  expect(body.message).to.equal("Activity with that id dont belong to this course group");
+
+  expect(response.status).to.equal(400);

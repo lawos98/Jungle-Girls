@@ -1,0 +1,15 @@
+_id: ut_ec3dead964934ac3b5c56aff2dfb0251
+type: UnitTest
+parentId: uts_c9ac2887038a40adafee101dd48f2e26
+modified: 1681775744021
+created: 1681775725785
+requestId: req_80b847d14ed844c49052d54f4be3a824
+name: Edit Grade incorrect studentId
+code: >-
+  const response = await insomnia.send();
+
+  const body = JSON.parse(response.data);
+
+  expect(body.message).to.equal("Student with id 1 dont belong to this course group with id 3");
+
+  expect(response.status).to.equal(400);

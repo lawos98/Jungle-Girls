@@ -1,7 +1,7 @@
 _id: req_d7e675e349814b6bb841c832597b86dc
 type: Request
 parentId: fld_582da470aae64d4db70915ff620287e6
-modified: 1681581319780
+modified: 1681778026487
 created: 1681579156184
 url: "{{ _.ServerAddress }}/api/login"
 name: Login Coordinator
@@ -11,8 +11,8 @@ body:
   mimeType: application/json
   text: |-
     {
-    	"username":"mod",
-    	"password":"mod"
+    	"username":"admin",
+    	"password":"admin"
     }
 parameters: []
 headers:

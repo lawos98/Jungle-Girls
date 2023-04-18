@@ -1,7 +1,7 @@
 _id: req_205e09dbd7a74bf69bc76051b1620591
 type: Request
 parentId: fld_582da470aae64d4db70915ff620287e6
-modified: 1681581308556
+modified: 1681777998455
 created: 1681579138381
 url: "{{ _.ServerAddress }}/api/login"
 name: Login Student
@@ -11,7 +11,7 @@ body:
   mimeType: application/json
   text: |-
     {
-    	"username":"student",
+    	"username":"student20",
     	"password":"student"
     }
 parameters: []

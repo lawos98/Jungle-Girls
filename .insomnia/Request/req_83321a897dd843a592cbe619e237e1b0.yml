@@ -1,7 +1,7 @@
 _id: req_83321a897dd843a592cbe619e237e1b0
 type: Request
 parentId: fld_d8ba47e1b735453e8b7c8359ee50eb41
-modified: 1681776960814
+modified: 1681847517317
 created: 1680936918972
 url: "{{ _.ServerAddress }}/api/activity/create"
 name: Start date in the past
@@ -9,17 +9,16 @@ description: ""
 method: POST
 body:
   mimeType: application/json
-  text: |-
+  text: >-
     {
     	"name": "kartkowka99",
     	"description": "łatwizna!!",
     	"maxScore": "5.5",
-    	"courseGroupNames": ["inf1", "inf2"],
-    	"courseGroupStartDates": ["2023-01-02 12:00:00","2023-08-02 15:00:00"],
+    	"courseGroupNames": ["group1", "group2","group3"],
+    	"courseGroupStartDates": ["2023-01-02 12:00:00","2023-08-02 15:00:00","2023-08-02 17:00:00"],
     	"activityTypeName": "compulsory",
     	"activityCategoryName": "wejsciowki",
     	"duration":"PT124H30M"
-
     }
 parameters: []
 headers:
@@ -29,7 +28,8 @@ headers:
     description: ""
 authentication:
   type: bearer
-  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
 metaSortKey: -1680373821691.8906
 isPrivate: false
 settingStoreCookies: true

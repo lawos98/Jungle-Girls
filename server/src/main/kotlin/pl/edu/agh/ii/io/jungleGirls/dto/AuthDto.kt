@@ -11,7 +11,7 @@ data class RegisterRequest(
     val firstname: String,
     val lastname: String
 )
-data class AuthResponseDto(
+data class AuthResponse(
     val userId: Long,
     val roleId: Long,
     val username: String,

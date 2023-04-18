@@ -5,8 +5,6 @@ import org.springframework.data.repository.query.Param
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Repository
 import pl.edu.agh.ii.io.jungleGirls.model.Activity
-import pl.edu.agh.ii.io.jungleGirls.model.ActivityCategory
-import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
@@ -25,5 +23,7 @@ interface ActivityRepository : ReactiveCrudRepository<Activity,Long> {
     @Query("select CASE WHEN COUNT(id) = 0 THEN true ELSE false END from score  where activity_id = :id ")
     fun canBeDeleted(@Param("id") id:Long): Mono<Boolean>
 
+    @Query("Select * from activity a inner join course_group_activity cga on a.id = cga.activity_id where cga.course_group_id=:groupId")
+    fun getAllByGroupId(@Param("groupId")groupId:Long): Flux<Activity>
 
 }

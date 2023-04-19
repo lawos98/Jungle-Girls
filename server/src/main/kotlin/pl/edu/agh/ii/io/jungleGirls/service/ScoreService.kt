@@ -18,7 +18,8 @@ class ScoreService(
     private val courseGroupService: CourseGroupService,
     private val scoreRepository: ScoreRepository,
     private val activityService: ActivityService,
-    private val studentDescriptionService: StudentDescriptionService
+    private val studentDescriptionService: StudentDescriptionService,
+    private val studentNotificationService: StudentNotificationService
 ) {
 
     fun getScores(groupId: Long, lecturerId: Long): Either<String, List<ActivityScoreList>> {
@@ -71,11 +72,19 @@ class ScoreService(
                 val oldScore = scoreMap[student.id]?.get(activity.id)
                 val oldValue = oldScore?.value
                 when {
-                    newValue == null && oldValue != null -> scoreRepository.deleteById(oldScore.id!!).block()
+                    newValue == null && oldValue != null -> {
+                        scoreRepository.deleteById(oldScore.id!!).block()
+                        studentNotificationService.generateScoreDeletedNotification(activity,student,lecturerId)
+
+                    }
                     newValue != null && (newValue > activity.maxScore || newValue < 0) -> return "Score must be between 0 and max score ${activity.maxScore} | new Value : $newValue".left()
-                    newValue != null && oldValue == null -> scoreRepository.save(Score(studentId = student.id, activityId = activity.id!!, value = newValue)).block()
+                    newValue != null && oldValue == null -> {
+                        scoreRepository.save(Score(studentId = student.id, activityId = activity.id!!, value = newValue)).block()
+                        studentNotificationService.generateNewScoreNotification(activity,student,lecturerId)
+                    }
                     newValue != null && newValue != oldValue -> if (oldScore != null) {
                         scoreRepository.updateScoreById(oldScore.id!!, newValue).block() ?: "Server cannot update score for activity Id : ${activity.id} and student Id :$student.id".left()
+                        studentNotificationService.generateScoreChangedNotification(activity,student,lecturerId, oldValue!!)
                     }
                 }}
             }

@@ -19,4 +19,7 @@ interface ScoreRepository: ReactiveCrudRepository<Score, Long> {
 
     @Query("Select s.id,s.student_id,s.activity_id,s.value from course_group_activity cga inner join activity a on cga.activity_id = a.id inner join score s on a.id = s.activity_id where cga.course_group_id=:groupId and s.student_id = :studentId and s.activity_id=:activityId")
     fun getScore(@Param("activityId")activityId: Long, @Param("studentId")studentId:Long, @Param("groupId")groupId:Long) : Mono<Score?>
+
+    @Query("Select id,student_id,activity_id,value from score where student_id=:studentId")
+    fun getScoreByStudentId(@Param("studentId")studentId:Long) : Flux<Score?>
 }

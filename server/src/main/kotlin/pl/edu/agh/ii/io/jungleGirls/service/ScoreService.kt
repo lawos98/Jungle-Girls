@@ -54,8 +54,12 @@ class ScoreService(
         if (!courseGroupService.existsByCourseId(groupId)) return "That course group is not accessible".left()
         if (!rolePermissionService.checkUserPermission(lecturerId, Permissions.GRADE_EDIT) && !courseGroupService.checkLecturerGroup(lecturerId, groupId)) return "You don't have permission to view scores".left()
 
-        val activities = activityService.getAllActivityByGroupId(groupId).map { it.id }.toSet()
-        val students = courseGroupService.getAllStudentsByGroupId(groupId).map { it.id }.toSet()
+        val activities= activityService.getAllActivityByGroupId(groupId).map { it.id!! }.toSet()
+        val students= courseGroupService.getAllStudentsByGroupId(groupId).map { it.id!! }.toSet()
+        val scoreMap = students.associate{ studentId ->
+            (studentId to (scoreRepository.getScoreByStudentId(studentId).collectList().block()?.associateBy { score -> score?.activityId ?: return "Server error cant find score for student".left()}
+                ?: return "Server error cant find scores for student".left()))
+        }
 
         scoreList.forEach { elem ->
             val activity = elem.activity
@@ -64,7 +68,7 @@ class ScoreService(
             elem.students.forEach { student ->
                 if(!students.contains(student.id)) return "Student with id ${student.id} dont belong to this course group with id $groupId".left()
                 val newValue = student.value
-                val oldScore = scoreRepository.getScore(activity.id!!,student.id,groupId).block()
+                val oldScore = scoreMap[student.id]?.get(activity.id)
                 val oldValue = oldScore?.value
                 when {
                     newValue == null && oldValue != null -> scoreRepository.deleteById(oldScore.id!!).block()

@@ -1,7 +1,7 @@
 _id: req_30d3a82ec3cb458bb24b08745ffc0c80
 type: Request
 parentId: fld_d8ba47e1b735453e8b7c8359ee50eb41
-modified: 1680953814291
+modified: 1681847746347
 created: 1680936918935
 url: "{{ _.ServerAddress }}/api/activity/create"
 name: Group names are not specified
@@ -9,17 +9,16 @@ description: ""
 method: POST
 body:
   mimeType: application/json
-  text: |-
+  text: >-
     {
     	"name": "kartkowka99",
     	"description": "łatwizna!!",
     	"maxScore": "5.5",
     	"courseGroupNames": [],
-    	"courseGroupStartDates": ["2023-08-02 12:00:00","2023-08-02 15:00:00"],
+    	"courseGroupStartDates": ["2024-01-02 12:00:00","2024-08-02 15:00:00","2024-08-02 17:00:00"],
     	"activityTypeName": "compulsory",
     	"activityCategoryName": "wejsciowki",
     	"duration":"PT124H30M"
-
     }
 parameters: []
 headers:

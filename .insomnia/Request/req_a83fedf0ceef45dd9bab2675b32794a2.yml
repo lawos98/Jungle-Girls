@@ -1,7 +1,7 @@
 _id: req_a83fedf0ceef45dd9bab2675b32794a2
 type: Request
 parentId: fld_b87c27a307a14aada49feab267d5704c
-modified: 1681583161237
+modified: 1681847233616
 created: 1681583155959
 url: "{{ _.ServerAddress }}/api/role"
 name: Update Role bad user Id
@@ -12,7 +12,7 @@ body:
   text: |-
     {
     	"roleId":1,
-    	"userId":69
+    	"userId":6969
     }
 parameters: []
 headers:

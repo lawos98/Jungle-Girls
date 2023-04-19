@@ -1,0 +1,12 @@
+_id: ut_02033e39882f48b997378f4939037f4c
+type: UnitTest
+parentId: uts_c9ac2887038a40adafee101dd48f2e26
+modified: 1681775869770
+created: 1681775851490
+requestId: req_f8439ec4f6fe49caa30e0a80c9b6c1c1
+name: Get Grade for student with incorect user
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("User is not a student");
+  expect(response.status).to.equal(400);

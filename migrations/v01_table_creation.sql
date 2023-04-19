@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-04-11 15:19:29.861
+-- Last modification date: 2023-04-16 21:21:15.522
 
 -- tables
 -- Table: activity
@@ -37,7 +37,7 @@ CREATE TABLE course_group (
                               id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
                               name varchar  NOT NULL,
                               instructor_id int  NOT NULL,
-                              secret_code varchar  NOT NULL,
+                              secret_code varchar  NULL,
                               CONSTRAINT course_group_pk PRIMARY KEY (id)
 );
 
@@ -84,7 +84,7 @@ CREATE TABLE role (
                       id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
                       name varchar  NOT NULL,
                       description varchar  NOT NULL,
-                      secret_code varchar  NOT NULL,
+                      secret_code varchar  NULL,
                       CONSTRAINT role_ak_1 UNIQUE (name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
                       CONSTRAINT role_pk PRIMARY KEY (id)
 );
@@ -109,8 +109,8 @@ CREATE TABLE score (
 -- Table: student_description
 CREATE TABLE student_description (
                                      id int  NOT NULL,
-                                     index int  NOT NULL,
-                                     github_link varchar  NOT NULL DEFAULT '',
+                                     index int  NULL,
+                                     github_link varchar  NULL DEFAULT '',
                                      course_group_id int  NOT NULL,
                                      CONSTRAINT student_description_ak_1 UNIQUE (index, github_link) NOT DEFERRABLE  INITIALLY IMMEDIATE,
                                      CONSTRAINT student_description_pk PRIMARY KEY (id)
@@ -120,9 +120,11 @@ CREATE TABLE student_description (
 CREATE TABLE student_notification (
                                       id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
                                       date timestamp  NOT NULL,
-                                      description int  NOT NULL,
-                                      autor_id int  NOT NULL,
+                                      subject varchar  NOT NULL,
+                                      content varchar  NOT NULL,
+                                      author_id int  NOT NULL,
                                       student_id int  NOT NULL,
+                                      was_read boolean  NOT NULL,
                                       CONSTRAINT id PRIMARY KEY (id)
 );
 
@@ -185,7 +187,7 @@ ALTER TABLE course_group_activity ADD CONSTRAINT activity_group_group
 
 -- Reference: autor_notification_login_user (table: student_notification)
 ALTER TABLE student_notification ADD CONSTRAINT autor_notification_login_user
-    FOREIGN KEY (autor_id)
+    FOREIGN KEY (author_id)
         REFERENCES login_user (id)
         NOT DEFERRABLE
             INITIALLY IMMEDIATE
@@ -255,10 +257,10 @@ ALTER TABLE student_description ADD CONSTRAINT student_login_user
             INITIALLY IMMEDIATE
 ;
 
--- Reference: student_notification_login_user (table: student_notification)
-ALTER TABLE student_notification ADD CONSTRAINT student_notification_login_user
+-- Reference: student_notification_student_description (table: student_notification)
+ALTER TABLE student_notification ADD CONSTRAINT student_notification_student_description
     FOREIGN KEY (student_id)
-        REFERENCES login_user (id)
+        REFERENCES student_description (id)
         NOT DEFERRABLE
             INITIALLY IMMEDIATE
 ;

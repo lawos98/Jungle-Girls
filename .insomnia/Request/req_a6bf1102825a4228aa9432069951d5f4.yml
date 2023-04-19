@@ -1,7 +1,7 @@
 _id: req_a6bf1102825a4228aa9432069951d5f4
 type: Request
 parentId: fld_582da470aae64d4db70915ff620287e6
-modified: 1681581334548
+modified: 1681847416177
 created: 1681579146398
 url: "{{ _.ServerAddress }}/api/login"
 name: Login Lecturer
@@ -11,8 +11,8 @@ body:
   mimeType: application/json
   text: |-
     {
-    	"username":"admin",
-    	"password":"admin"
+    	"username":"mod1",
+    	"password":"mod"
     }
 parameters: []
 headers:

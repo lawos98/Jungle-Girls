@@ -4,7 +4,6 @@ import arrow.core.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import pl.edu.agh.ii.io.jungleGirls.model.Activity
-import pl.edu.agh.ii.io.jungleGirls.model.ActivityCategory
 import pl.edu.agh.ii.io.jungleGirls.model.CourseGroupActivity
 import pl.edu.agh.ii.io.jungleGirls.repository.*
 import pl.edu.agh.ii.io.jungleGirls.util.checkIsBlank
@@ -102,5 +101,13 @@ class ActivityService(
 
     private fun checkIfCanBeDeleted(id: Long): Either<String, Long>{
         return if(canBeDeleted(id)) id.right() else "There are scores belonging to this activity!".left()
+    }
+
+    fun getAllActivityByGroupId(groupId: Long): ArrayList<Activity> {
+        return activityRepository.getAllByGroupId(groupId).collectList().block() as ArrayList<Activity>
+    }
+
+    fun getById(id: Long): Activity?{
+        return activityRepository.findById(id).block()
     }
 }

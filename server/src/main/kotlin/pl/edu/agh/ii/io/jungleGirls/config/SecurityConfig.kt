@@ -43,7 +43,7 @@ class SecurityConfig (
             val jwt = auth as BearerTokenAuthenticationToken
             val user = tokenService.parseToken(jwt.token)
             val authorities = rolePermissionService.getPermissionNamesByRoleId(user.roleId)
-                .map { elem -> SimpleGrantedAuthority(permissionService.findById(elem.permissionId!!).name) }
+                .map { SimpleGrantedAuthority(permissionService.findById(it.permissionId!!).name) }
             UsernamePasswordAuthenticationToken(user, "", authorities)
         }
 

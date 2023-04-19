@@ -3,7 +3,3 @@ insert into role(name, description, secret_code) values ('Student','Student atte
 insert into role(name, description, secret_code) values ('Lecturer','Teacher who prepares and delivers classes in various settings','$2a$10$bhz5toZ2ywfz3MSHO5jzwerSDiJNDkw15.EP9Genp5hhyECvjPLde');
 insert into role(name, description, secret_code) values ('Coordinator','The subject coordinator may be a head of the subject area task force and is responsible for the organization, development, implementation, supervision, and evaluation of the program in his subject','$2a$10$8Z46aKr8kuqRV4jD0clzkuhQrbrFRmxkVwCL3vPfBaSjlkbPeXBdi');
 
-insert into permission(name) values ('Sent course group notification'),
-('Sent course member notification'),('Create activity category'),
-('Create activity'),('Users manager');
-

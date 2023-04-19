@@ -50,8 +50,8 @@ class StudentNotificationService(
         return studentNotificationRepository.findAllByStudentId(studentId).collectList().block() as ArrayList<StudentNotification>
     }
 
-    fun updateWasRead(id: Long, studentId: Long):Either<String,StudentNotification> {
-        val studentNotification = studentNotificationRepository.updateWasRead(id,studentId).block()
+    fun updateWasRead(studentId: Long, studentNotificationId : Long):Either<String,StudentNotification> {
+        val studentNotification = studentNotificationRepository.updateWasRead(studentId, studentNotificationId).block()
         return studentNotification?.right() ?: "No student notification found".left()
     }
 }

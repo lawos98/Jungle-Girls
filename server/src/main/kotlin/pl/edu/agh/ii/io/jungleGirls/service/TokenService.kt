@@ -36,7 +36,7 @@ class TokenService(
             val userIndex = jwt.claims["userId"] as Long
             loginUserService.findByIndex(userIndex) ?: throw InvalidBearerTokenException("Invalid token")
         } catch (e: Exception) {
-            throw e
+            throw InvalidBearerTokenException("Invalid token")
         }
     }
 }

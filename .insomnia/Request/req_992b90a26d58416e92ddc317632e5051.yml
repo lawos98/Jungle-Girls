@@ -1,19 +1,15 @@
 _id: req_992b90a26d58416e92ddc317632e5051
 type: Request
 parentId: fld_aeaa780b8bd94eec9e1e04a0205dc8e5
-modified: 1681914158976
+modified: 1681979381852
 created: 1681914158976
-url: "{{ _.ServerAddress }}/api/student_notification"
+url: "{{ _.ServerAddress }}/api/student-notification/update/6"
 name: Update notification incorrect studentNotificationId
 description: ""
 method: PUT
-body:
-  mimeType: application/json
-  text: "1111"
+body: {}
 parameters: []
-headers:
-  - name: Content-Type
-    value: application/json
+headers: []
 authentication:
   type: bearer
   token: "{% response 'body', 'req_205e09dbd7a74bf69bc76051b1620591',

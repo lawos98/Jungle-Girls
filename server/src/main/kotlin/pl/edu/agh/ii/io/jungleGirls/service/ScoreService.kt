@@ -8,6 +8,7 @@ import pl.edu.agh.ii.io.jungleGirls.dto.ActivityScoreList
 import pl.edu.agh.ii.io.jungleGirls.dto.StudentScore
 import pl.edu.agh.ii.io.jungleGirls.dto.ActivityScore
 import pl.edu.agh.ii.io.jungleGirls.enum.Permissions
+import pl.edu.agh.ii.io.jungleGirls.enum.StudentNotificationType
 import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import pl.edu.agh.ii.io.jungleGirls.model.Score
 import pl.edu.agh.ii.io.jungleGirls.repository.ScoreRepository
@@ -18,7 +19,8 @@ class ScoreService(
     private val courseGroupService: CourseGroupService,
     private val scoreRepository: ScoreRepository,
     private val activityService: ActivityService,
-    private val studentDescriptionService: StudentDescriptionService
+    private val studentDescriptionService: StudentDescriptionService,
+    private val studentNotificationService: StudentNotificationService
 ) {
 
     fun getScores(groupId: Long, lecturerId: Long): Either<String, List<ActivityScoreList>> {
@@ -71,11 +73,18 @@ class ScoreService(
                 val oldScore = scoreMap[student.id]?.get(activity.id)
                 val oldValue = oldScore?.value
                 when {
-                    newValue == null && oldValue != null -> scoreRepository.deleteById(oldScore.id!!).block()
+                    newValue == null && oldValue != null -> {
+                        scoreRepository.deleteById(oldScore.id!!).block()
+                        studentNotificationService.generateStudentNotification(activity,student,lecturerId,StudentNotificationType.DELETED_SCORE)
+                    }
                     newValue != null && (newValue > activity.maxScore || newValue < 0) -> return "Score must be between 0 and max score ${activity.maxScore} | new Value : $newValue".left()
-                    newValue != null && oldValue == null -> scoreRepository.save(Score(studentId = student.id, activityId = activity.id!!, value = newValue)).block()
+                    newValue != null && oldValue == null -> {
+                        scoreRepository.save(Score(studentId = student.id, activityId = activity.id!!, value = newValue)).block()
+                        studentNotificationService.generateStudentNotification(activity,student,lecturerId,StudentNotificationType.NEW_SCORE)
+                    }
                     newValue != null && newValue != oldValue -> if (oldScore != null) {
                         scoreRepository.updateScoreById(oldScore.id!!, newValue).block() ?: "Server cannot update score for activity Id : ${activity.id} and student Id :$student.id".left()
+                        studentNotificationService.generateStudentNotification(activity,student,lecturerId,StudentNotificationType.CHANGED_SCORE)
                     }
                 }}
             }

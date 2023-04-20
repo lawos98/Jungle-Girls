@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.Duration
 import java.time.LocalDateTime
 
-data class CreateActivityDto (
+data class CreateActivityRequest (
     val name: String,
     val description: String,
     val duration: Duration,
@@ -16,7 +16,17 @@ data class CreateActivityDto (
     val activityCategoryName: String,
 )
 
-data class DeleteActivityDto (
+data class DeleteActivityRequest (
     val name: String,
 )
 
+data class ActivityCreationResponse(
+    val groupNames: ArrayList<String>,
+    val activityTypeNames: ArrayList<String>,
+    val activityCategoryNames: ArrayList<String>,
+    val activityNames: ArrayList<String>
+)
+
+data class ActivityDeletionResponse(
+    val activityNames: ArrayList<String>
+)

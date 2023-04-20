@@ -19,10 +19,10 @@ class ActivityController(
 ) {
 
     @GetMapping("/create")
-    fun getCreationData(@RequestHeader("Authorization") token: String):ActivityCreationResponseDto{
+    fun getCreationData(@RequestHeader("Authorization") token: String):ActivityCreationResponse{
         val user = tokenService.parseToken(token.substring("Bearer".length))
 
-        return ActivityCreationResponseDto(
+        return ActivityCreationResponse(
             groupNames = courseGroupService.getAllNamesById(user.id!!),
             activityTypeNames = activityTypeService.getAllNames(),
             activityCategoryNames = activityCategoryService.getAllNames(user.id),
@@ -30,15 +30,15 @@ class ActivityController(
         )
     }
     @GetMapping("/delete")
-    fun getActivities(@RequestHeader("Authorization") token: String):ActivityDeletionResponseDto{
+    fun getActivities(@RequestHeader("Authorization") token: String):ActivityDeletionResponse{
         val user = tokenService.parseToken(token.substring("Bearer".length))
 
-        return ActivityDeletionResponseDto(
+        return ActivityDeletionResponse(
             activityNames = activityService.getAllNames(user.id!!)
         )
     }
     @PostMapping("/create")
-    fun createActivity(@RequestBody payload:CreateActivityDto, @RequestHeader("Authorization") token: String): String{
+    fun createActivity(@RequestBody payload:CreateActivityRequest, @RequestHeader("Authorization") token: String): String{
         val user = tokenService.parseToken(token.substring("Bearer".length))
 
         val courseGroupIds = when(val result = courseGroupService.validateNames(user.id!!,payload.courseGroupNames)){
@@ -70,7 +70,7 @@ class ActivityController(
     }
 
     @PostMapping("/delete")
-    fun deleteActivity(@RequestBody payload: DeleteActivityDto, @RequestHeader("Authorization") token: String): String {
+    fun deleteActivity(@RequestBody payload: DeleteActivityRequest, @RequestHeader("Authorization") token: String): String {
         val user = tokenService.parseToken(token.substring("Bearer".length))
 
         val activityToDelete = activityService.findByInstructorIdAndName(user.id!!,payload.name)

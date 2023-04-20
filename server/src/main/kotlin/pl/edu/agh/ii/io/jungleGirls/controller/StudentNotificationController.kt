@@ -14,19 +14,16 @@ import java.time.format.DateTimeFormatter
 
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("api/student-notification")
 class StudentNotificationController(
         private val studentNotificationService: StudentNotificationService,
         private val tokenService: TokenService,
         private val loginUserService: LoginUserService
     ) {
-    @GetMapping("/student_notification")
+    @GetMapping()
     fun getStudentNotifications(@RequestHeader("Authorization") token: String): List<StudentNotificationResponse> {
         val user = tokenService.parseToken(token.substring("Bearer".length))
-        val studentNotificationList = studentNotificationService.getAllStudentNotifications(user.id!!)
-        val studentNotificationResponseList = ArrayList<StudentNotificationResponse>()
-        studentNotificationList.forEach { studentNotificationResponseList.add(createStudentNotificationResponse(it)) }
-        return studentNotificationResponseList
+        return studentNotificationService.getAllStudentNotifications(user.id!!).map{ createStudentNotificationResponse(it)}
     }
     private fun createStudentNotificationResponse(studentNotification: StudentNotification):StudentNotificationResponse{
         val authorName = when(val author = loginUserService.findByIndex(studentNotification.authorId)){
@@ -43,10 +40,10 @@ class StudentNotificationController(
         )
     }
 
-    @PutMapping("/student_notification")
-    fun updateWasRead(@RequestHeader("Authorization") token: String,@RequestBody studentNotificationId: Long):StudentNotificationResponse{
+    @PutMapping("update/{id}")
+    fun updateWasRead(@RequestHeader("Authorization") token: String,@PathVariable id: Long):StudentNotificationResponse{
         val user = tokenService.parseToken(token.substring("Bearer".length))
-        when (val result = studentNotificationService.updateWasRead(user.id!!,studentNotificationId)){
+        when (val result = studentNotificationService.updateWasRead(user.id!!,id)){
             is Either.Right ->{
                 return createStudentNotificationResponse(result.value)
              }

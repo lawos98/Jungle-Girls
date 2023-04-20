@@ -2,6 +2,7 @@ package pl.edu.agh.ii.io.jungleGirls.service
 import arrow.core.*
 import org.springframework.stereotype.Service
 import pl.edu.agh.ii.io.jungleGirls.dto.StudentScore
+import pl.edu.agh.ii.io.jungleGirls.enum.StudentNotificationType
 import pl.edu.agh.ii.io.jungleGirls.model.Activity
 import pl.edu.agh.ii.io.jungleGirls.model.StudentNotification
 import pl.edu.agh.ii.io.jungleGirls.repository.StudentNotificationRepository
@@ -12,10 +13,10 @@ class StudentNotificationService(
         private val studentNotificationRepository: StudentNotificationRepository
     ){
 
-    fun generateNewScoreNotification(activity: Activity, studentScore: StudentScore, authorId:Long){
+    fun generateStudentNotification(activity: Activity, studentScore: StudentScore, authorId:Long,studentNotificationType: StudentNotificationType){
         val studentNotification = StudentNotification(
-            subject = "New score notification.",
-            content = "You received ${studentScore.value}/${activity.maxScore} points for the activity \"${activity.name}\".",
+            subject = studentNotificationType.getSubject(),
+            content = studentNotificationType.getContent(activity.name,studentScore.value,activity.maxScore),
             date = LocalDateTime.now(),
             authorId = authorId,
             studentId = studentScore.id,
@@ -23,29 +24,6 @@ class StudentNotificationService(
         )
         studentNotificationRepository.save(studentNotification).block()
     }
-    fun generateScoreChangedNotification(activity: Activity, studentScore: StudentScore, authorId:Long,oldValue:Double){
-        val studentNotification = StudentNotification(
-            subject = "Score changed notification.",
-            content = "Your score for the activity \"${activity.name}\" was changed from $oldValue to ${studentScore.value} points .",
-            date = LocalDateTime.now(),
-            authorId = authorId,
-            studentId = studentScore.id,
-            wasRead = false
-        )
-        studentNotificationRepository.save(studentNotification).block()
-    }
-    fun generateScoreDeletedNotification(activity: Activity, studentScore: StudentScore, authorId:Long){
-        val studentNotification = StudentNotification(
-            subject = "Score deleted notification.",
-            content = "Your score received for the activity \"${activity.name}\" was deleted.",
-            date = LocalDateTime.now(),
-            authorId = authorId,
-            studentId = studentScore.id,
-            wasRead = false
-        )
-        studentNotificationRepository.save(studentNotification).block()
-    }
-
     fun getAllStudentNotifications(studentId: Long):List<StudentNotification> {
         return studentNotificationRepository.findAllByStudentId(studentId).collectList().block() as ArrayList<StudentNotification>
     }

@@ -8,6 +8,7 @@ import pl.edu.agh.ii.io.jungleGirls.dto.ActivityScoreList
 import pl.edu.agh.ii.io.jungleGirls.dto.StudentScore
 import pl.edu.agh.ii.io.jungleGirls.dto.ActivityScore
 import pl.edu.agh.ii.io.jungleGirls.enum.Permissions
+import pl.edu.agh.ii.io.jungleGirls.enum.StudentNotificationType
 import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import pl.edu.agh.ii.io.jungleGirls.model.Score
 import pl.edu.agh.ii.io.jungleGirls.repository.ScoreRepository
@@ -74,17 +75,16 @@ class ScoreService(
                 when {
                     newValue == null && oldValue != null -> {
                         scoreRepository.deleteById(oldScore.id!!).block()
-                        studentNotificationService.generateScoreDeletedNotification(activity,student,lecturerId)
-
+                        studentNotificationService.generateStudentNotification(activity,student,lecturerId,StudentNotificationType.DELETED_SCORE)
                     }
                     newValue != null && (newValue > activity.maxScore || newValue < 0) -> return "Score must be between 0 and max score ${activity.maxScore} | new Value : $newValue".left()
                     newValue != null && oldValue == null -> {
                         scoreRepository.save(Score(studentId = student.id, activityId = activity.id!!, value = newValue)).block()
-                        studentNotificationService.generateNewScoreNotification(activity,student,lecturerId)
+                        studentNotificationService.generateStudentNotification(activity,student,lecturerId,StudentNotificationType.NEW_SCORE)
                     }
                     newValue != null && newValue != oldValue -> if (oldScore != null) {
                         scoreRepository.updateScoreById(oldScore.id!!, newValue).block() ?: "Server cannot update score for activity Id : ${activity.id} and student Id :$student.id".left()
-                        studentNotificationService.generateScoreChangedNotification(activity,student,lecturerId, oldValue!!)
+                        studentNotificationService.generateStudentNotification(activity,student,lecturerId,StudentNotificationType.CHANGED_SCORE)
                     }
                 }}
             }

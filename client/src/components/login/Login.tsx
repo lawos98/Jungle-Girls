@@ -21,7 +21,7 @@ const Login: React.FC = () => {
                     <label
                         htmlFor="nick"
                         className="block text-gray-700 font-medium text-center">
-                        Nick
+                        Nick :)
                     </label>
                     <input
                         id="nick"

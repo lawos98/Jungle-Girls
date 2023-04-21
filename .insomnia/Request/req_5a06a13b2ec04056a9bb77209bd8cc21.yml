@@ -1,0 +1,31 @@
+_id: req_5a06a13b2ec04056a9bb77209bd8cc21
+type: Request
+parentId: fld_6816253707584f0091832c1b88d6f99c
+modified: 1681590303586
+created: 1681590298365
+url: "{{ _.ServerAddress }}/api/register"
+name: Register missing password
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username":"hero",
+    	"password":"",
+    	"firstname":"Jan",
+    	"lastname":"Kowalski"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1680616489113.5625
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

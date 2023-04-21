@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import * as actions from './RegisterActions';
+import React, { useState } from "react";
+import * as actions from "./RegisterActions";
 
 const Register: React.FC = () => {
-    const [username, setUsername] = useState('');
-    const [firstname, setFirstName] = useState('');
-    const [lastname, setLastName] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [username, setUsername] = useState("");
+    const [firstname, setFirstName] = useState("");
+    const [lastname, setLastName] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            alert('Hasła nie są takie same!');
+            alert("Hasła nie są takie same!");
             return;
         }
         actions.register(username, firstname, lastname, password);

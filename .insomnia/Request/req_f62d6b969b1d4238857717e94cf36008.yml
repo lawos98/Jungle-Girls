@@ -1,0 +1,30 @@
+_id: req_f62d6b969b1d4238857717e94cf36008
+type: Request
+parentId: fld_d8ba47e1b735453e8b7c8359ee50eb41
+modified: 1680953805982
+created: 1680936918975
+url: "{{ _.ServerAddress }}/api/activity/create"
+name: Get data
+description: ""
+method: GET
+body:
+  mimeType: application/json
+  text: ""
+parameters: []
+headers:
+  - id: pair_03fc85737959413eb6c6a894deb588f2
+    name: Content-Type
+    value: application/json
+    description: ""
+    disabled: true
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
+metaSortKey: -1680373821716.8906
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

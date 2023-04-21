@@ -1,0 +1,11 @@
+_id: ut_4ec189f4a7314e9cad484807a86188c6
+type: UnitTest
+parentId: uts_9638c1f2259d45de9287498e3b361ce9
+modified: 1680937759429
+created: 1680937316324
+requestId: req_6a46a1af56554f329c77282c5d71b555
+name: Description is empty
+code: |
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("description can not be empty");

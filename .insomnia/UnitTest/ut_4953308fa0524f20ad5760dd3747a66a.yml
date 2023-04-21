@@ -1,0 +1,11 @@
+_id: ut_4953308fa0524f20ad5760dd3747a66a
+type: UnitTest
+parentId: uts_9638c1f2259d45de9287498e3b361ce9
+modified: 1680937851242
+created: 1680937372648
+requestId: req_a7dd3f4363974ef988b665c9307e3787
+name: Activity type is empty
+code: |
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Activity type name is empty!");

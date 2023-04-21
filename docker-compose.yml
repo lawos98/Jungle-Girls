@@ -1,14 +1,32 @@
 version: '3.5'
 
 services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_R2DBC_URL=r2dbc:postgresql://db:5432/main_db
+      - SPRING_R2DBC_USERNAME=admin
+      - SPRING_R2DBC_PASSWORD=admin
+    depends_on:
+      - db
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
   db:
     container_name: db
     image: postgres:12.2
     restart: on-failure
-    env_file:
-      - 'env.env'
     environment:
-      PORT: 5432
+      - POSTGRES_DB=main_db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
     ports:
       - '5432:5432'
     volumes:

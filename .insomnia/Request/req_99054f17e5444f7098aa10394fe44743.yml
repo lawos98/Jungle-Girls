@@ -1,0 +1,39 @@
+_id: req_99054f17e5444f7098aa10394fe44743
+type: Request
+parentId: fld_d8ba47e1b735453e8b7c8359ee50eb41
+modified: 1681847569820
+created: 1680936918979
+url: "{{ _.ServerAddress }}/api/activity/create"
+name: Incorrect number of start dates
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name": "kartkowka999",
+    	"description": "łatwizna!!",
+    	"maxScore": "5.5",
+    	"courseGroupNames": ["group1", "group2","group3"],
+    	"courseGroupStartDates": [],
+    	"activityTypeName": "compulsory",
+    	"activityCategoryName": "wejsciowki",
+    	"duration":"PT124H30M"
+    }
+parameters: []
+headers:
+  - id: pair_03fc85737959413eb6c6a894deb588f2
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
+metaSortKey: -1680373821654.3906
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

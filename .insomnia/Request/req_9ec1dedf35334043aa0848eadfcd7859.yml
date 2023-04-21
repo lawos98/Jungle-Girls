@@ -1,0 +1,39 @@
+_id: req_9ec1dedf35334043aa0848eadfcd7859
+type: Request
+parentId: fld_d8ba47e1b735453e8b7c8359ee50eb41
+modified: 1681847799755
+created: 1680936918953
+url: "{{ _.ServerAddress }}/api/activity/create"
+name: Activity category is empty
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: >-
+    {
+    	"name": "kartkowka999",
+    	"description": "łatwizna!!",
+    	"maxScore": "5.5",
+    	"courseGroupNames": ["group1", "group2","group3"],
+    	"courseGroupStartDates": ["2024-01-02 12:00:00","2024-08-02 15:00:00","2024-08-02 17:00:00"],
+    	"activityTypeName": "compulsory",
+    	"activityCategoryName": "",
+    	"duration":"PT124H30M"
+    }
+parameters: []
+headers:
+  - id: pair_03fc85737959413eb6c6a894deb588f2
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication:
+  type: bearer
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
+metaSortKey: -1680373821529.3906
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

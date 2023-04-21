@@ -1,0 +1,1026 @@
+_id: req_07893c65f615476b9559a026591d656d
+type: Request
+parentId: fld_a2a780e7fd8b4a59b4ea9242024a45a0
+modified: 1681776457260
+created: 1681772853913
+url: "{{ _.ServerAddress }}/api/score/3"
+name: Edit Grade incorect activity id
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    [
+    	{
+    		"activity": {
+    			"id": 25,
+    			"name": "kartkowka1",
+    			"maxScore": 10.0,
+    			"duration": "PT12H",
+    			"description": "kartkowka1",
+    			"activityTypeId": 1,
+    			"activityCategoryId": 9
+    		},
+    		"students": [
+    			{
+    				"id": 21,
+    				"username": "student17",
+    				"firstname": "student17",
+    				"lastname": "student17",
+    				"value": null
+    			},
+    			{
+    				"id": 22,
+    				"username": "student18",
+    				"firstname": "student18",
+    				"lastname": "student18",
+    				"value": null
+    			},
+    			{
+    				"id": 23,
+    				"username": "student19",
+    				"firstname": "student19",
+    				"lastname": "student19",
+    				"value": null
+    			},
+    			{
+    				"id": 24,
+    				"username": "student20",
+    				"firstname": "student20",
+    				"lastname": "student20",
+    				"value": 2
+    			},
+    			{
+    				"id": 25,
+    				"username": "student21",
+    				"firstname": "student21",
+    				"lastname": "student21",
+    				"value": null
+    			},
+    			{
+    				"id": 26,
+    				"username": "student22",
+    				"firstname": "student22",
+    				"lastname": "student22",
+    				"value": null
+    			},
+    			{
+    				"id": 27,
+    				"username": "student23",
+    				"firstname": "student23",
+    				"lastname": "student23",
+    				"value": null
+    			},
+    			{
+    				"id": 28,
+    				"username": "student24",
+    				"firstname": "student24",
+    				"lastname": "student24",
+    				"value": null
+    			},
+    			{
+    				"id": 29,
+    				"username": "student25",
+    				"firstname": "student25",
+    				"lastname": "student25",
+    				"value": null
+    			},
+    			{
+    				"id": 30,
+    				"username": "student26",
+    				"firstname": "student26",
+    				"lastname": "student26",
+    				"value": null
+    			}
+    		]
+    	},
+    	{
+    		"activity": {
+    			"id": 2,
+    			"name": "zadanie1",
+    			"maxScore": 2.5,
+    			"duration": "PT1H",
+    			"description": "zadanie1",
+    			"activityTypeId": 1,
+    			"activityCategoryId": 2
+    		},
+    		"students": [
+    			{
+    				"id": 21,
+    				"username": "student17",
+    				"firstname": "student17",
+    				"lastname": "student17",
+    				"value": null
+    			},
+    			{
+    				"id": 22,
+    				"username": "student18",
+    				"firstname": "student18",
+    				"lastname": "student18",
+    				"value": null
+    			},
+    			{
+    				"id": 23,
+    				"username": "student19",
+    				"firstname": "student19",
+    				"lastname": "student19",
+    				"value": null
+    			},
+    			{
+    				"id": 24,
+    				"username": "student20",
+    				"firstname": "student20",
+    				"lastname": "student20",
+    				"value": 2.5
+    			},
+    			{
+    				"id": 25,
+    				"username": "student21",
+    				"firstname": "student21",
+    				"lastname": "student21",
+    				"value": null
+    			},
+    			{
+    				"id": 26,
+    				"username": "student22",
+    				"firstname": "student22",
+    				"lastname": "student22",
+    				"value": null
+    			},
+    			{
+    				"id": 27,
+    				"username": "student23",
+    				"firstname": "student23",
+    				"lastname": "student23",
+    				"value": null
+    			},
+    			{
+    				"id": 28,
+    				"username": "student24",
+    				"firstname": "student24",
+    				"lastname": "student24",
+    				"value": null
+    			},
+    			{
+    				"id": 29,
+    				"username": "student25",
+    				"firstname": "student25",
+    				"lastname": "student25",
+    				"value": null
+    			},
+    			{
+    				"id": 30,
+    				"username": "student26",
+    				"firstname": "student26",
+    				"lastname": "student26",
+    				"value": null
+    			}
+    		]
+    	},
+    	{
+    		"activity": {
+    			"id": 3,
+    			"name": "domowe1",
+    			"maxScore": 12.5,
+    			"duration": "PT24H",
+    			"description": "domowe1",
+    			"activityTypeId": 1,
+    			"activityCategoryId": 3
+    		},
+    		"students": [
+    			{
+    				"id": 21,
+    				"username": "student17",
+    				"firstname": "student17",
+    				"lastname": "student17",
+    				"value": null
+    			},
+    			{
+    				"id": 22,
+    				"username": "student18",
+    				"firstname": "student18",
+    				"lastname": "student18",
+    				"value": null
+    			},
+    			{
+    				"id": 23,
+    				"username": "student19",
+    				"firstname": "student19",
+    				"lastname": "student19",
+    				"value": null
+    			},
+    			{
+    				"id": 24,
+    				"username": "student20",
+    				"firstname": "student20",
+    				"lastname": "student20",
+    				"value": 10
+    			},
+    			{
+    				"id": 25,
+    				"username": "student21",
+    				"firstname": "student21",
+    				"lastname": "student21",
+    				"value": null
+    			},
+    			{
+    				"id": 26,
+    				"username": "student22",
+    				"firstname": "student22",
+    				"lastname": "student22",
+    				"value": null
+    			},
+    			{
+    				"id": 27,
+    				"username": "student23",
+    				"firstname": "student23",
+    				"lastname": "student23",
+    				"value": null
+    			},
+    			{
+    				"id": 28,
+    				"username": "student24",
+    				"firstname": "student24",
+    				"lastname": "student24",
+    				"value": null
+    			},
+    			{
+    				"id": 29,
+    				"username": "student25",
+    				"firstname": "student25",
+    				"lastname": "student25",
+    				"value": null
+    			},
+    			{
+    				"id": 30,
+    				"username": "student26",
+    				"firstname": "student26",
+    				"lastname": "student26",
+    				"value": null
+    			}
+    		]
+    	},
+    	{
+    		"activity": {
+    			"id": 4,
+    			"name": "plusy1",
+    			"maxScore": 0.5,
+    			"duration": "PT24H",
+    			"description": "plusy1",
+    			"activityTypeId": 1,
+    			"activityCategoryId": 4
+    		},
+    		"students": [
+    			{
+    				"id": 21,
+    				"username": "student17",
+    				"firstname": "student17",
+    				"lastname": "student17",
+    				"value": null
+    			},
+    			{
+    				"id": 22,
+    				"username": "student18",
+    				"firstname": "student18",
+    				"lastname": "student18",
+    				"value": null
+    			},
+    			{
+    				"id": 23,
+    				"username": "student19",
+    				"firstname": "student19",
+    				"lastname": "student19",
+    				"value": null
+    			},
+    			{
+    				"id": 24,
+    				"username": "student20",
+    				"firstname": "student20",
+    				"lastname": "student20",
+    				"value": null
+    			},
+    			{
+    				"id": 25,
+    				"username": "student21",
+    				"firstname": "student21",
+    				"lastname": "student21",
+    				"value": null
+    			},
+    			{
+    				"id": 26,
+    				"username": "student22",
+    				"firstname": "student22",
+    				"lastname": "student22",
+    				"value": null
+    			},
+    			{
+    				"id": 27,
+    				"username": "student23",
+    				"firstname": "student23",
+    				"lastname": "student23",
+    				"value": null
+    			},
+    			{
+    				"id": 28,
+    				"username": "student24",
+    				"firstname": "student24",
+    				"lastname": "student24",
+    				"value": null
+    			},
+    			{
+    				"id": 29,
+    				"username": "student25",
+    				"firstname": "student25",
+    				"lastname": "student25",
+    				"value": null
+    			},
+    			{
+    				"id": 30,
+    				"username": "student26",
+    				"firstname": "student26",
+    				"lastname": "student26",
+    				"value": null
+    			}
+    		]
+    	},
+    	{
+    		"activity": {
+    			"id": 5,
+    			"name": "kartkowka2",
+    			"maxScore": 10.0,
+    			"duration": "PT12H",
+    			"description": "kartkowka2",
+    			"activityTypeId": 1,
+    			"activityCategoryId": 1
+    		},
+    		"students": [
+    			{
+    				"id": 21,
+    				"username": "student17",
+    				"firstname": "student17",
+    				"lastname": "student17",
+    				"value": null
+    			},
+    			{
+    				"id": 22,
+    				"username": "student18",
+    				"firstname": "student18",
+    				"lastname": "student18",
+    				"value": null
+    			},
+    			{
+    				"id": 23,
+    				"username": "student19",
+    				"firstname": "student19",
+    				"lastname": "student19",
+    				"value": null
+    			},
+    			{
+    				"id": 24,
+    				"username": "student20",
+    				"firstname": "student20",
+    				"lastname": "student20",
+    				"value": null
+    			},
+    			{
+    				"id": 25,
+    				"username": "student21",
+    				"firstname": "student21",
+    				"lastname": "student21",
+    				"value": null
+    			},
+    			{
+    				"id": 26,
+    				"username": "student22",
+    				"firstname": "student22",
+    				"lastname": "student22",
+    				"value": null
+    			},
+    			{
+    				"id": 27,
+    				"username": "student23",
+    				"firstname": "student23",
+    				"lastname": "student23",
+    				"value": null
+    			},
+    			{
+    				"id": 28,
+    				"username": "student24",
+    				"firstname": "student24",
+    				"lastname": "student24",
+    				"value": null
+    			},
+    			{
+    				"id": 29,
+    				"username": "student25",
+    				"firstname": "student25",
+    				"lastname": "student25",
+    				"value": null
+    			},
+    			{
+    				"id": 30,
+    				"username": "student26",
+    				"firstname": "student26",
+    				"lastname": "student26",
+    				"value": null
+    			}
+    		]
+    	},
+    	{
+    		"activity": {
+    			"id": 6,
+    			"name": "zadanie2",
+    			"maxScore": 2.5,
+    			"duration": "PT1H",
+    			"description": "zadanie2",
+    			"activityTypeId": 1,
+    			"activityCategoryId": 2
+    		},
+    		"students": [
+    			{
+    				"id": 21,
+    				"username": "student17",
+    				"firstname": "student17",
+    				"lastname": "student17",
+    				"value": null
+    			},
+    			{
+    				"id": 22,
+    				"username": "student18",
+    				"firstname": "student18",
+    				"lastname": "student18",
+    				"value": null
+    			},
+    			{
+    				"id": 23,
+    				"username": "student19",
+    				"firstname": "student19",
+    				"lastname": "student19",
+    				"value": null
+    			},
+    			{
+    				"id": 24,
+    				"username": "student20",
+    				"firstname": "student20",
+    				"lastname": "student20",
+    				"value": null
+    			},
+    			{
+    				"id": 25,
+    				"username": "student21",
+    				"firstname": "student21",
+    				"lastname": "student21",
+    				"value": null
+    			},
+    			{
+    				"id": 26,
+    				"username": "student22",
+    				"firstname": "student22",
+    				"lastname": "student22",
+    				"value": null
+    			},
+    			{
+    				"id": 27,
+    				"username": "student23",
+    				"firstname": "student23",
+    				"lastname": "student23",
+    				"value": null
+    			},
+    			{
+    				"id": 28,
+    				"username": "student24",
+    				"firstname": "student24",
+    				"lastname": "student24",
+    				"value": null
+    			},
+    			{
+    				"id": 29,
+    				"username": "student25",
+    				"firstname": "student25",
+    				"lastname": "student25",
+    				"value": null
+    			},
+    			{
+    				"id": 30,
+    				"username": "student26",
+    				"firstname": "student26",
+    				"lastname": "student26",
+    				"value": null
+    			}
+    		]
+    	},
+    	{
+    		"activity": {
+    			"id": 7,
+    			"name": "domowe2",
+    			"maxScore": 12.5,
+    			"duration": "PT24H",
+    			"description": "domowe2",
+    			"activityTypeId": 1,
+    			"activityCategoryId": 3
+    		},
+    		"students": [
+    			{
+    				"id": 21,
+    				"username": "student17",
+    				"firstname": "student17",
+    				"lastname": "student17",
+    				"value": null
+    			},
+    			{
+    				"id": 22,
+    				"username": "student18",
+    				"firstname": "student18",
+    				"lastname": "student18",
+    				"value": null
+    			},
+    			{
+    				"id": 23,
+    				"username": "student19",
+    				"firstname": "student19",
+    				"lastname": "student19",
+    				"value": null
+    			},
+    			{
+    				"id": 24,
+    				"username": "student20",
+    				"firstname": "student20",
+    				"lastname": "student20",
+    				"value": null
+    			},
+    			{
+    				"id": 25,
+    				"username": "student21",
+    				"firstname": "student21",
+    				"lastname": "student21",
+    				"value": null
+    			},
+    			{
+    				"id": 26,
+    				"username": "student22",
+    				"firstname": "student22",
+    				"lastname": "student22",
+    				"value": null
+    			},
+    			{
+    				"id": 27,
+    				"username": "student23",
+    				"firstname": "student23",
+    				"lastname": "student23",
+    				"value": null
+    			},
+    			{
+    				"id": 28,
+    				"username": "student24",
+    				"firstname": "student24",
+    				"lastname": "student24",
+    				"value": null
+    			},
+    			{
+    				"id": 29,
+    				"username": "student25",
+    				"firstname": "student25",
+    				"lastname": "student25",
+    				"value": null
+    			},
+    			{
+    				"id": 30,
+    				"username": "student26",
+    				"firstname": "student26",
+    				"lastname": "student26",
+    				"value": null
+    			}
+    		]
+    	},
+    	{
+    		"activity": {
+    			"id": 8,
+    			"name": "plusy2",
+    			"maxScore": 0.5,
+    			"duration": "PT24H",
+    			"description": "plusy2",
+    			"activityTypeId": 1,
+    			"activityCategoryId": 4
+    		},
+    		"students": [
+    			{
+    				"id": 21,
+    				"username": "student17",
+    				"firstname": "student17",
+    				"lastname": "student17",
+    				"value": null
+    			},
+    			{
+    				"id": 22,
+    				"username": "student18",
+    				"firstname": "student18",
+    				"lastname": "student18",
+    				"value": null
+    			},
+    			{
+    				"id": 23,
+    				"username": "student19",
+    				"firstname": "student19",
+    				"lastname": "student19",
+    				"value": null
+    			},
+    			{
+    				"id": 24,
+    				"username": "student20",
+    				"firstname": "student20",
+    				"lastname": "student20",
+    				"value": null
+    			},
+    			{
+    				"id": 25,
+    				"username": "student21",
+    				"firstname": "student21",
+    				"lastname": "student21",
+    				"value": null
+    			},
+    			{
+    				"id": 26,
+    				"username": "student22",
+    				"firstname": "student22",
+    				"lastname": "student22",
+    				"value": null
+    			},
+    			{
+    				"id": 27,
+    				"username": "student23",
+    				"firstname": "student23",
+    				"lastname": "student23",
+    				"value": null
+    			},
+    			{
+    				"id": 28,
+    				"username": "student24",
+    				"firstname": "student24",
+    				"lastname": "student24",
+    				"value": null
+    			},
+    			{
+    				"id": 29,
+    				"username": "student25",
+    				"firstname": "student25",
+    				"lastname": "student25",
+    				"value": null
+    			},
+    			{
+    				"id": 30,
+    				"username": "student26",
+    				"firstname": "student26",
+    				"lastname": "student26",
+    				"value": null
+    			}
+    		]
+    	},
+    	{
+    		"activity": {
+    			"id": 9,
+    			"name": "kartkowka3",
+    			"maxScore": 10.0,
+    			"duration": "PT12H",
+    			"description": "kartkowka3",
+    			"activityTypeId": 1,
+    			"activityCategoryId": 1
+    		},
+    		"students": [
+    			{
+    				"id": 21,
+    				"username": "student17",
+    				"firstname": "student17",
+    				"lastname": "student17",
+    				"value": null
+    			},
+    			{
+    				"id": 22,
+    				"username": "student18",
+    				"firstname": "student18",
+    				"lastname": "student18",
+    				"value": null
+    			},
+    			{
+    				"id": 23,
+    				"username": "student19",
+    				"firstname": "student19",
+    				"lastname": "student19",
+    				"value": null
+    			},
+    			{
+    				"id": 24,
+    				"username": "student20",
+    				"firstname": "student20",
+    				"lastname": "student20",
+    				"value": null
+    			},
+    			{
+    				"id": 25,
+    				"username": "student21",
+    				"firstname": "student21",
+    				"lastname": "student21",
+    				"value": null
+    			},
+    			{
+    				"id": 26,
+    				"username": "student22",
+    				"firstname": "student22",
+    				"lastname": "student22",
+    				"value": null
+    			},
+    			{
+    				"id": 27,
+    				"username": "student23",
+    				"firstname": "student23",
+    				"lastname": "student23",
+    				"value": null
+    			},
+    			{
+    				"id": 28,
+    				"username": "student24",
+    				"firstname": "student24",
+    				"lastname": "student24",
+    				"value": null
+    			},
+    			{
+    				"id": 29,
+    				"username": "student25",
+    				"firstname": "student25",
+    				"lastname": "student25",
+    				"value": null
+    			},
+    			{
+    				"id": 30,
+    				"username": "student26",
+    				"firstname": "student26",
+    				"lastname": "student26",
+    				"value": null
+    			}
+    		]
+    	},
+    	{
+    		"activity": {
+    			"id": 10,
+    			"name": "zadanie3",
+    			"maxScore": 2.5,
+    			"duration": "PT1H",
+    			"description": "zadanie3",
+    			"activityTypeId": 1,
+    			"activityCategoryId": 2
+    		},
+    		"students": [
+    			{
+    				"id": 21,
+    				"username": "student17",
+    				"firstname": "student17",
+    				"lastname": "student17",
+    				"value": null
+    			},
+    			{
+    				"id": 22,
+    				"username": "student18",
+    				"firstname": "student18",
+    				"lastname": "student18",
+    				"value": null
+    			},
+    			{
+    				"id": 23,
+    				"username": "student19",
+    				"firstname": "student19",
+    				"lastname": "student19",
+    				"value": null
+    			},
+    			{
+    				"id": 24,
+    				"username": "student20",
+    				"firstname": "student20",
+    				"lastname": "student20",
+    				"value": null
+    			},
+    			{
+    				"id": 25,
+    				"username": "student21",
+    				"firstname": "student21",
+    				"lastname": "student21",
+    				"value": null
+    			},
+    			{
+    				"id": 26,
+    				"username": "student22",
+    				"firstname": "student22",
+    				"lastname": "student22",
+    				"value": null
+    			},
+    			{
+    				"id": 27,
+    				"username": "student23",
+    				"firstname": "student23",
+    				"lastname": "student23",
+    				"value": null
+    			},
+    			{
+    				"id": 28,
+    				"username": "student24",
+    				"firstname": "student24",
+    				"lastname": "student24",
+    				"value": null
+    			},
+    			{
+    				"id": 29,
+    				"username": "student25",
+    				"firstname": "student25",
+    				"lastname": "student25",
+    				"value": null
+    			},
+    			{
+    				"id": 30,
+    				"username": "student26",
+    				"firstname": "student26",
+    				"lastname": "student26",
+    				"value": null
+    			}
+    		]
+    	},
+    	{
+    		"activity": {
+    			"id": 11,
+    			"name": "domowe3",
+    			"maxScore": 12.5,
+    			"duration": "PT24H",
+    			"description": "domowe3",
+    			"activityTypeId": 1,
+    			"activityCategoryId": 3
+    		},
+    		"students": [
+    			{
+    				"id": 21,
+    				"username": "student17",
+    				"firstname": "student17",
+    				"lastname": "student17",
+    				"value": null
+    			},
+    			{
+    				"id": 22,
+    				"username": "student18",
+    				"firstname": "student18",
+    				"lastname": "student18",
+    				"value": null
+    			},
+    			{
+    				"id": 23,
+    				"username": "student19",
+    				"firstname": "student19",
+    				"lastname": "student19",
+    				"value": null
+    			},
+    			{
+    				"id": 24,
+    				"username": "student20",
+    				"firstname": "student20",
+    				"lastname": "student20",
+    				"value": null
+    			},
+    			{
+    				"id": 25,
+    				"username": "student21",
+    				"firstname": "student21",
+    				"lastname": "student21",
+    				"value": null
+    			},
+    			{
+    				"id": 26,
+    				"username": "student22",
+    				"firstname": "student22",
+    				"lastname": "student22",
+    				"value": null
+    			},
+    			{
+    				"id": 27,
+    				"username": "student23",
+    				"firstname": "student23",
+    				"lastname": "student23",
+    				"value": null
+    			},
+    			{
+    				"id": 28,
+    				"username": "student24",
+    				"firstname": "student24",
+    				"lastname": "student24",
+    				"value": null
+    			},
+    			{
+    				"id": 29,
+    				"username": "student25",
+    				"firstname": "student25",
+    				"lastname": "student25",
+    				"value": null
+    			},
+    			{
+    				"id": 30,
+    				"username": "student26",
+    				"firstname": "student26",
+    				"lastname": "student26",
+    				"value": null
+    			}
+    		]
+    	},
+    	{
+    		"activity": {
+    			"id": 12,
+    			"name": "plusy3",
+    			"maxScore": 0.5,
+    			"duration": "PT24H",
+    			"description": "plusy3",
+    			"activityTypeId": 1,
+    			"activityCategoryId": 4
+    		},
+    		"students": [
+    			{
+    				"id": 21,
+    				"username": "student17",
+    				"firstname": "student17",
+    				"lastname": "student17",
+    				"value": null
+    			},
+    			{
+    				"id": 22,
+    				"username": "student18",
+    				"firstname": "student18",
+    				"lastname": "student18",
+    				"value": null
+    			},
+    			{
+    				"id": 23,
+    				"username": "student19",
+    				"firstname": "student19",
+    				"lastname": "student19",
+    				"value": null
+    			},
+    			{
+    				"id": 24,
+    				"username": "student20",
+    				"firstname": "student20",
+    				"lastname": "student20",
+    				"value": null
+    			},
+    			{
+    				"id": 25,
+    				"username": "student21",
+    				"firstname": "student21",
+    				"lastname": "student21",
+    				"value": null
+    			},
+    			{
+    				"id": 26,
+    				"username": "student22",
+    				"firstname": "student22",
+    				"lastname": "student22",
+    				"value": null
+    			},
+    			{
+    				"id": 27,
+    				"username": "student23",
+    				"firstname": "student23",
+    				"lastname": "student23",
+    				"value": null
+    			},
+    			{
+    				"id": 28,
+    				"username": "student24",
+    				"firstname": "student24",
+    				"lastname": "student24",
+    				"value": null
+    			},
+    			{
+    				"id": 29,
+    				"username": "student25",
+    				"firstname": "student25",
+    				"lastname": "student25",
+    				"value": null
+    			},
+    			{
+    				"id": 30,
+    				"username": "student26",
+    				"firstname": "student26",
+    				"lastname": "student26",
+    				"value": null
+    			}
+    		]
+    	}
+    ]
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_d7e675e349814b6bb841c832597b86dc',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1681763815668.875
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

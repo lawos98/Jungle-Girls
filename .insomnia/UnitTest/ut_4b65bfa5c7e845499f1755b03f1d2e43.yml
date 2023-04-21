@@ -1,0 +1,12 @@
+_id: ut_4b65bfa5c7e845499f1755b03f1d2e43
+type: UnitTest
+parentId: uts_ab23c073e12a47e4a58fd747f588eab7
+modified: 1681590478040
+created: 1681590385136
+requestId: req_70662502a92b4518b72b910eb5bd9f73
+name: Register incorrect password too long
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Password maximum length is 20");
+  expect(response.status).to.equal(400);

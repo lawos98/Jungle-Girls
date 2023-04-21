@@ -1,0 +1,10 @@
+_id: ut_b7baa959be404555af9ec87db56c3772
+type: UnitTest
+parentId: uts_e961e6b2c4bf40e48e08abd224cd9f56
+modified: 1681585391898
+created: 1681585385069
+requestId: req_9462e238e05946498bc9927eaaa91157
+name: Update Role via Secret Code
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

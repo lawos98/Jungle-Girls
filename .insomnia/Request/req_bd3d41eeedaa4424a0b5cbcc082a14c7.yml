@@ -1,0 +1,32 @@
+_id: req_bd3d41eeedaa4424a0b5cbcc082a14c7
+type: Request
+parentId: fld_4cf522bf5fb448348b6cae0141057b96
+modified: 1681371580130
+created: 1681371489547
+url: "{{ _.ServerAddress }}/api/role"
+name: Update user role
+description: ""
+method: PATCH
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"roleId":1,
+    	"userId":1
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_26e8e873f87c40e491fc18638196bdbc',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1681371489547
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

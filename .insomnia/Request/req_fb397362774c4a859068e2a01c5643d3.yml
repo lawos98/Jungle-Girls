@@ -1,0 +1,24 @@
+_id: req_fb397362774c4a859068e2a01c5643d3
+type: Request
+parentId: fld_1155307a41b94994819ddff412c3cc2b
+modified: 1681584259579
+created: 1681584135532
+url: "{{ _.ServerAddress }}/api/role/secret-code/1"
+name: Missing authority
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_26ca87b2b6fb4f3285339e303793f642',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1681584135532
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

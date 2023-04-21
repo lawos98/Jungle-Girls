@@ -1,0 +1,12 @@
+_id: ut_b09d745b2d8345378902a3e5385c5d29
+type: UnitTest
+parentId: uts_e961e6b2c4bf40e48e08abd224cd9f56
+modified: 1681586281574
+created: 1681585407307
+requestId: req_53ba4ea86626408e9b73c97d508bcd01
+name: Update Role bad role Id
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("No role with that id exists");
+  expect(response.status).to.equal(400);

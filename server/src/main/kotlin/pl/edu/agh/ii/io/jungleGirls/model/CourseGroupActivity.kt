@@ -8,11 +8,11 @@ import java.time.LocalDateTime
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-data class CourseGroupActivity (
+data class CourseGroupActivity(
 
     var courseGroupId: Long,
     var activityId: Long,
     var startDate: LocalDateTime
 )
 
-//class GroupActivityId(private var groupId: Long,private var activityId: Long)
+// class GroupActivityId(private var groupId: Long,private var activityId: Long)

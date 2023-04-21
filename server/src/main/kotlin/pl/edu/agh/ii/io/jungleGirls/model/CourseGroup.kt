@@ -8,10 +8,10 @@ import org.springframework.data.annotation.Id
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-data class CourseGroup (
+data class CourseGroup(
     @Id
     var id: Long? = null,
     var name: String,
     var instructorId: Long,
-    var secretCode: String,
+    var secretCode: String
 )

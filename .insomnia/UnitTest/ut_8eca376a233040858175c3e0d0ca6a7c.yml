@@ -1,0 +1,15 @@
+_id: ut_8eca376a233040858175c3e0d0ca6a7c
+type: UnitTest
+parentId: uts_ab23c073e12a47e4a58fd747f588eab7
+modified: 1681589934354
+created: 1681589915977
+requestId: req_f0adb317287f42deac3d65a847ba5460
+name: Register incorrect password Special Char
+code: >-
+  const response = await insomnia.send();
+
+  const body = JSON.parse(response.data);
+
+  expect(body.message).to.equal("Password must have at least one special character");
+
+  expect(response.status).to.equal(400);

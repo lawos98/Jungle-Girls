@@ -1,0 +1,10 @@
+_id: ut_af9004f5c4614ae48ddc6c28e7f5602b
+type: UnitTest
+parentId: uts_e961e6b2c4bf40e48e08abd224cd9f56
+modified: 1681586238893
+created: 1681585364048
+requestId: req_88ecf386bc2741aaa1c6a95bb84a0f71
+name: Get all permission
+code: |-
+  const response = await insomnia.send();
+  expect(response.status).to.equal(200);

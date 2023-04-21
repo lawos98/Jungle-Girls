@@ -1,0 +1,31 @@
+_id: req_8123e44c22f44065a79b8a7dd21485ac
+type: Request
+parentId: fld_4cf522bf5fb448348b6cae0141057b96
+modified: 1681367381113
+created: 1681247096336
+url: "{{ _.ServerAddress }}/api/role/secret-code"
+name: Generate new Secret Code
+description: ""
+method: GET
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"roleId":1
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_26e8e873f87c40e491fc18638196bdbc',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1681156195248.375
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

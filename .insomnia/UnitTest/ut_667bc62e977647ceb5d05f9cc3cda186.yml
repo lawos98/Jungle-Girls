@@ -1,0 +1,10 @@
+_id: ut_667bc62e977647ceb5d05f9cc3cda186
+type: UnitTest
+parentId: uts_e961e6b2c4bf40e48e08abd224cd9f56
+modified: 1681585479911
+created: 1681585468928
+requestId: req_a41eb048e78a41728772df8b760ea8ae
+name: Generate new secret code
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

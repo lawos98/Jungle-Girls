@@ -37,7 +37,7 @@ class TokenService(
                 "Invalid token"
             )
         } catch (e: Exception) {
-            throw e
+            throw InvalidBearerTokenException("Invalid token")
         }
     }
 }

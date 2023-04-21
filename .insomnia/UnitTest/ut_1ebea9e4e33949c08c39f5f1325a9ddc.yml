@@ -1,0 +1,12 @@
+_id: ut_1ebea9e4e33949c08c39f5f1325a9ddc
+type: UnitTest
+parentId: uts_e961e6b2c4bf40e48e08abd224cd9f56
+modified: 1681586263073
+created: 1681585397003
+requestId: req_b7b08afa8343457989b24360d82612f2
+name: Update Role via Secret Code bad secret code
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Role with that secret code does not exist");
+  expect(response.status).to.equal(400);

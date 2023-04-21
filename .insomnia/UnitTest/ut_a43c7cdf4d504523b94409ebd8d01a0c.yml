@@ -1,0 +1,12 @@
+_id: ut_a43c7cdf4d504523b94409ebd8d01a0c
+type: UnitTest
+parentId: uts_e961e6b2c4bf40e48e08abd224cd9f56
+modified: 1681586321312
+created: 1681585546005
+requestId: req_436436a90e7b4257aa56239d42f7a188
+name: Generate new secret code bad Id
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Role with that ID does not exist");
+  expect(response.status).to.equal(400);

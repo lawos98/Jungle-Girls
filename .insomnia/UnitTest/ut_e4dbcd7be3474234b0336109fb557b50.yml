@@ -1,0 +1,15 @@
+_id: ut_e4dbcd7be3474234b0336109fb557b50
+type: UnitTest
+parentId: uts_ab23c073e12a47e4a58fd747f588eab7
+modified: 1681589868334
+created: 1681589849188
+requestId: req_66a500a6ee4e4d89b81845c536063d71
+name: Register incorrect password UpperCase
+code: >-
+  const response = await insomnia.send();
+
+  const body = JSON.parse(response.data);
+
+  expect(body.message).to.equal("Password must have at least one upper case English letter");
+
+  expect(response.status).to.equal(400);

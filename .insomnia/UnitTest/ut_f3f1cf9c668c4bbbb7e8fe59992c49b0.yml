@@ -1,0 +1,10 @@
+_id: ut_f3f1cf9c668c4bbbb7e8fe59992c49b0
+type: UnitTest
+parentId: uts_c9ac2887038a40adafee101dd48f2e26
+modified: 1681774117529
+created: 1681774114246
+requestId: req_ade1a8f1a1ea4e70b8d71bbc1d76c974
+name: Edit Grade
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

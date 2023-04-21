@@ -1,0 +1,12 @@
+_id: ut_863bb2fc8e794822bdcc1797ece6e6f8
+type: UnitTest
+parentId: uts_ab23c073e12a47e4a58fd747f588eab7
+modified: 1681589903754
+created: 1681589884963
+requestId: req_e3a3a356736b4c67b824b1489502607c
+name: Register incorrect password Number
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Password must have at least one digit");
+  expect(response.status).to.equal(400);

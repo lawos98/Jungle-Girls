@@ -1,0 +1,12 @@
+_id: ut_1e69a6c969ef4a5c8eda6d659d621ed6
+type: UnitTest
+parentId: uts_ab23c073e12a47e4a58fd747f588eab7
+modified: 1681590456414
+created: 1681590406619
+requestId: req_2f8bb2872ab643ed95af218c147819d5
+name: Register incorrect password too short
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Password minimum length is 8");
+  expect(response.status).to.equal(400);

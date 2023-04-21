@@ -1,0 +1,10 @@
+_id: ut_3e33878ef9cc4e2899617a016b14b912
+type: UnitTest
+parentId: uts_c9ac2887038a40adafee101dd48f2e26
+modified: 1681775842536
+created: 1681775823646
+requestId: req_13f173fdc8944b9eba640e0132b61df3
+name: Get Grade for student
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

@@ -1,0 +1,15 @@
+_id: ut_2290643799394b54a0deff8711df41a9
+type: UnitTest
+parentId: uts_ab23c073e12a47e4a58fd747f588eab7
+modified: 1681589985287
+created: 1681589964551
+requestId: req_c4ffbb476e92499d8c647b1679b558ab
+name: Register incorrect password White Space
+code: >-
+  const response = await insomnia.send();
+
+  const body = JSON.parse(response.data);
+
+  expect(body.message).to.equal("Password cannot have any white space characters");
+
+  expect(response.status).to.equal(400);

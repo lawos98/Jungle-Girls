@@ -1,6 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react';
 import Swiper from "swiper";
 import "swiper/css/bundle";
+import * as actions from "./EditableGridActions"
 
 type GridCellProps = {
     id: string;
@@ -65,33 +66,30 @@ const EditableGrid: React.FC = () => {
     const [isZoomedIn, setIsZoomedIn] = useState(false);
     const [isSliding, setIsSliding] = useState(false);
     const [swiper, setSwiper] = useState<any>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
 
     const containerRef = useRef<HTMLDivElement>(null);
     const swiperSetupFlag = useRef(false);
 
-
-    //temp start
-    const exampleData = [
-        ['1.2', '3.4', '5.6', '7.8', '5'],
-        ['7.8', '9.1', '2.3', '4.5', '5'],
-        ['4.5', '6.7', '8.9', '1.2', '10'],
-        ['1.2', '3.4', '5.6', '7.8', '5'],
-        ['7.8', '9.1', '2.3', '4.5', '5'],
-    ];
-
-    const exampleColumnLabels = ['Column 1', 'Column 2', 'Column 3', 'Column 4', 'Column 5'];
-    const exampleRowLabels = ['Row 1', 'Row 2', 'Row 3', 'Row 4', 'Row 5'];
-
-    const [data, setData] = useState<string[][]>(exampleData);
-    const [columnLabels, setColumnLabels] = useState<string[]>(exampleColumnLabels);
-    const [rowLabels, setRowLabels] = useState<string[]>(exampleRowLabels);
-    //temp end
+    const [data, setData] = useState<string[][]>([[]]);
+    const [columnLabels, setColumnLabels] = useState<string[]>([]);
+    const [rowLabels, setRowLabels] = useState<string[]>([]);
 
     useEffect(() => {
-        // TODO Fetch data from API and update state here
-        // setData(fetchedData);
-        // setColumnLabels(fetchedColumnLabels);
-        // setRowLabels(fetchedRowLabels);
+        actions.getGrades(1,(scoreData:any) => {
+            console.log(scoreData);
+            setColumnLabels(scoreData.map((item:any) => item.activity.name));
+            setRowLabels(scoreData[0].students.map((item:any) => item.firstname + " " + item.lastname));
+            const organizedData: string[][] = scoreData[0].students.map((_: any, rowIndex: number) => {
+                return scoreData.map((item: any) => {
+                    const student = item.students[rowIndex];
+                    return student.value === null ? "" : student.value.toString();
+                });
+            });
+            setData(organizedData);
+            setIsLoading(false);
+        })
         setupSwiper();
 
         document.addEventListener("click", handleBackgroundClick);
@@ -103,7 +101,6 @@ const EditableGrid: React.FC = () => {
 
     const setupSwiper = () => {
         if (!swiperSetupFlag.current) {
-            // console.log("tworze swipera")
             const swiperInstance = (new Swiper('.swiper', {
                 slidesPerView: 3,
                 spaceBetween: 10,
@@ -188,6 +185,41 @@ const EditableGrid: React.FC = () => {
             className={"min-w-0"}
             // onClick={handleBackgroundClick}
         >
+            {isLoading && (
+                <div className="max-w-7xl w-full">
+                    <div>
+                        <div className="flex pb-2">
+                            <div className="w-60"></div>
+                            {Array(5) // Change the number of columns if needed
+                                .fill(null)
+                                .map((_, index) => (
+                                    <div
+                                        key={index}
+                                        className="rounded-full bg-gray-300 animate-pulse h-4 w-32 mr-1"
+                                    ></div>
+                                ))}
+                        </div>
+                        {Array(5) // Change the number of rows if needed
+                            .fill(null)
+                            .map((_, rowIndex) => (
+                                <div key={`row-${rowIndex}`} className="flex items-center mb-2">
+                                    <div className="text-center w-60 rounded-full bg-gray-300 h-4 animate-pulse mr-2"></div>
+                                    {Array(5) // Change the number of cells in each row if needed
+                                        .fill(null)
+                                        .map((_, colIndex) => (
+                                            <div
+                                                key={`cell-${rowIndex}-${colIndex}`}
+                                                className="border border-gray-300 animate-pulse h-12 w-32"
+                                            ></div>
+                                        ))}
+                                </div>
+                            ))}
+                    </div>
+                </div>
+            )}
+
+
+
             <div
                 className="flex flex-col h-min transition-all duration-300  min-w-0"
                 style={{
@@ -197,7 +229,7 @@ const EditableGrid: React.FC = () => {
                 // onClick={handleBackgroundClick}
             >
                 <div className="flex pb-1">
-                    <div className="w-20"></div>
+                    <div className="w-40"></div>
                     {columnLabels.map((label, index) => (
                         <div key={index}
                              className={`text-center whitespace-nowrap cursor-pointer transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && index !== zoomedColumnIndex ? 'opacity-0 max-w-px w-0 overflow-hidden' : 'opacity-100 max-w-24 w-24'} `}
@@ -227,7 +259,7 @@ const EditableGrid: React.FC = () => {
                         <div key={`row-${rowIndex}`}
                              className={`flex items-center cursor-pointer ${!isSliding ? 'transition-all duration-500 ease-in-out':''}  ${zoomedRowIndex !== null && rowIndex !== zoomedRowIndex ? 'opacity-0 max-h-0 overflow-hidden' : 'opacity-100 max-h-20'}  `}>
                             <div
-                                className="text-center w-20  "
+                                className="text-center w-40  "
                                 onClick={() => {
                                     // if the column is zoomed in, zoom out and zoom in the row
                                     if (zoomedColumnIndex !== null) {
@@ -270,7 +302,7 @@ const EditableGrid: React.FC = () => {
 
                         <div className="swiper">
                             <div className="swiper-wrapper">
-                                {exampleRowLabels.map((label, index) => (
+                                {rowLabels.map((label, index) => (
                                     <div key={index} className="swiper-slide">{label}</div>
                                 ))}
                             </div>

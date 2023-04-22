@@ -1,57 +1,106 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import * as actions from "./LoginActions";
+import { inputStyle, labelStyle, buttonStyle, formStyle, errorStyle } from "../../utils/formStyles";
+import {useFormik} from "formik";
+import * as Yup from "yup";
+import {useDispatch, useSelector} from "react-redux";
+import {setUser} from "../../reducers/UserReducer";
+import {useNavigate} from "react-router-dom";
 
 const Login: React.FC = () => {
-    const [nick, setNick] = useState("");
-    const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [serverError, setServerError] = useState('');
+    const user = useSelector((state: any) => state.user);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        actions.login(nick, password);
-    };
+
+    const validationSchema = Yup.object({
+        nick: Yup.string().required('Nazwa użytkownika jest wymagana'),
+        password: Yup.string().required('Hasło jest wymagane'),
+    });
+
+    const successCallback = (userData: any) => {
+        dispatch(setUser(userData));
+        navigate('/');
+    }
+
+    useEffect(() => {
+        if (user.isLogged) {
+            navigate('/');
+        }
+    },[]);
+
+
+    const formik = useFormik({
+        initialValues: {
+            nick: '',
+            password: '',
+        },
+        onSubmit: values => {
+            actions.login(values.nick, values.password, successCallback ,(message:string) => {
+                setServerError(message);
+            });
+        },
+        validationSchema: validationSchema,
+    });
+
+    useEffect(() => {
+        setServerError('');
+    }, [formik.values.nick, formik.values.password])
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">
             <form
-                onSubmit={handleSubmit}
-                className="bg-white rounded-lg shadow-md p-8 w-full max-w-md text-center"
+                onSubmit={formik.handleSubmit}
+                className={formStyle}
             >
                 <h2 className="text-2xl font-bold mb-6">Logowanie</h2>
                 <div className="mb-4">
                     <label
                         htmlFor="nick"
-                        className="block text-gray-700 font-medium text-center">
-                        Nick :)
+                        className={labelStyle}>
+                        Nazwa użytkownika
                     </label>
                     <input
                         id="nick"
                         type="text"
-                        value={nick}
-                        onChange={(e) => setNick(e.target.value)}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        value={formik.values.nick}
+                        onChange={formik.handleChange}
+                        className={inputStyle}
                     />
+                    {formik.touched.nick && formik.errors.nick && (
+                        <div className={errorStyle}>{formik.errors.nick}</div>
+                    )}
                 </div>
+
                 <div className="mb-6">
                     <label
                         htmlFor="password"
-                        className="block text-gray-700 font-medium text-center"
+                        className={labelStyle}
                     >
                         Hasło
                     </label>
                     <input
                         id="password"
                         type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        className={inputStyle}
                     />
+                    {formik.touched.password && formik.errors.password && (
+                        <div className={errorStyle}>{formik.errors.password}</div>
+                    )}
                 </div>
+
                 <button
                     type="submit"
-                    className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50 text-center"
+                    className={buttonStyle}
                 >
                     Zaloguj się
                 </button>
+                {serverError && (
+                    <div className={errorStyle}>{serverError}</div>
+                )}
                 <div className="mt-4">
                     <span className="text-gray-600">Nie masz konta? </span>
                     <a

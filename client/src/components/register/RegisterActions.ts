@@ -1,7 +1,7 @@
 import api from "../../api/axios";
 import Cookies from "js-cookie";
 
-export const register = (username: string, firstname: string, lastname: string, password: string) => {
+export const register = (username: string, firstname: string, lastname: string, password: string, successCallback:Function, errorCallback: Function) => {
     const payload = {
         username : username,
         firstname : firstname,
@@ -15,5 +15,10 @@ export const register = (username: string, firstname: string, lastname: string, 
             }
         }).then(response => {
         Cookies.set("token", response.data.token);
+        successCallback(response.data);
+    }).catch(error => {
+        if (error.response) {
+            errorCallback(error.response.data.message);
+        }
     });
 };

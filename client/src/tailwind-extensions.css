@@ -13,4 +13,22 @@
             transform: translateX(0%);
         }
     }
+
+    .pop {
+        animation-name: pop;
+        animation-duration: 300ms;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes pop {
+        0% {
+            transform: scale(0);
+        }
+        70% {
+            transform: scale(1.2);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
 }

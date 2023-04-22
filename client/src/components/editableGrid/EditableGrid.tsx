@@ -1,7 +1,10 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useCallback} from 'react';
 import Swiper from "swiper";
 import "swiper/css/bundle";
 import * as actions from "./EditableGridActions"
+import { ActivityScoreList } from '../types/EditableGridTypes';
+import EditableGridSkeleton from "./EditableGridSkeleton";
+import toast from 'react-hot-toast';
 
 type GridCellProps = {
     id: string;
@@ -9,8 +12,10 @@ type GridCellProps = {
     onChange: (value: string) => void;
     focusNextCell: (direction: 'up' | 'down' | 'left' | 'right') => void;
 };
-
-const GridCell: React.FC<GridCellProps> = ({id, value, onChange, focusNextCell}) => {
+// TODO: fix lagginess when zooming to column
+// TODO: improve responsiveness (or lack thereof) of the grid
+// TODO: improve how grid behaves when zoomed in (e.g slider should slide to the correct position and left arrow should move to the correct position when at the end of the grid)
+const GridCell: React.FC<GridCellProps> = React.memo(({id, value, onChange, focusNextCell}) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -54,11 +59,21 @@ const GridCell: React.FC<GridCellProps> = ({id, value, onChange, focusNextCell})
             onKeyDown={handleKeyDown}
         />
     );
-};
-const validateFloat = (value: string) => {
+});
+const validateInput = (value: string, min: number, max: number) => {
+    if (value === '') {
+        return true;
+    }
+
     const floatRegex = /^-?\d+(\.\d*)?$/;
-    return value === '' || floatRegex.test(value);
+    if (!floatRegex.test(value)) {
+        return false;
+    }
+
+    const floatValue = parseFloat(value);
+    return floatValue >= min && floatValue <= max;
 };
+
 
 const EditableGrid: React.FC = () => {
     const [zoomedRowIndex, setZoomedRowIndex] = useState<null | number>(null);
@@ -76,8 +91,12 @@ const EditableGrid: React.FC = () => {
     const [columnLabels, setColumnLabels] = useState<string[]>([]);
     const [rowLabels, setRowLabels] = useState<string[]>([]);
 
+    const [scoreData, setScoreData] = useState<ActivityScoreList[]>([]);
+    const [changedCells, setChangedCells] = useState<{ [key: string]: string }>({});
+
     useEffect(() => {
         actions.getGrades(1,(scoreData:any) => {
+            setScoreData(scoreData);
             console.log(scoreData);
             setColumnLabels(scoreData.map((item:any) => item.activity.name));
             setRowLabels(scoreData[0].students.map((item:any) => item.firstname + " " + item.lastname));
@@ -131,12 +150,53 @@ const EditableGrid: React.FC = () => {
 
         }
     }
-    const handleCellChange = (row: number, col: number, value: string) => {
-        if (validateFloat(value)) {
+    const handleCellChange = useCallback((row: number, col: number, value: string) => {
+        if (validateInput(value, 0, scoreData[col].activity.maxScore)) {
             const newData = data.map((r, i) => r.map((c, j) => (i === row && j === col ? value : c)));
             setData(newData);
+            setChangedCells({ ...changedCells, [`${row}-${col}`]: value });
         }
+        else{
+            toast.error(`Wartość musi być między 0 a ${scoreData[col].activity.maxScore}`);
+        }
+    },[data,scoreData]);
+    const handleSaveGrades = () => {
+        const updatedActivityScoreList: ActivityScoreList[] = [];
+
+        Object.keys(changedCells).forEach((key) => {
+            const [rowIndex, colIndex] = key.split('-').map(Number);
+            const activity = scoreData[colIndex].activity;
+            const student = scoreData[colIndex].students[rowIndex];
+            const updatedValue = parseFloat(changedCells[key]);
+
+            let activityScoreList = updatedActivityScoreList.find(
+                (item) => item.activity.id === activity.id
+            );
+
+            if (!activityScoreList) {
+                activityScoreList = {
+                    activity,
+                    students: [],
+                };
+                updatedActivityScoreList.push(activityScoreList);
+            }
+            console.log(activity, student, updatedValue);
+            const studentScore = {
+                ...student,
+                value: isNaN(updatedValue) ? null : updatedValue,
+            };
+            activityScoreList.students.push(studentScore);
+        });
+
+        const id = 1 /* get the id from your state or props */;
+        const updateGradesPromise = actions.updateGrades(id, updatedActivityScoreList);
+        toast.promise(updateGradesPromise, {
+            loading: 'Zapisuję Oceny...',
+            success: 'Oceny Zapisane!',
+            error: 'Błąd podczas zapisywania ocen',
+        });
     };
+
     const handleBackgroundClick = (e: MouseEvent) => {
         if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
             setIsZoomedIn(false);
@@ -144,7 +204,7 @@ const EditableGrid: React.FC = () => {
             setZoomedColumnIndex(null);
         }
     };
-    const focusNextCell = (row: number, col: number, direction: 'up' | 'down' | 'left' | 'right') => {
+    const focusNextCell = useCallback((row: number, col: number, direction: 'up' | 'down' | 'left' | 'right') => {
         let newRow = row;
         let newCol = col;
 
@@ -177,7 +237,7 @@ const EditableGrid: React.FC = () => {
                 input.select();
             }
         }
-    };
+    },[]);
 
     return (
         <div
@@ -186,53 +246,22 @@ const EditableGrid: React.FC = () => {
             // onClick={handleBackgroundClick}
         >
             {isLoading && (
-                <div className="max-w-7xl w-full">
-                    <div>
-                        <div className="flex pb-2">
-                            <div className="w-60"></div>
-                            {Array(5) // Change the number of columns if needed
-                                .fill(null)
-                                .map((_, index) => (
-                                    <div
-                                        key={index}
-                                        className="rounded-full bg-gray-300 animate-pulse h-4 w-32 mr-1"
-                                    ></div>
-                                ))}
-                        </div>
-                        {Array(5) // Change the number of rows if needed
-                            .fill(null)
-                            .map((_, rowIndex) => (
-                                <div key={`row-${rowIndex}`} className="flex items-center mb-2">
-                                    <div className="text-center w-60 rounded-full bg-gray-300 h-4 animate-pulse mr-2"></div>
-                                    {Array(5) // Change the number of cells in each row if needed
-                                        .fill(null)
-                                        .map((_, colIndex) => (
-                                            <div
-                                                key={`cell-${rowIndex}-${colIndex}`}
-                                                className="border border-gray-300 animate-pulse h-12 w-32"
-                                            ></div>
-                                        ))}
-                                </div>
-                            ))}
-                    </div>
-                </div>
+                <EditableGridSkeleton></EditableGridSkeleton>
             )}
 
-
-
             <div
-                className="flex flex-col h-min transition-all duration-300  min-w-0"
+                className="border-collapse flex flex-col h-min transition-all duration-300  min-w-0"
                 style={{
                     transform: isZoomedIn ? 'scale(1.5)' : 'scale(1)',
                     transformOrigin: 'top left',
                 }}
-                // onClick={handleBackgroundClick}
             >
                 <div className="flex pb-1">
                     <div className="w-40"></div>
                     {columnLabels.map((label, index) => (
+                        // activities
                         <div key={index}
-                             className={`text-center whitespace-nowrap cursor-pointer transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && index !== zoomedColumnIndex ? 'opacity-0 max-w-px w-0 overflow-hidden' : 'opacity-100 max-w-24 w-24'} `}
+                             className={`border-collapse text-center whitespace-nowrap cursor-pointer transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && index !== zoomedColumnIndex ? 'opacity-0 max-w-px w-0 overflow-hidden' : 'opacity-100 max-w-24 w-24'} `}
                              onClick={() => {
                                  // if the row is zoomed in, zoom out and zoom in the column
                                  if (zoomedRowIndex !== null) {
@@ -250,6 +279,7 @@ const EditableGrid: React.FC = () => {
                              }}
                         >
                             {label}
+                            <p>0-{scoreData[index].activity.maxScore}</p>
                         </div>
                     ))}
                 </div>
@@ -257,9 +287,10 @@ const EditableGrid: React.FC = () => {
                     // if (zoomedRowIndex !== null && rowIndex !== zoomedRowIndex) return null;
                     return (
                         <div key={`row-${rowIndex}`}
-                             className={`flex items-center cursor-pointer ${!isSliding ? 'transition-all duration-500 ease-in-out':''}  ${zoomedRowIndex !== null && rowIndex !== zoomedRowIndex ? 'opacity-0 max-h-0 overflow-hidden' : 'opacity-100 max-h-20'}  `}>
+                             className={`border-collapse flex items-center cursor-pointer ${!isSliding ? 'transition-all duration-500 ease-in-out':''}  ${zoomedRowIndex !== null && rowIndex !== zoomedRowIndex ? 'opacity-0 max-h-0 overflow-hidden' : 'opacity-100 max-h-20'}  `}>
                             <div
-                                className="text-center w-40  "
+                                // names
+                                className="text-center w-40"
                                 onClick={() => {
                                     // if the column is zoomed in, zoom out and zoom in the row
                                     if (zoomedColumnIndex !== null) {
@@ -283,7 +314,7 @@ const EditableGrid: React.FC = () => {
                             {row.map((cell, colIndex) => (
                                 // transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && colIndex !== zoomedColumnIndex ? 'opacity-0 max-w-0 max-h-0 overflow-hidden' : 'opacity-100 max-w-24 max-h-20'
                                 <div key={`cell-${rowIndex}-${colIndex}`}
-                                     className={`transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && colIndex !== zoomedColumnIndex ? 'opacity-0 max-w-px w-px max-h-0 overflow-hidden' : 'opacity-100 max-w-24 w-24 max-h-20'}`}>
+                                     className={`border-collapse transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && colIndex !== zoomedColumnIndex ? 'opacity-0 max-w-px w-px max-h-0 overflow-hidden' : 'opacity-100 max-w-24 w-24 max-h-20'}`}>
                                     <GridCell
                                         id={`cell-${rowIndex}-${colIndex}`}
                                         value={cell}
@@ -314,6 +345,12 @@ const EditableGrid: React.FC = () => {
 
                 }
             </div>
+            {!isLoading && !isZoomedIn && (
+                <button onClick={handleSaveGrades} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Save Grades
+                </button>)
+            }
+
         </div>
 
     );

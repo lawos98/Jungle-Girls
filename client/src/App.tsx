@@ -6,6 +6,7 @@ import Register from "./components/register/Register";
 import EditGrades from "./components/editGrades/EditGrades";
 import PrivateRoute from "./utils/PrivateRoute";
 import * as actions from "./components/login/LoginActions";
+import toast, { Toaster } from 'react-hot-toast';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
     });
     return (
         <Router>
+            <Toaster />
             <Routes>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Register/>}/>

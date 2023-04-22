@@ -110,4 +110,8 @@ class ActivityService(
     fun getById(id: Long): Activity?{
         return activityRepository.findById(id).block()
     }
+
+    fun getAllActivityByInstructorId(instructorId: Long): List<Activity> {
+        return activityRepository.getAllActivityByInstructorId(instructorId).collectList().block() as ArrayList<Activity>
+    }
 }

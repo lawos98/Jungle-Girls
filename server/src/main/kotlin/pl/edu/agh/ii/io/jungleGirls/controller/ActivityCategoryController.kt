@@ -18,6 +18,13 @@ class ActivityCategoryController(
     private val tokenService: TokenService
 ) {
 
+    @GetMapping()
+    fun getAllActivityCategories(@RequestHeader("Authorization") token: String):List<ActivityCategory>{
+        val user = tokenService.parseToken(token.substring("Bearer".length))
+        return activityCategoryService.getAllActivityCategoriesByInstructorId(user.id!!)
+    }
+
+
     @PostMapping("/create")
     fun createActivityCategory(@RequestBody payload: CreateActivityCategoryRequest, @RequestHeader("Authorization") token: String): String {
         val user = tokenService.parseToken(token.substring("Bearer".length))
@@ -46,7 +53,7 @@ class ActivityCategoryController(
     }
 
         @GetMapping("/create","/delete")
-    fun getAllActivityCategories(@RequestHeader("Authorization") token: String): ActivityCategoryResponse{
+    fun getAllActivityCategoryNames(@RequestHeader("Authorization") token: String): ActivityCategoryResponse{
         val user = tokenService.parseToken(token.substring("Bearer".length))
         return ActivityCategoryResponse(activityCategoryService.getAllNames(user.id!!))
     }

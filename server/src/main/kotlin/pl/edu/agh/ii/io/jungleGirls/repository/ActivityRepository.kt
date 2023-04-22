@@ -17,6 +17,8 @@ interface ActivityRepository : ReactiveCrudRepository<Activity,Long> {
     fun existsByInstructorIdAndName(@Param("instructor_id")instructorId:Long, @Param("name")name: String): Mono<Boolean>
     @Query("select a.name from activity as a inner join activity_category ac on a.activity_category_id = ac.id where ac.instructor_id = :instructor_id")
     fun getNamesByInstructorId(@Param("instructor_id")instructorId: Long): Flux<String>
+    @Query("select a.* from activity as a inner join activity_category ac on a.activity_category_id = ac.id where ac.instructor_id = :instructor_id")
+    fun getAllActivityByInstructorId(instructorId: Long): Flux<Activity>
     @Query("select a.id,a.name,a.max_score,a.duration,a.description,a.activity_type_id,a.activity_category_id from activity as a inner join activity_category ac on a.activity_category_id = ac.id where a.name = :name and ac.instructor_id = :instructor_id")
     fun findByInstructorIdAndName(@Param("instructor_id")instructorId:Long,@Param("name")name: String): Mono<Activity>
 
@@ -25,5 +27,6 @@ interface ActivityRepository : ReactiveCrudRepository<Activity,Long> {
 
     @Query("Select * from activity a inner join course_group_activity cga on a.id = cga.activity_id where cga.course_group_id=:groupId")
     fun getAllByGroupId(@Param("groupId")groupId:Long): Flux<Activity>
+
 
 }

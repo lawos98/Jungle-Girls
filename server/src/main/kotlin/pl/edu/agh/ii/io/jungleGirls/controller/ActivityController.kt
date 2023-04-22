@@ -18,6 +18,12 @@ class ActivityController(
     private val tokenService: TokenService
 ) {
 
+    @GetMapping()
+    fun getActivities(@RequestHeader("Authorization") token: String):List<Activity>{
+        val user = tokenService.parseToken(token.substring("Bearer".length))
+        return activityService.getAllActivityByInstructorId(user.id!!)
+    }
+
     @GetMapping("/create")
     fun getCreationData(@RequestHeader("Authorization") token: String):ActivityCreationResponse{
         val user = tokenService.parseToken(token.substring("Bearer".length))
@@ -30,7 +36,7 @@ class ActivityController(
         )
     }
     @GetMapping("/delete")
-    fun getActivities(@RequestHeader("Authorization") token: String):ActivityDeletionResponse{
+    fun getActivityNames(@RequestHeader("Authorization") token: String):ActivityDeletionResponse{
         val user = tokenService.parseToken(token.substring("Bearer".length))
 
         return ActivityDeletionResponse(

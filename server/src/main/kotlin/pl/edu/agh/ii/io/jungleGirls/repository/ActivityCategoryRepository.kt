@@ -41,4 +41,6 @@ interface ActivityCategoryRepository : ReactiveCrudRepository<ActivityCategory, 
         "select CASE WHEN COUNT(id) = 0 THEN true ELSE false END from activity  where activity_category_id = :id "
     )
     fun canBeDeleted(@Param("id") id: Long): Mono<Boolean>
+    @Query("select * from activity_category where instructor_id = :id;")
+    fun getAllActivityCategoriesByInstructorId(instructorId: Long): Flux<ActivityCategory>
 }

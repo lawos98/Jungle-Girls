@@ -83,4 +83,8 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
     fun findByInstructorIdAndName(instructorId: Long, name: String): ActivityCategory? {
         return activityCategoryRepository.findByInstructorIdAndName(instructorId, name).block()
     }
+
+    fun getAllActivityCategoriesByInstructorId(instructorId: Long): List<ActivityCategory> {
+        return activityCategoryRepository.getAllActivityCategoriesByInstructorId(instructorId).collectList().block() as ArrayList<ActivityCategory>
+    }
 }

@@ -7,11 +7,12 @@ import EditGrades from "./components/editGrades/EditGrades";
 import PrivateRoute from "./utils/PrivateRoute";
 import * as actions from "./components/login/LoginActions";
 import toast, { Toaster } from 'react-hot-toast';
+import StudentGrades from "./components/studentGrades/StudentGrades";
 
 
 function App() {
     useEffect(() => {
-        actions.login("admin", "admin");
+        actions.login("student", "student");
     });
     return (
         <Router>
@@ -27,6 +28,11 @@ function App() {
                 <Route path="/edit-grades" element={
                     <PrivateRoute>
                         <EditGrades/>
+                    </PrivateRoute>
+                }/>
+                <Route path="/grades" element={
+                    <PrivateRoute>
+                        <StudentGrades/>
                     </PrivateRoute>
                 }/>
             </Routes>

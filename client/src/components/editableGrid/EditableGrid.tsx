@@ -12,7 +12,8 @@ type GridCellProps = {
     onChange: (value: string) => void;
     focusNextCell: (direction: 'up' | 'down' | 'left' | 'right') => void;
 };
-// TODO: fix lagginess when zooming to column
+// TODO: fix lagginess when zooming to column or remove it altogether
+// TODO: Add search functionality (maybe another task)
 // TODO: improve responsiveness (or lack thereof) of the grid
 // TODO: improve how grid behaves when zoomed in (e.g slider should slide to the correct position and left arrow should move to the correct position when at the end of the grid)
 const GridCell: React.FC<GridCellProps> = React.memo(({id, value, onChange, focusNextCell}) => {

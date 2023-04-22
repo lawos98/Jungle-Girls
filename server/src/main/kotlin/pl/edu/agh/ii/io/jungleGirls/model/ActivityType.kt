@@ -8,8 +8,8 @@ import org.springframework.data.annotation.Id
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-data class ActivityType (
+data class ActivityType(
     @Id
     var id: Long? = null,
-    var name: String,
+    var name: String
 )

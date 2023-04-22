@@ -51,3 +51,5 @@ Thumbs.db
 /server/build/
 /build/
 /postgres/
+/scrapper/build/kotlin/compileKotlin/local-state/build-history.bin
+/scrapper/build/

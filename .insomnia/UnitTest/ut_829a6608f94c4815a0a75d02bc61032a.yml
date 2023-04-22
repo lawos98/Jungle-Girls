@@ -1,0 +1,10 @@
+_id: ut_829a6608f94c4815a0a75d02bc61032a
+type: UnitTest
+parentId: uts_e961e6b2c4bf40e48e08abd224cd9f56
+modified: 1681586077623
+created: 1681585303075
+requestId: req_fb397362774c4a859068e2a01c5643d3
+name: Missing authority
+code: |-
+  const response = await insomnia.send();
+  expect(response.status).to.equal(403);

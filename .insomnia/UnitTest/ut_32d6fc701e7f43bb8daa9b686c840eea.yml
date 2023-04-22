@@ -1,0 +1,12 @@
+_id: ut_32d6fc701e7f43bb8daa9b686c840eea
+type: UnitTest
+parentId: uts_c9ac2887038a40adafee101dd48f2e26
+modified: 1681775701393
+created: 1681775685964
+requestId: req_91ee9d4fb1eb42f084fbb6368cf4397f
+name: Edit Grade incorrect group Id
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("That course group is not accessible");
+  expect(response.status).to.equal(400);

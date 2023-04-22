@@ -1,0 +1,29 @@
+_id: req_26ca87b2b6fb4f3285339e303793f642
+type: Request
+parentId: fld_582da470aae64d4db70915ff620287e6
+modified: 1681579286884
+created: 1681579128398
+url: "{{ _.ServerAddress }}/api/login"
+name: Login Unauthorized
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username":"test",
+    	"password":"test"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1681579281264.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

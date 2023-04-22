@@ -1,0 +1,24 @@
+_id: req_dbe8d0352027442cbd14d947a237cd14
+type: Request
+parentId: fld_4cf522bf5fb448348b6cae0141057b96
+modified: 1681341682692
+created: 1681340885871
+url: "{{ _.ServerAddress }}/api/permission"
+name: Get all Permission
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_26e8e873f87c40e491fc18638196bdbc',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1681156195198.375
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

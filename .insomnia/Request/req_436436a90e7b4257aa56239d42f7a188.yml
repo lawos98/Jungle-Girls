@@ -1,0 +1,24 @@
+_id: req_436436a90e7b4257aa56239d42f7a188
+type: Request
+parentId: fld_b87c27a307a14aada49feab267d5704c
+modified: 1681584094756
+created: 1681582026405
+url: "{{ _.ServerAddress }}/api/role/secret-code/69"
+name: Generate new secret code bad Id
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_d7e675e349814b6bb841c832597b86dc',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1681580976788
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

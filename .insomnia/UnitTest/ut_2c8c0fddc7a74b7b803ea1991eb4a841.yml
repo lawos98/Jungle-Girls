@@ -1,0 +1,10 @@
+_id: ut_2c8c0fddc7a74b7b803ea1991eb4a841
+type: UnitTest
+parentId: uts_e961e6b2c4bf40e48e08abd224cd9f56
+modified: 1681586299872
+created: 1681585457578
+requestId: req_0748ed0a91494195b09f844b55272321
+name: "Update Role "
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

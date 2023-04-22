@@ -1,0 +1,32 @@
+_id: req_c4e8f980f9024b6cbabdce28e633bd29
+type: Request
+parentId: fld_4cf522bf5fb448348b6cae0141057b96
+modified: 1681371456096
+created: 1681369797279
+url: "{{ _.ServerAddress }}/api/role/secret-code"
+name: Update my role via Secret Code
+description: ""
+method: PATCH
+body:
+  mimeType: application/json
+  text: >-
+    {
+    	"code":"{% response 'body', 'req_8123e44c22f44065a79b8a7dd21485ac', 'b64::JC5jb2Rl::46b', 'always', 60 %}"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_467dbe3fb0fc4a11b0b0c398679015e8',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+  disabled: false
+metaSortKey: -1681369797279
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

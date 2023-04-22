@@ -1,0 +1,10 @@
+_id: ut_d691babdbdf340feafd3957f0e2b3765
+type: UnitTest
+parentId: uts_c9ac2887038a40adafee101dd48f2e26
+modified: 1681775767524
+created: 1681775757916
+requestId: req_d29879a2ebdb45b59681764fae6c030a
+name: Get Grade for group
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

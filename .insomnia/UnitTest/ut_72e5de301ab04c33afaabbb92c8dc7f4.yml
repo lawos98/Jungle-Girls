@@ -1,0 +1,10 @@
+_id: ut_72e5de301ab04c33afaabbb92c8dc7f4
+type: UnitTest
+parentId: uts_e961e6b2c4bf40e48e08abd224cd9f56
+modified: 1681586170071
+created: 1681585326018
+requestId: req_2d50d2e67f724116a76d19f2c98db15f
+name: Update Role Permission
+code: |-
+  const response = await insomnia.send();
+  expect(response.status).to.equal(200);

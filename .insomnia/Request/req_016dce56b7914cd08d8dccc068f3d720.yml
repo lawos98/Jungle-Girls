@@ -1,7 +1,7 @@
 _id: req_016dce56b7914cd08d8dccc068f3d720
 type: Request
 parentId: fld_d8ba47e1b735453e8b7c8359ee50eb41
-modified: 1680953815233
+modified: 1681848240467
 created: 1680936918959
 url: "{{ _.ServerAddress }}/api/activity/create"
 name: Name is already taken
@@ -9,23 +9,27 @@ description: ""
 method: POST
 body:
   mimeType: application/json
-  text: |-
+  text: >-
     {
     	"name": "kartkowka",
     	"description": "łatwizna!!",
     	"maxScore": "5.5",
-    	"courseGroupNames": ["inf1", "inf2"],
-    	"courseGroupStartDates": ["2023-08-02 12:00:00","2023-08-02 15:00:00"],
+    	"courseGroupNames": ["group1", "group2","group3"],
+    	"courseGroupStartDates": ["2024-01-02 12:00:00","2024-08-02 15:00:00","2024-08-02 17:00:00"],
     	"activityTypeName": "compulsory",
     	"activityCategoryName": "wejsciowki",
     	"duration":"PT124H30M"
-
     }
 parameters: []
 headers:
   - id: pair_03fc85737959413eb6c6a894deb588f2
     name: Content-Type
     value: application/json
+    description: ""
+  - id: pair_e182d858a3ac4c0aa8bd63107b0be942
+    name: preparation
+    value: "{% response 'raw', 'req_14558b5be92740639edc9660466e73f8', '', 'always',
+      60 %}"
     description: ""
 authentication:
   type: bearer

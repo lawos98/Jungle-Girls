@@ -1,0 +1,15 @@
+_id: ut_97abb214cf384445852fb8d6c3739934
+type: UnitTest
+parentId: uts_c9ac2887038a40adafee101dd48f2e26
+modified: 1681775587696
+created: 1681774130316
+requestId: req_4f1e82d4ca29469cba668d5143f4716b
+name: Edit Grade incorect score value
+code: >-
+  const response = await insomnia.send();
+
+  const body = JSON.parse(response.data);
+
+  expect(body.message).to.equal("Score must be between 0 and max score 10.0 | new Value : -1.0");
+
+  expect(response.status).to.equal(400);

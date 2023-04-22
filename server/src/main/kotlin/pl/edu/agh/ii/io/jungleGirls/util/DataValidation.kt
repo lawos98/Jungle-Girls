@@ -5,7 +5,7 @@ import arrow.core.None
 import arrow.core.left
 import arrow.core.right
 
- fun checkIsBlank(username: String, errorMessage: String): Either<String, None> {
+fun checkIsBlank(username: String, errorMessage: String): Either<String, None> {
     if (username.isBlank()) {
         return errorMessage.left()
     }

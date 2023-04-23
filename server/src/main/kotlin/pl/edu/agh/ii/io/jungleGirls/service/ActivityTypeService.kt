@@ -33,4 +33,8 @@ class ActivityTypeService(private val activityTypeRepository: ActivityTypeReposi
     fun getAllNames(): ArrayList<String> {
         return activityTypeRepository.findAllNames().collectList().block() as ArrayList<String>
     }
+
+    fun getNameById(activityTypeId: Long): String? {
+        return activityTypeRepository.getNameById(activityTypeId).block()
+    }
 }

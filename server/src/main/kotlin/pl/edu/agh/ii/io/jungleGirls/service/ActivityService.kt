@@ -3,6 +3,7 @@ package pl.edu.agh.ii.io.jungleGirls.service
 import arrow.core.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import pl.edu.agh.ii.io.jungleGirls.dto.EditActivityRequest
 import pl.edu.agh.ii.io.jungleGirls.model.Activity
 import pl.edu.agh.ii.io.jungleGirls.model.CourseGroupActivity
 import pl.edu.agh.ii.io.jungleGirls.repository.*
@@ -41,6 +42,35 @@ class ActivityService(
             return None.right()
         }}}
     }
+    fun editActivity(instructorId: Long, activityToEdit : Activity, editedActivity: Activity,groupIds:ArrayList<Long>,courseGroupStartDates:ArrayList<LocalDateTime>): Either<String, None> {
+        return validateEditedActivity(instructorId,editedActivity,activityToEdit).flatMap {_ ->
+            checkIsCorrectSize(courseGroupStartDates,groupIds).flatMap { _->
+                validateStartDates(courseGroupStartDates).flatMap { _->
+
+
+                    @Transactional
+                    fun transaction(): Boolean {
+                        val edited = activityRepository.editActivity(activityToEdit.id!!,editedActivity.name,editedActivity.maxScore,editedActivity.description,editedActivity.duration,editedActivity.activityTypeId,editedActivity.activityCategoryId).block()
+                            ?: return false
+                        for((groupId,startDime) in groupIds.zip(courseGroupStartDates)){
+                            courseGroupActivityRepository.updateStartDate(groupId, edited.id!!,startDime).block() ?: return false
+                        }
+                        return true
+                    }
+                    if(!transaction()) return "Error while saving to database".left()
+
+                    return None.right();
+        }}}
+    }
+
+    private fun validateEditedActivity(instructorId: Long, editedActivity: Activity, activityToEdit: Activity): Either<String, None> {
+        return checkIsBlank(editedActivity.name,"name can not be empty")
+            .flatMap {_ ->  checkIfEditedNameIsNotTaken(instructorId,editedActivity.name,activityToEdit.name)
+                .flatMap {_ -> checkIsBlank(editedActivity.description,"description can not be empty")
+                    .flatMap {_ -> checkIsDurationPositive(editedActivity.duration)
+                        .flatMap {_ -> checkIsMaxScorePositive(editedActivity.maxScore)
+                        }}}}
+    }
 
 
     private fun checkIsMaxScorePositive(maxScore: Double) : Either<String, None>{
@@ -48,6 +78,9 @@ class ActivityService(
     }
     private fun checkIfNameIsNotTaken(instructorId:Long, name: String):Either<String, None>{
         return if(existsByInstructorIdAndName(instructorId,name)) "Activity name is already taken!".left() else None.right()
+    }
+    private fun checkIfEditedNameIsNotTaken(instructorId:Long, newName: String,oldName: String):Either<String, None>{
+        return if(oldName != newName && existsByInstructorIdAndName(instructorId,newName)) "Activity name is already taken!".left() else None.right()
     }
     private fun checkIsDurationPositive(duration : Duration):Either<String, None>{
         return if(duration.isNegative || duration.isZero) "Duration must be positive!".left() else None.right()
@@ -77,8 +110,14 @@ class ActivityService(
         return activityRepository.getNamesByInstructorId(instructorId).collectList().block() as ArrayList<String>
     }
 
+
+
     fun findByInstructorIdAndName(instructorId: Long, name: String): Activity? {
         return activityRepository.findByInstructorIdAndName(instructorId,name).block()
+    }
+
+    fun findByIdAndInstructorId(activityId: Long, instructorId: Long): Activity? {
+        return activityRepository.findByIdAndInstructorId(activityId,instructorId).block()
     }
 
 
@@ -114,4 +153,8 @@ class ActivityService(
     fun getAllActivityByInstructorId(instructorId: Long): List<Activity> {
         return activityRepository.getAllActivityByInstructorId(instructorId).collectList().block() as ArrayList<Activity>
     }
+
+
+
+
 }

@@ -34,11 +34,18 @@ class SecurityConfig (
             .requestMatchers(HttpMethod.PUT, "/api/role-permission").hasAuthority(Permissions.USERS_MANAGEMENT.permissionName)
             .requestMatchers(HttpMethod.GET,"/api/role/secret-code/{id}").hasAuthority(Permissions.USERS_MANAGEMENT.permissionName)
             .requestMatchers(HttpMethod.PUT, "/api/permission").hasAuthority(Permissions.USERS_MANAGEMENT.permissionName)
-//            .requestMatchers(HttpMethod.GET,"/api/student_notification").hasAuthority()
-//            .requestMatchers(HttpMethod.PUT,"/api/activity_category").hasAuthority()
-//            .requestMatchers(HttpMethod.GET,"/api/activity_category").hasAuthority()
-//            .requestMatchers(HttpMethod.PUT,"/api/activity").hasAuthority()
-//            .requestMatchers(HttpMethod.GET,"/api/activity").hasAuthority()
+
+            .requestMatchers(HttpMethod.GET,"/api/student-notification").hasAuthority(Permissions.NOTIFICATION_VIEW.permissionName)
+            .requestMatchers(HttpMethod.PUT,"/api/student-notification/update/{id}").hasAuthority(Permissions.NOTIFICATION_VIEW.permissionName)
+
+            .requestMatchers(HttpMethod.GET,"/api/activity/*").hasAuthority(Permissions.ACTIVITY_MANAGEMENT.permissionName)
+            .requestMatchers(HttpMethod.PUT,"/api/activity/*").hasAuthority(Permissions.ACTIVITY_MANAGEMENT.permissionName)
+            .requestMatchers(HttpMethod.POST,"/api/activity/*").hasAuthority(Permissions.ACTIVITY_MANAGEMENT.permissionName)
+
+            .requestMatchers(HttpMethod.GET,"/api/activity-category/*").hasAuthority(Permissions.ACTIVITY_CATEGORY_MANAGEMENT.permissionName)
+            .requestMatchers(HttpMethod.PUT,"/api/activity-category/*").hasAuthority(Permissions.ACTIVITY_CATEGORY_MANAGEMENT.permissionName)
+            .requestMatchers(HttpMethod.POST,"/api/activity-category/*").hasAuthority(Permissions.ACTIVITY_CATEGORY_MANAGEMENT.permissionName)
+
             .requestMatchers("/api/**").authenticated()
             .anyRequest().permitAll()
 

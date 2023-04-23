@@ -12,7 +12,7 @@ import pl.edu.agh.ii.io.jungleGirls.service.ActivityCategoryService
 import pl.edu.agh.ii.io.jungleGirls.service.TokenService
 
 @RestController
-@RequestMapping("api/activity_category")
+@RequestMapping("api/activity-category")
 class ActivityCategoryController(
     private val activityCategoryService: ActivityCategoryService,
     private val tokenService: TokenService

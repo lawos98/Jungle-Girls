@@ -1,9 +1,9 @@
 _id: req_9e296f9fcbec4d1eb52aa8222ac92947
 type: Request
 parentId: fld_09be314480954281acd119f886d53271
-modified: 1682243481454
+modified: 1682250006583
 created: 1680938468345
-url: "{{ _.ServerAddress }}/api/activity_category/create"
+url: "{{ _.ServerAddress }}/api/activity-category/create"
 name: Name is already taken
 description: ""
 method: POST

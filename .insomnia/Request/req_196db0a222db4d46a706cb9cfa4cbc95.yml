@@ -1,9 +1,9 @@
 _id: req_196db0a222db4d46a706cb9cfa4cbc95
 type: Request
 parentId: fld_e1cc76824917439ca2e34b5b642ad6e6
-modified: 1682243445157
+modified: 1682250021234
 created: 1680950595276
-url: "{{ _.ServerAddress }}/api/activity_category/delete/111111"
+url: "{{ _.ServerAddress }}/api/activity-category/delete/111111"
 name: Category does not exist
 description: ""
 method: PUT

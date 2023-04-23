@@ -1,9 +1,9 @@
 _id: req_fbff0f5186a44d1d8704de95c149c7d3
 type: Request
 parentId: fld_cc548fb70ee44084b0e937958546ac26
-modified: 1682243873482
+modified: 1682250035460
 created: 1682243862222
-url: "{{ _.ServerAddress }}/api/activity_category/edit/4"
+url: "{{ _.ServerAddress }}/api/activity-category/edit/4"
 name: Edit Activity Category
 description: ""
 method: PUT

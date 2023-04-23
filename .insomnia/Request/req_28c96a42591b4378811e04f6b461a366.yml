@@ -1,9 +1,9 @@
 _id: req_28c96a42591b4378811e04f6b461a366
 type: Request
 parentId: fld_cc548fb70ee44084b0e937958546ac26
-modified: 1682243506202
+modified: 1682250754887
 created: 1682242827264
-url: "{{ _.ServerAddress }}/api/activity_category/edit"
+url: "{{ _.ServerAddress }}/api/activity-category/edit"
 name: Get categories (edit)
 description: ""
 method: GET

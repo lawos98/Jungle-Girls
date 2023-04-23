@@ -1,9 +1,9 @@
 _id: req_90846038a21a4c7b83d839c32db9bd1c
 type: Request
 parentId: fld_09be314480954281acd119f886d53271
-modified: 1682243477379
+modified: 1682250003653
 created: 1680938468350
-url: "{{ _.ServerAddress }}/api/activity_category/create"
+url: "{{ _.ServerAddress }}/api/activity-category/create"
 name: Description is empty
 description: ""
 method: POST

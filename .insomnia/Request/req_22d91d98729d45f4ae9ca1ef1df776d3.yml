@@ -1,9 +1,9 @@
 _id: req_22d91d98729d45f4ae9ca1ef1df776d3
 type: Request
 parentId: fld_e1cc76824917439ca2e34b5b642ad6e6
-modified: 1682243452361
+modified: 1682250017437
 created: 1680950779356
-url: "{{ _.ServerAddress }}/api/activity_category/delete/1"
+url: "{{ _.ServerAddress }}/api/activity-category/delete/1"
 name: There are activities belonging to this category
 description: ""
 method: PUT

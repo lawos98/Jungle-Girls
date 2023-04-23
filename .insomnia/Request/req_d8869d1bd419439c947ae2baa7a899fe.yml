@@ -1,9 +1,9 @@
 _id: req_d8869d1bd419439c947ae2baa7a899fe
 type: Request
 parentId: fld_cc548fb70ee44084b0e937958546ac26
-modified: 1682243692171
+modified: 1682250029214
 created: 1682241090959
-url: "{{ _.ServerAddress }}/api/activity_category/edit/1"
+url: "{{ _.ServerAddress }}/api/activity-category/edit/1"
 name: Category name is already taken (edit)
 description: ""
 method: PUT

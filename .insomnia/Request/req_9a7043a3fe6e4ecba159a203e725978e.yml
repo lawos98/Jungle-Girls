@@ -3,7 +3,7 @@ type: Request
 parentId: fld_c760876633cd48c3a33d55dd17c544b7
 modified: 1682243329036
 created: 1682241090976
-url: "{{ _.ServerAddress }}/api/activity/edit"
+url: "{{ _.ServerAddress }}/api/activity/edit/"
 name: Get data (edit)
 description: ""
 method: GET

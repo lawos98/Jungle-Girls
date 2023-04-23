@@ -37,7 +37,11 @@ class SecurityConfig (
 
             .requestMatchers(HttpMethod.GET,"/api/student-notification").hasAuthority(Permissions.NOTIFICATION_VIEW.permissionName)
             .requestMatchers(HttpMethod.PUT,"/api/student-notification/update/{id}").hasAuthority(Permissions.NOTIFICATION_VIEW.permissionName)
-            .requestMatchers("/api/activity").hasAuthority(Permissions.ACTIVITY_MANAGEMENT.permissionName)
+
+            .requestMatchers(HttpMethod.GET,"/api/activity").hasAuthority(Permissions.ACTIVITY_MANAGEMENT.permissionName)
+            .requestMatchers("/api/activity/*").hasAuthority(Permissions.ACTIVITY_MANAGEMENT.permissionName)
+            .requestMatchers(HttpMethod.GET,"/api/activity-category").hasAuthority(Permissions.ACTIVITY_CATEGORY_MANAGEMENT.permissionName)
+            .requestMatchers("/api/activity-category/*").hasAuthority(Permissions.ACTIVITY_CATEGORY_MANAGEMENT.permissionName)
 
             .requestMatchers("/api/**").authenticated()
             .anyRequest().permitAll()

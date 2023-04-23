@@ -1,10 +1,10 @@
-_id: req_f62d6b969b1d4238857717e94cf36008
+_id: req_9a7043a3fe6e4ecba159a203e725978e
 type: Request
-parentId: fld_d8ba47e1b735453e8b7c8359ee50eb41
-modified: 1682243203867
-created: 1680936918975
-url: "{{ _.ServerAddress }}/api/activity/create"
-name: Get data
+parentId: fld_c760876633cd48c3a33d55dd17c544b7
+modified: 1682243329036
+created: 1682241090976
+url: "{{ _.ServerAddress }}/api/activity/edit"
+name: Get data (edit)
 description: ""
 method: GET
 body:

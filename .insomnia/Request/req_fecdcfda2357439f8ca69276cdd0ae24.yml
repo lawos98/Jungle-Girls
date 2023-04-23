@@ -1,23 +1,23 @@
-_id: req_6a46a1af56554f329c77282c5d71b555
+_id: req_fecdcfda2357439f8ca69276cdd0ae24
 type: Request
-parentId: fld_d8ba47e1b735453e8b7c8359ee50eb41
-modified: 1682243285340
-created: 1680936918963
-url: "{{ _.ServerAddress }}/api/activity/create"
-name: description is empty
+parentId: fld_c760876633cd48c3a33d55dd17c544b7
+modified: 1682243334761
+created: 1682241090930
+url: "{{ _.ServerAddress }}/api/activity/edit/1"
+name: Edit Activity
 description: ""
-method: POST
+method: PUT
 body:
   mimeType: application/json
   text: >-
     {
-    	"name": "kartkowka999",
-    	"description": "",
-    	"maxScore": "5.5",
+    	"name": "kartkowka1",
+    	"description": "łatwizna!!",
+    	"maxScore": "10",
     	"courseGroupNames": ["group1", "group2","group3"],
     	"courseGroupStartDates": ["2024-01-02 12:00:00","2024-08-02 15:00:00","2024-08-02 17:00:00"],
     	"activityTypeName": "compulsory",
-    	"activityCategoryName": "wejsciowki",
+    	"activityCategoryName": "praca na zajeciach",
     	"duration":"PT124H30M"
     }
 parameters: []
@@ -30,7 +30,7 @@ authentication:
   type: bearer
   token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
     'b64::JC50b2tlbg==::46b', 'always', 60 %}"
-metaSortKey: -1680373821666.8906
+metaSortKey: -1680373821679.3906
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

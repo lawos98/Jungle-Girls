@@ -1,27 +1,28 @@
-_id: req_f62d6b969b1d4238857717e94cf36008
+_id: req_fbff0f5186a44d1d8704de95c149c7d3
 type: Request
-parentId: fld_d8ba47e1b735453e8b7c8359ee50eb41
-modified: 1682243203867
-created: 1680936918975
-url: "{{ _.ServerAddress }}/api/activity/create"
-name: Get data
+parentId: fld_cc548fb70ee44084b0e937958546ac26
+modified: 1682243873482
+created: 1682243862222
+url: "{{ _.ServerAddress }}/api/activity_category/edit/4"
+name: Edit Activity Category
 description: ""
-method: GET
+method: PUT
 body:
   mimeType: application/json
-  text: ""
+  text: |-
+    {
+    	"name":"inne",
+    	"description": "eeeee"
+    }
 parameters: []
 headers:
-  - id: pair_03fc85737959413eb6c6a894deb588f2
-    name: Content-Type
+  - name: Content-Type
     value: application/json
-    description: ""
-    disabled: true
 authentication:
   type: bearer
   token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
     'b64::JC50b2tlbg==::46b', 'always', 60 %}"
-metaSortKey: -1680373821716.8906
+metaSortKey: -1682008105552.4336
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

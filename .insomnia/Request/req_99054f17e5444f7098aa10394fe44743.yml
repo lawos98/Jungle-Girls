@@ -1,7 +1,7 @@
 _id: req_99054f17e5444f7098aa10394fe44743
 type: Request
 parentId: fld_d8ba47e1b735453e8b7c8359ee50eb41
-modified: 1681847569820
+modified: 1682243287962
 created: 1680936918979
 url: "{{ _.ServerAddress }}/api/activity/create"
 name: Incorrect number of start dates
@@ -28,7 +28,8 @@ headers:
     description: ""
 authentication:
   type: bearer
-  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
 metaSortKey: -1680373821654.3906
 isPrivate: false
 settingStoreCookies: true

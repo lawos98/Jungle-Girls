@@ -1,27 +1,19 @@
 _id: req_22d91d98729d45f4ae9ca1ef1df776d3
 type: Request
 parentId: fld_e1cc76824917439ca2e34b5b642ad6e6
-modified: 1680951594151
+modified: 1682243452361
 created: 1680950779356
-url: "{{ _.ServerAddress }}/api/activity_category/delete"
+url: "{{ _.ServerAddress }}/api/activity_category/delete/1"
 name: There are activities belonging to this category
 description: ""
-method: POST
-body:
-  mimeType: application/json
-  text: |-
-    {
-    	"name":"wejsciowki"
-    }
+method: PUT
+body: {}
 parameters: []
-headers:
-  - id: pair_585df9604d0a40bbaa675983b8101aca
-    name: Content-Type
-    value: application/json
-    description: ""
+headers: []
 authentication:
   type: bearer
-  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjgzMDA4NTU4LCJpYXQiOjE2ODA0MTY1NTgsInVzZXJJZCI6MX0.yOLDX7BdT5ePTWI5Hm2ab6bMq5mEY6IT-WpCpaA8pjI
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
 metaSortKey: -1680444078848.5
 isPrivate: false
 settingStoreCookies: true

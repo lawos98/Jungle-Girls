@@ -29,16 +29,25 @@ class ActivityController(
     fun getActivities(@RequestHeader("Authorization") token: String):List<ActivityRequest>{
         val user = tokenService.parseToken(token.substring("Bearer".length))
         val activities = activityService.getAllActivityByInstructorId(user.id!!)
+        val courseGroupMap = HashMap<Long,String>()
+        val activityTypeMap = HashMap<Long,String>()
+        val activityCategoryMap = HashMap<Long,String>()
+
         val result = ArrayList<ActivityRequest>()
         for(activity in activities){
             val courseGroupActivities = courseGroupActivityService.getAllByActivityId(activity.id!!)
             val courseGroupNames  = ArrayList<String>()
             val courseGroupStartDates  = ArrayList<LocalDateTime>()
             for(courseGroupActivity in courseGroupActivities){
-                courseGroupNames.add(courseGroupService.getNameById(courseGroupActivity.courseGroupId)!!)
+                if(courseGroupMap[courseGroupActivity.courseGroupId] == null)
+                    courseGroupMap[courseGroupActivity.courseGroupId] = courseGroupService.getNameById(courseGroupActivity.courseGroupId)!!
+                courseGroupNames.add(courseGroupMap[courseGroupActivity.courseGroupId]!!)
                 courseGroupStartDates.add(courseGroupActivity.startDate)
             }
-
+            if(activityTypeMap[activity.activityTypeId] == null)
+                activityTypeMap[activity.activityTypeId] = activityTypeService.getNameById(activity.activityTypeId)!!
+            if(activityCategoryMap[activity.activityCategoryId] == null)
+                activityCategoryMap[activity.activityCategoryId] = activityCategoryService.getNameByIdAndInstructorId(activity.activityCategoryId,user.id)!!
             result.add(
                 ActivityRequest(
                     id = activity.id!!,
@@ -48,8 +57,8 @@ class ActivityController(
                     maxScore = activity.maxScore,
                     courseGroupNames = courseGroupNames,
                     courseGroupStartDates = courseGroupStartDates,
-                    activityTypeName = activityTypeService.getNameById(activity.activityTypeId)!!,
-                    activityCategoryName = activityCategoryService.getNameByIdAndInstructorId(activity.activityCategoryId,user.id)!!
+                    activityTypeName = activityTypeMap[activity.activityTypeId]!!,
+                    activityCategoryName = activityCategoryMap[activity.activityCategoryId]!!
                 )
             )
         }

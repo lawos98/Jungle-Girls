@@ -1,110 +1,161 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import * as actions from "./RegisterActions";
+import { inputStyle, labelStyle, buttonStyle, formStyle, errorStyle } from "../../utils/formStyles";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import {setUser} from "../../reducers/UserReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const Register: React.FC = () => {
-    const [username, setUsername] = useState("");
-    const [firstname, setFirstName] = useState("");
-    const [lastname, setLastName] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [serverError, setServerError] = useState('');
+    const user = useSelector((state: any) => state.user);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (password !== confirmPassword) {
-            alert("Hasła nie są takie same!");
-            return;
+    useEffect(() => {
+        if (user.isLogged) {
+            navigate('/');
         }
-        actions.register(username, firstname, lastname, password);
-    };
+    },[]);
+
+    const validationSchema = Yup.object({
+        username: Yup.string().required('Nazwa użytkownika jest wymagana'),
+        firstname: Yup.string().required('Imię jest wymagane'),
+        lastname: Yup.string().required('Nazwisko jest wymagane'),
+        password: Yup.string().required('Hasło jest wymagane'),
+        confirmPassword: Yup.string()
+            .oneOf([Yup.ref('password'), ''], 'Hasła muszą być takie same')
+            .required('Powtórzenie hasła jest wymagane'),
+    });
+
+    const successCallback = (userData: any) => {
+        dispatch(setUser(userData));
+        navigate('/');
+    }
+
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            firstname: '',
+            lastname: '',
+            password: '',
+            confirmPassword: '',
+        },
+        onSubmit: values => {
+            actions.register(values.username, values.firstname, values.lastname, values.password,successCallback ,(message:string) => {
+                setServerError(message);
+            });
+        },
+        validationSchema: validationSchema,
+    });
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">
             <form
-                onSubmit={handleSubmit}
-                className="bg-white rounded-lg shadow-md p-8 w-full max-w-md text-center"
+                onSubmit={formik.handleSubmit}
+                className={formStyle}
             >
                 <h2 className="text-2xl font-bold mb-6">Rejestracja</h2>
                 <div className="mb-4">
                     <label
                         htmlFor="username"
-                        className="block text-gray-700 font-medium text-center"
+                        className={labelStyle}
                     >
                         Nazwa użytkownika
                     </label>
                     <input
                         id="username"
                         type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        value={formik.values.username}
+                        onChange={formik.handleChange}
+                        className={inputStyle}
                     />
+                    {formik.touched.username && formik.errors.username && (
+                        <div className={errorStyle}>{formik.errors.username}</div>
+                    )}
                 </div>
                 <div className="mb-4">
                     <label
                         htmlFor="firstname"
-                        className="block text-gray-700 font-medium text-center"
+                        className={labelStyle}
                     >
                         Imię
                     </label>
                     <input
                         id="firstname"
                         type="text"
-                        value={firstname}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        value={formik.values.firstname}
+                        onChange={formik.handleChange}
+                        className={inputStyle}
                     />
+                    {formik.touched.firstname && formik.errors.firstname && (
+                        <div className={errorStyle}>{formik.errors.firstname}</div>
+                    )}
                 </div>
                 <div className="mb-4">
                     <label
                         htmlFor="lastname"
-                        className="block text-gray-700 font-medium text-center"
+                        className={labelStyle}
                     >
                         Nazwisko
                     </label>
                     <input
                         id="lastname"
                         type="text"
-                        value={lastname}
-                        onChange={(e) => setLastName(e.target.value)}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        value={formik.values.lastname}
+                        onChange={formik.handleChange}
+                        className={inputStyle}
                     />
+                    {formik.touched.lastname && formik.errors.lastname && (
+                        <div className={errorStyle}>{formik.errors.lastname}</div>
+                    )}
                 </div>
                 <div className="mb-4">
                     <label
                         htmlFor="password"
-                        className="block text-gray-700 font-medium text-center"
+                        className={labelStyle}
                     >
                         Hasło
                     </label>
                     <input
                         id="password"
                         type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:            ring-indigo-500"
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        className={inputStyle}
                     />
+                    {formik.touched.password && formik.errors.password && (
+                        <div className={errorStyle}>{formik.errors.password}</div>
+                    )}
                 </div>
                 <div className="mb-6">
                     <label
                         htmlFor="confirmPassword"
-                        className="block text-gray-700 font-medium text-center"
+                        className={labelStyle}
                     >
                         Powtórz hasło
                     </label>
                     <input
                         id="confirmPassword"
                         type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        value={formik.values.confirmPassword}
+                        onChange={formik.handleChange}
+                        className={inputStyle}
                     />
+                    {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+                        <div className={errorStyle}>{formik.errors.confirmPassword}</div>
+                    )}
                 </div>
                 <button
                     type="submit"
-                    className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50"
+                    className={buttonStyle}
                 >
                     Zarejestruj się
                 </button>
+                {serverError && (
+                    <div className={errorStyle}>{serverError}</div>
+                )}
                 <div className="mt-4">
                     <span className="text-gray-600">Masz już konto? </span>
                     <a
@@ -120,4 +171,3 @@ const Register: React.FC = () => {
 };
 
 export default Register;
-

@@ -7,6 +7,7 @@ import { persistStore, persistReducer,persistCombineReducers, FLUSH,
     REGISTER,
 } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session';
+import userReducer from './reducers/UserReducer';
 
 const persistConfig = {
     key: 'root',
@@ -14,6 +15,7 @@ const persistConfig = {
 }
 
 const rootReducer = persistCombineReducers(persistConfig, {
+    user: userReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

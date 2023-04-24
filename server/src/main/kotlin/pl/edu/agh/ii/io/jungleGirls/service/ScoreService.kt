@@ -35,8 +35,7 @@ class ScoreService(
             val currentScoreList = scores.filter { it.activityId == activity.id }
             val studentHavingScoreList = currentScoreList.mapNotNull { elem ->
                 val student = studentMap[elem.studentId] ?: return "Server cannot find user ${elem.studentId} on table Score".left()
-                student.value = elem.value
-                student
+                StudentScore(student.id, student.username, student.firstname, student.lastname, elem.value)
             }
             val studentNotHavingScoreList = studentList.filterNot { student -> studentHavingScoreList.map { it.id }.contains(student.id) }
             ActivityScoreList(activity, (studentHavingScoreList + studentNotHavingScoreList).sortedBy { it.id })

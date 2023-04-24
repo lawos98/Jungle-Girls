@@ -37,8 +37,18 @@ interface ActivityCategoryRepository : ReactiveCrudRepository<ActivityCategory, 
     @Query("select name from activity_category where instructor_id = :id;")
     fun findAllNamesById(@Param("id") id: Long): Flux<String>
 
+    fun findByIdAndInstructorId(activityCategoryId: Long, instructorId: Long): Mono<ActivityCategory>
+
+
     @Query(
         "select CASE WHEN COUNT(id) = 0 THEN true ELSE false END from activity  where activity_category_id = :id "
     )
     fun canBeDeleted(@Param("id") id: Long): Mono<Boolean>
+    @Query("select * from activity_category where instructor_id = :id;")
+    fun getAllActivityCategoriesByInstructorId(instructorId: Long): Flux<ActivityCategory>
+
+    @Query("select name from activity_category where id = :id and instructor_id = :instructor_id")
+    fun getNameByIdAndInstructorId(@Param("id") id: Long,@Param("instructor_id")instructorId: Long): Mono<String>
+    @Query("update activity_category set name = :name, description = :description where id = :id returning *")
+    fun update(@Param("id") id: Long,@Param("name") name: String,@Param("description") description: String): Mono<ActivityCategory>
 }

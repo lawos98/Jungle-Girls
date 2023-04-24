@@ -1,16 +1,68 @@
 @layer components {
-    .slide-in {
-        animation-name: slide-in;
+    /*slide x left*/
+    .slide-in-x-left {
+        animation-name: slide-in-x-left;
         animation-duration: 300ms;
         animation-fill-mode: forwards;
     }
 
-    @keyframes slide-in {
+    @keyframes slide-in-x-left {
         0% {
             transform: translateX(-100%);
         }
         100% {
             transform: translateX(0%);
+        }
+    }
+    .slide-out-x-left {
+        animation-name: slide-out-x-left;
+        animation-duration: 300ms;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes slide-out-x-left {
+        0% {
+            transform: translateX(0%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+
+    /* Slide y up */
+    .slide-in-y-up {
+        animation-name: slide-in-y-up;
+        animation-duration: 300ms;
+        animation-fill-mode: forwards;
+    }
+    @keyframes slide-in-y-up {
+        0% {
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+        }
+        100% {
+            transform: translateY(0%);
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+    .slide-out-y-up {
+        animation-name: slide-out-y-up;
+        animation-duration: 300ms;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes slide-out-y-up {
+        0% {
+            transform: translateY(0%);
+            opacity: 1;
+            visibility: visible;
+        }
+        100% {
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
         }
     }
 

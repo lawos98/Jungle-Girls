@@ -1,0 +1,38 @@
+_id: req_16ba997de5d74258b2a859db0500daf5
+type: Request
+parentId: fld_c760876633cd48c3a33d55dd17c544b7
+modified: 1682243341966
+created: 1682241992476
+url: "{{ _.ServerAddress }}/api/activity/edit/5555"
+name: Activity does not exist (edit)
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: >-
+    {
+    	"name": "kartkowka1",
+    	"description": "łatwizna!!",
+    	"maxScore": "10",
+    	"courseGroupNames": ["group1", "group2","group3"],
+    	"courseGroupStartDates": ["2024-01-02 12:00:00","2024-08-02 15:00:00","2024-08-02 17:00:00"],
+    	"activityTypeName": "compulsory",
+    	"activityCategoryName": "praca na zajeciach",
+    	"duration":"PT124H30M"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1680373821648.1406
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

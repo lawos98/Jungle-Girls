@@ -9,6 +9,8 @@ import {useSelector} from "react-redux";
 
 import StudentNavbar from "./components/navbars/StudentNavbar";
 import TeacherNavbar from "./components/navbars/TeacherNavbar";
+import toast, { Toaster } from 'react-hot-toast';
+import StudentGrades from "./components/studentGrades/StudentGrades";
 
 
 function App() {
@@ -36,13 +38,23 @@ function App() {
     return (
         <Router>
             {getProperNavbar()}
+            <Toaster />
             <Routes>
-                <Route path="/editGrades" element={<EditGrades />} />
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/" element={
                     <PrivateRoute>
                         <h1>Home</h1>
+                    </PrivateRoute>
+                }/>
+                <Route path="/edit-grades" element={
+                    <PrivateRoute>
+                        <EditGrades/>
+                    </PrivateRoute>
+                }/>
+                <Route path="/grades" element={
+                    <PrivateRoute>
+                        <StudentGrades/>
                     </PrivateRoute>
                 }/>
             </Routes>

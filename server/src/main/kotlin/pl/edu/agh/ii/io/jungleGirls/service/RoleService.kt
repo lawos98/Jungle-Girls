@@ -61,5 +61,8 @@ class RoleService(
     fun getRoles():ArrayList<Role>{
         return roleRepository.findAll().collectList().block() as ArrayList<Role>
     }
+    fun getRoleByUserId(userId:Long):Either<String,Role>{
+        return roleRepository.findByUserId(userId).block()?.right() ?: return "User with that id does not exist".left()
+    }
 
 }

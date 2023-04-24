@@ -12,7 +12,7 @@ import StudentGrades from "./components/studentGrades/StudentGrades";
 
 function App() {
     useEffect(() => {
-        actions.login("student", "student");
+        actions.login("admin", "admin");
     });
     return (
         <Router>

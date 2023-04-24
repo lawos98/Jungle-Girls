@@ -5,7 +5,7 @@ const EditableGridSkeleton: React.FC = () => {
         <div>
             <div className="flex pb-2">
                 <div className="w-60"></div>
-                {Array(5) // Change the number of columns if needed
+                {Array(12) // Change the number of columns if needed
                     .fill(null)
                     .map((_, index) => (
                         <div
@@ -14,12 +14,12 @@ const EditableGridSkeleton: React.FC = () => {
                         ></div>
                     ))}
             </div>
-            {Array(5) // Change the number of rows if needed
+            {Array(12) // Change the number of rows if needed
                 .fill(null)
                 .map((_, rowIndex) => (
-                    <div key={`row-${rowIndex}`} className="flex items-center mb-2">
+                    <div key={`row-${rowIndex}`} className="flex items-center ">
                         <div className="text-center w-60 rounded-full bg-gray-300 h-4 animate-pulse mr-2"></div>
-                        {Array(5) // Change the number of cells in each row if needed
+                        {Array(12) // Change the number of cells in each row if needed
                             .fill(null)
                             .map((_, colIndex) => (
                                 <div

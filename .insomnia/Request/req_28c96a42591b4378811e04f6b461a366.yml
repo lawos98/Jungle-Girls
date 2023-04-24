@@ -1,0 +1,28 @@
+_id: req_28c96a42591b4378811e04f6b461a366
+type: Request
+parentId: fld_cc548fb70ee44084b0e937958546ac26
+modified: 1682250754887
+created: 1682242827264
+url: "{{ _.ServerAddress }}/api/activity-category/edit"
+name: Get categories (edit)
+description: ""
+method: GET
+body: {}
+parameters: []
+headers:
+  - id: pair_179abda5f19349be90a43041d27c5eab
+    name: ""
+    value: ""
+    description: ""
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1682242827264
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

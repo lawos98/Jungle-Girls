@@ -1,0 +1,31 @@
+_id: req_9a7043a3fe6e4ecba159a203e725978e
+type: Request
+parentId: fld_c760876633cd48c3a33d55dd17c544b7
+modified: 1682243329036
+created: 1682241090976
+url: "{{ _.ServerAddress }}/api/activity/edit/"
+name: Get data (edit)
+description: ""
+method: GET
+body:
+  mimeType: application/json
+  text: ""
+parameters: []
+headers:
+  - id: pair_03fc85737959413eb6c6a894deb588f2
+    name: Content-Type
+    value: application/json
+    description: ""
+    disabled: true
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1680373821716.8906
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

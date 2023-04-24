@@ -1,0 +1,11 @@
+_id: ut_f1627eae19b14ea9ab9ec81ff9e1b80f
+type: UnitTest
+parentId: uts_e390cdf0ad1f41dc9a4bd2e86996f3dc
+modified: 1682242166307
+created: 1682241834491
+requestId: req_16ba997de5d74258b2a859db0500daf5
+name: Activity does not exist
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Activity does not exist");

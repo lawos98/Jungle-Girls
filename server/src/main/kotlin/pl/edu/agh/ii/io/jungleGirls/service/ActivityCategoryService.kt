@@ -49,6 +49,11 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
         return activityCategoryRepository.findAllNamesById(instructorId).collectList().block() as ArrayList<String>
     }
 
+    fun getNameByIdAndInstructorId(id: Long,instructorId: Long,):String?{
+        return activityCategoryRepository.getNameByIdAndInstructorId(id,instructorId).block()
+
+    }
+
     fun existsByInstructorIdAndName(instructorId: Long, name: String): Boolean {
         return activityCategoryRepository.existsByInstructorIdAndName(instructorId, name).block() ?: false
     }
@@ -72,6 +77,25 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
                     }
             }
     }
+    private fun checkIfEditedNameIsNotTaken(instructorId: Long,oldName: String, newName: String): Either<String, None> {
+        return if (oldName != newName &&  existsByInstructorIdAndName(instructorId, newName)) "Activity category name is already taken!".left() else None.right()
+    }
+    private fun validateEditedActivityCategory(categoryToEdit: ActivityCategory, editedCategory: ActivityCategory): Either<String, None> {
+        return checkIsBlank(editedCategory.name, "name can not be empty")
+            .flatMap { _ ->
+                checkIfEditedNameIsNotTaken(
+                    editedCategory.instructorId,
+                    categoryToEdit.name,
+                    editedCategory.name,
+                )
+                    .flatMap { _ ->
+                        checkIsBlank(
+                            editedCategory.description,
+                            "description can not be empty"
+                        )
+                    }
+            }
+    }
 
     fun createCategory(activityCategory: ActivityCategory): Either<String, None> {
         return validateActivityCategory(activityCategory).flatMap { _ ->
@@ -83,4 +107,21 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
     fun findByInstructorIdAndName(instructorId: Long, name: String): ActivityCategory? {
         return activityCategoryRepository.findByInstructorIdAndName(instructorId, name).block()
     }
+
+    fun getAllActivityCategoriesByInstructorId(instructorId: Long): List<ActivityCategory> {
+        return activityCategoryRepository.getAllActivityCategoriesByInstructorId(instructorId).collectList().block() as ArrayList<ActivityCategory>
+    }
+
+    fun findByIdAndInstructorId(activityCategoryId: Long, instructorId: Long): ActivityCategory? {
+        return activityCategoryRepository.findByIdAndInstructorId(activityCategoryId, instructorId).block()
+    }
+
+    fun editCategory(categoryToEdit: ActivityCategory, editedCategory: ActivityCategory): Either<String, None> {
+        return validateEditedActivityCategory(categoryToEdit,editedCategory).flatMap { _ ->
+            activityCategoryRepository.update(categoryToEdit.id!!,editedCategory.name,editedCategory.description).block() ?: return "Error while editing activity category".left()
+            return None.right()
+        }
+    }
+
+
 }

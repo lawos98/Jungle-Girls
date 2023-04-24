@@ -1,0 +1,26 @@
+_id: req_749b16ffe29549ab8da4d0afaec0168a
+type: Request
+parentId: fld_d863bab1352c40a09ac4dad2d098198b
+modified: 1682250014067
+created: 1682242721438
+url: "{{ _.ServerAddress }}/api/activity-category"
+name: Get activity categories
+description: ""
+method: GET
+body:
+  mimeType: application/json
+  text: ""
+parameters: []
+headers: []
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1680951571119
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -11,6 +11,10 @@ class CourseGroupService(private val courseGroupRepository: CourseGroupRepositor
         return courseGroupRepository.existsByName(name).block() ?: false
     }
 
+    fun getNameById(groupId: Long):String?{
+        return courseGroupRepository.findNameById(groupId).block()
+    }
+
     fun validateNames(instructorId : Long, names: ArrayList<String>): Either<String, ArrayList<Long>> {
         if (names.isEmpty()) return "Group names not specified".left()
         val result = getAllNamesById(instructorId)

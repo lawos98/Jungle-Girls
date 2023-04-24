@@ -31,14 +31,18 @@ class SecurityConfig (
             .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
             .requestMatchers(HttpMethod.PATCH,"api/role-permission").permitAll()
-            .requestMatchers(HttpMethod.PUT, "/api/role-permission").hasAuthority(Permissions.USERS_MANAGEMENT.permissionName)
-            .requestMatchers(HttpMethod.GET,"/api/role/secret-code/{id}").hasAuthority(Permissions.USERS_MANAGEMENT.permissionName)
-            .requestMatchers(HttpMethod.PUT, "/api/permission").hasAuthority(Permissions.USERS_MANAGEMENT.permissionName)
-//            .requestMatchers(HttpMethod.GET,"/api/student_notification").hasAuthority()
-//            .requestMatchers(HttpMethod.PUT,"/api/activity_category").hasAuthority()
-//            .requestMatchers(HttpMethod.GET,"/api/activity_category").hasAuthority()
-//            .requestMatchers(HttpMethod.PUT,"/api/activity").hasAuthority()
-//            .requestMatchers(HttpMethod.GET,"/api/activity").hasAuthority()
+            .requestMatchers(HttpMethod.PUT, "/api/role-permission").hasAuthority(Permissions.USERS_MANAGEMENT.getName())
+            .requestMatchers(HttpMethod.GET,"/api/role/secret-code/{id}").hasAuthority(Permissions.USERS_MANAGEMENT.getName())
+            .requestMatchers(HttpMethod.PUT, "/api/permission").hasAuthority(Permissions.USERS_MANAGEMENT.getName())
+
+            .requestMatchers(HttpMethod.GET,"/api/student-notification").hasAuthority(Permissions.NOTIFICATION_VIEW.getName())
+            .requestMatchers(HttpMethod.PUT,"/api/student-notification/update/{id}").hasAuthority(Permissions.NOTIFICATION_VIEW.getName())
+
+            .requestMatchers(HttpMethod.GET,"/api/activity").hasAuthority(Permissions.ACTIVITY_MANAGEMENT.getName())
+            .requestMatchers("/api/activity/*").hasAuthority(Permissions.ACTIVITY_MANAGEMENT.getName())
+            .requestMatchers(HttpMethod.GET,"/api/activity-category").hasAuthority(Permissions.ACTIVITY_CATEGORY_MANAGEMENT.getName())
+            .requestMatchers("/api/activity-category/*").hasAuthority(Permissions.ACTIVITY_CATEGORY_MANAGEMENT.getName())
+
             .requestMatchers("/api/**").authenticated()
             .anyRequest().permitAll()
 
@@ -64,7 +68,7 @@ class SecurityConfig (
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("http://localhost:3000", "http://localhost:5173")
+        configuration.allowedOrigins = listOf("http://localhost:5173", "http://localhost:8080")
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE")
         configuration.allowedHeaders = listOf("authorization", "content-type")
         val source = UrlBasedCorsConfigurationSource()

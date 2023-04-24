@@ -1,0 +1,32 @@
+_id: req_b9b6e8e5bde74c5ba3c7cecf1d42f5fe
+type: Request
+parentId: fld_cc548fb70ee44084b0e937958546ac26
+modified: 1682250032107
+created: 1682243551738
+url: "{{ _.ServerAddress }}/api/activity-category/edit/5555"
+name: Activity Category does not exist (edit)
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"name":"name",
+    	"description": ""
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1682242827239
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

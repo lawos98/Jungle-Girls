@@ -39,6 +39,6 @@ class RolePermissionService(
     }
 
     fun checkUserPermission(userId:Long,permissions: Permissions):Boolean{
-        return rolePermissionRepository.checkUserPermission(userId,permissions.permissionName).block() ?: return false
+        return rolePermissionRepository.checkUserPermission(userId,permissions.getName()).block() ?: return false
     }
 }

@@ -11,6 +11,7 @@ import StudentNavbar from "./components/navbars/StudentNavbar";
 import TeacherNavbar from "./components/navbars/TeacherNavbar";
 import toast, { Toaster } from 'react-hot-toast';
 import StudentGrades from "./components/studentGrades/StudentGrades";
+import SecretCode from "./components/account/SecretCode";
 
 
 function App() {
@@ -19,7 +20,9 @@ function App() {
     const getProperNavbar = () => {
         if (user.roleId === 1)
         {
-            return null;
+            return (
+              <SecretCode />
+            );
         }
         else if (user.roleId === 2)
         {
@@ -37,8 +40,8 @@ function App() {
 
     return (
         <Router>
-            {getProperNavbar()}
             <Toaster />
+            {getProperNavbar()}
             <Routes>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Register/>}/>

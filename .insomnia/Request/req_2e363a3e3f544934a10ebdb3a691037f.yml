@@ -1,0 +1,24 @@
+_id: req_2e363a3e3f544934a10ebdb3a691037f
+type: Request
+parentId: fld_b525ac8df62e4087bb388b766916405f
+modified: 1682500989862
+created: 1682331842763
+url: "{{ _.ServerAddress }}/api/student-description"
+name: Get Student Description
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_205e09dbd7a74bf69bc76051b1620591',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1682331842763
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

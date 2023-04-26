@@ -1,0 +1,10 @@
+_id: ut_db2a16c4056e4bea8bc8387c497a8027
+type: UnitTest
+parentId: uts_585c41da3acb4232b00a2aa05f4f79a5
+modified: 1680964469077
+created: 1680964426326
+requestId: req_5cf315b5eae143038efe9d7f0c09f0b8
+name: Get activity data (delete)
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

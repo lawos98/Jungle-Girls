@@ -7,10 +7,12 @@ import EditableGridSkeleton from "./EditableGridSkeleton";
 import toast from 'react-hot-toast';
 import GridCell from "./GridCell";
 import validateInput from "../../utils/utils"
-
+type EditableGridProps = {
+    groupId: number;
+}
 // TODO: Add search functionality (maybe another task)
 // TODO: add pagination (another task)
-const EditableGrid: React.FC = () => {
+const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
     const [zoomedRowIndex, setZoomedRowIndex] = useState<null | number>(null);
     const [zoomedColumnIndex, setZoomedColumnIndex] = useState<null | number>(null);
     const [isSliding, setIsSliding] = useState(false);
@@ -29,7 +31,7 @@ const EditableGrid: React.FC = () => {
     const [changedCells, setChangedCells] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
-        actions.getGrades(1,(scoreData:any) => {
+        actions.getGrades(groupId,(scoreData:any) => {
             setScoreData(scoreData);
             console.log(scoreData);
             setColumnLabels(scoreData.map((item:any) => item.activity.name));
@@ -122,8 +124,7 @@ const EditableGrid: React.FC = () => {
             activityScoreList.students.push(studentScore);
         });
 
-        const id = 1 /* get the id from your state or props */;
-        const updateGradesPromise = actions.updateGrades(id, updatedActivityScoreList);
+        const updateGradesPromise = actions.updateGrades(groupId, updatedActivityScoreList);
         toast.promise(updateGradesPromise, {
             loading: 'Zapisuję Oceny...',
             success: 'Oceny Zapisane!',

@@ -23,7 +23,7 @@ fun main(args: Array<String>) {
     activityFile.writeText("")
     instructorFile.writeText("")
 
-    for(roleName in Permissions.values().map { it.permissionName }){
+    for(roleName in Permissions.values().map { it.getName() }){
         rolePermissionFile.appendText("insert into permission(name) values ('$roleName');\n")
     }
     rolePermissionFile.appendText("\n")
@@ -42,7 +42,7 @@ fun main(args: Array<String>) {
             for(studentsNumber in 1..numberOfStudentsPerGroup){
                 val studentId=studentsNumber+(groupNumber-1)*numberOfStudentsPerGroup+(instructorNumber-1)* numberOfGroupsPerInstructor* numberOfStudentsPerGroup
                 studentFile.appendText("insert into login_user(username,password,firstname,lastname,role_id) values ('student$studentId','\$2a\$10\$bzGDiQIL/YVOFAGXrAIXk.7hf4JioELIsmy6kwT39Gn4i.Q.CHpTy','student$studentId','student$studentId',2);\n")
-                studentFile.appendText("insert into student_description(id,index,github_link,course_group_id) values ($studentId,null,null,$groupId);\n")
+                studentFile.appendText("insert into student_description(id,index,github_link,course_group_id) values (${studentId+ numberOfInstructors},null,null,$groupId);\n")
             }
         }
     }

@@ -26,4 +26,7 @@ interface CourseGroupRepository : ReactiveCrudRepository<CourseGroup,Long> {
     fun getAllStudentsByGroupId(@Param("groupId") groupId:Long): Flux<LoginUser>
     @Query("select name from course_group where id = :groupId")
     fun findNameById(@Param("groupId")groupId: Long): Mono<String>
+
+    @Query("select id,name,instructor_id,secret_code from course_group where instructor_id = :instructorId")
+    fun getAllGroups(@Param("instructorId") instructorId:Long): Flux<CourseGroup>
 }

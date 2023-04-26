@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import pl.edu.agh.ii.io.jungleGirls.dto.CreateActivityCategoryRequest
 import pl.edu.agh.ii.io.jungleGirls.dto.ActivityCategoryResponse
-import pl.edu.agh.ii.io.jungleGirls.dto.DeleteActivityCategoryRequest
 import pl.edu.agh.ii.io.jungleGirls.model.ActivityCategory
 import pl.edu.agh.ii.io.jungleGirls.service.ActivityCategoryService
 import pl.edu.agh.ii.io.jungleGirls.service.TokenService
@@ -18,10 +17,10 @@ class ActivityCategoryController(
     private val tokenService: TokenService
 ) {
 
-    @GetMapping()
+    @GetMapping
     fun getAllActivityCategories(@RequestHeader("Authorization") token: String):List<ActivityCategory>{
         val user = tokenService.parseToken(token.substring("Bearer".length))
-        return activityCategoryService.getAllActivityCategoriesByInstructorId(user.id!!)
+        return activityCategoryService.getAllActivityCategoriesByInstructorId(user.id)
     }
 
 
@@ -29,13 +28,7 @@ class ActivityCategoryController(
     fun createActivityCategory(@RequestBody payload: CreateActivityCategoryRequest, @RequestHeader("Authorization") token: String): String {
         val user = tokenService.parseToken(token.substring("Bearer".length))
 
-        val activityCategory = ActivityCategory(
-            name = payload.name,
-            description = payload.description,
-            instructorId = user.id!!
-        )
-
-        when(val result = activityCategoryService.createCategory(activityCategory)){
+        when(val result = activityCategoryService.createCategory(payload.name,payload.description,user.id)) {
             is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
             is Either.Right -> return "Activity category created successfully"
         }
@@ -55,14 +48,14 @@ class ActivityCategoryController(
         @GetMapping("/create","/edit/{*}")
     fun getAllActivityCategoryNames(@RequestHeader("Authorization") token: String): ActivityCategoryResponse{
         val user = tokenService.parseToken(token.substring("Bearer".length))
-        return ActivityCategoryResponse(activityCategoryService.getAllNames(user.id!!))
+        return ActivityCategoryResponse(activityCategoryService.getAllNames(user.id))
     }
 
 
     @PutMapping("/delete/{id}")
     fun deleteActivityCategory(@RequestHeader("Authorization") token: String, @PathVariable id: Long): String {
         val user = tokenService.parseToken(token.substring("Bearer".length))
-        val categoryToDelete = activityCategoryService.findByIdAndInstructorId(id,user.id!!)
+        val categoryToDelete = activityCategoryService.findByIdAndInstructorId(id, user.id)
             ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Category does not exist")
 
         return when(val result = activityCategoryService.deleteCategory(categoryToDelete)){
@@ -74,16 +67,10 @@ class ActivityCategoryController(
     @PutMapping("/edit/{id}")
     fun editActivityCategory(@RequestBody payload: CreateActivityCategoryRequest, @RequestHeader("Authorization") token: String, @PathVariable id: Long):String{
         val user = tokenService.parseToken(token.substring("Bearer".length))
-        val categoryToEdit = activityCategoryService.findByIdAndInstructorId(id,user.id!!)
+        val categoryToEdit = activityCategoryService.findByIdAndInstructorId(id, user.id)
             ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Category does not exist")
 
-        val editedCategory = ActivityCategory(
-            name = payload.name,
-            description = payload.description,
-            instructorId = user.id
-        )
-
-        return when(val result = activityCategoryService.editCategory(categoryToEdit,editedCategory)){
+        return when(val result = activityCategoryService.editCategory(categoryToEdit,payload.name,payload.description,user.id)){
             is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
             is Either.Right -> "Activity category edited successfully"
         }

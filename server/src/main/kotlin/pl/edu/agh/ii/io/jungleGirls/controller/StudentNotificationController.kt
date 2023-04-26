@@ -20,10 +20,10 @@ class StudentNotificationController(
         private val tokenService: TokenService,
         private val loginUserService: LoginUserService
     ) {
-    @GetMapping()
+    @GetMapping
     fun getStudentNotifications(@RequestHeader("Authorization") token: String): List<StudentNotificationResponse> {
         val user = tokenService.parseToken(token.substring("Bearer".length))
-        return studentNotificationService.getAllStudentNotifications(user.id!!).map{ createStudentNotificationResponse(it)}
+        return studentNotificationService.getAllStudentNotifications(user.id).map{ createStudentNotificationResponse(it)}
     }
     private fun createStudentNotificationResponse(studentNotification: StudentNotification):StudentNotificationResponse{
         val authorName = when(val author = loginUserService.findByIndex(studentNotification.authorId)){
@@ -31,7 +31,7 @@ class StudentNotificationController(
             else -> "${author.firstname} ${author.lastname}"
         }
         return StudentNotificationResponse(
-            id = studentNotification.id!!,
+            id = studentNotification.id,
             date = studentNotification.date.format(DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy")),
             subject = studentNotification.subject,
             content = studentNotification.content,
@@ -43,7 +43,7 @@ class StudentNotificationController(
     @PutMapping("update/{id}")
     fun updateWasRead(@RequestHeader("Authorization") token: String,@PathVariable id: Long):StudentNotificationResponse{
         val user = tokenService.parseToken(token.substring("Bearer".length))
-        when (val result = studentNotificationService.updateWasRead(user.id!!,id)){
+        when (val result = studentNotificationService.updateWasRead(user.id,id)){
             is Either.Right ->{
                 return createStudentNotificationResponse(result.value)
              }

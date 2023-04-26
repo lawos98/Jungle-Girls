@@ -41,7 +41,7 @@ class RoleService(
         when(val role = findRoleBySecretCode(secretCode)){
             is Either.Left -> return role.value.left()
             is Either.Right -> {
-                val updateUser = loginUserRepository.updateUserRole(role.value.id!!, user.id!!).block() ?: return "Server error cannot update user role".left()
+                val updateUser = loginUserRepository.updateUserRole(role.value.id, user.id).block() ?: return "Server error cannot update user role".left()
                 return updateUser.right()
             }
         }

@@ -14,15 +14,7 @@ class StudentNotificationService(
     ){
 
     fun generateStudentNotification(activity: Activity, studentScore: StudentScore, authorId:Long,studentNotificationType: StudentNotificationType){
-        val studentNotification = StudentNotification(
-            subject = studentNotificationType.getSubject(),
-            content = studentNotificationType.getContent(activity.name,studentScore.value,activity.maxScore),
-            date = LocalDateTime.now(),
-            authorId = authorId,
-            studentId = studentScore.id,
-            wasRead = false
-        )
-        studentNotificationRepository.save(studentNotification).block()
+        studentNotificationRepository.save(studentNotificationType.getSubject(),studentNotificationType.getContent(activity.name,studentScore.value,activity.maxScore),LocalDateTime.now(),authorId,studentScore.id,false).block()
     }
     fun getAllStudentNotifications(studentId: Long):List<StudentNotification> {
         return studentNotificationRepository.findAllByStudentId(studentId).collectList().block() as ArrayList<StudentNotification>

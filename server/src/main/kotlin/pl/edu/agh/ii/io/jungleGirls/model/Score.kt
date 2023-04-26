@@ -10,7 +10,7 @@ import org.springframework.data.annotation.Id
 @AllArgsConstructor
 data class Score(
     @Id
-    val id:Long?=null,
+    val id:Long,
     val studentId:Long,
     val activityId:Long,
     val value:Double?

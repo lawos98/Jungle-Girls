@@ -10,7 +10,7 @@ import org.springframework.data.annotation.Id
 @AllArgsConstructor
 data class RolePermission(
     @Id
-    val roleId: Long? = null,
-    val permissionId: Long? = null,
+    val roleId: Long,
+    val permissionId: Long,
     val shouldBeDisplayed: Boolean
 )

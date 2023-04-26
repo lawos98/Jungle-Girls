@@ -22,4 +22,7 @@ interface ScoreRepository: ReactiveCrudRepository<Score, Long> {
 
     @Query("Select id,student_id,activity_id,value from score where student_id=:studentId")
     fun getScoreByStudentId(@Param("studentId")studentId:Long) : Flux<Score?>
+
+    @Query("Insert into score (student_id,activity_id,value) values (:studentId,:activity,:value) returning *")
+    fun save(@Param("studentId")studentId:Long, @Param("activity")activityId:Long, @Param("value")value:Double) : Mono<Score>
 }

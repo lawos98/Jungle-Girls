@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import pl.edu.agh.ii.io.jungleGirls.dto.*
-import pl.edu.agh.ii.io.jungleGirls.model.Activity
 import pl.edu.agh.ii.io.jungleGirls.service.*
 import java.time.LocalDateTime
 
@@ -25,17 +24,17 @@ class ActivityController(
 //        val user = tokenService.parseToken(token.substring("Bearer".length))
 //        return activityService.getAllActivityByInstructorId(user.id!!)
 //    }
-    @GetMapping()
+    @GetMapping
     fun getActivities(@RequestHeader("Authorization") token: String):List<ActivityRequest>{
         val user = tokenService.parseToken(token.substring("Bearer".length))
-        val activities = activityService.getAllActivityByInstructorId(user.id!!)
+        val activities = activityService.getAllActivityByInstructorId(user.id)
         val courseGroupMap = HashMap<Long,String>()
         val activityTypeMap = HashMap<Long,String>()
         val activityCategoryMap = HashMap<Long,String>()
 
         val result = ArrayList<ActivityRequest>()
         for(activity in activities){
-            val courseGroupActivities = courseGroupActivityService.getAllByActivityId(activity.id!!)
+            val courseGroupActivities = courseGroupActivityService.getAllByActivityId(activity.id)
             val courseGroupNames  = ArrayList<String>()
             val courseGroupStartDates  = ArrayList<LocalDateTime>()
             for(courseGroupActivity in courseGroupActivities){
@@ -50,7 +49,7 @@ class ActivityController(
                 activityCategoryMap[activity.activityCategoryId] = activityCategoryService.getNameByIdAndInstructorId(activity.activityCategoryId,user.id)!!
             result.add(
                 ActivityRequest(
-                    id = activity.id!!,
+                    id = activity.id,
                     name = activity.name,
                     description = activity.description,
                     duration = activity.duration,
@@ -70,7 +69,7 @@ class ActivityController(
         val user = tokenService.parseToken(token.substring("Bearer".length))
 
         return ActivityCreationResponse(
-            groupNames = courseGroupService.getAllNamesById(user.id!!),
+            groupNames = courseGroupService.getAllNamesById(user.id),
             activityTypeNames = activityTypeService.getAllNames(),
             activityCategoryNames = activityCategoryService.getAllNames(user.id),
             activityNames = activityService.getAllNames(user.id)
@@ -81,7 +80,7 @@ class ActivityController(
     fun editActivity(@RequestHeader("Authorization") token: String, @PathVariable id: Long, @RequestBody payload:CreateActivityRequest):String{
         val user = tokenService.parseToken(token.substring("Bearer".length))
 
-        val activityToEdit = activityService.findByIdAndInstructorId(id,user.id!!)
+        val activityToEdit = activityService.findByIdAndInstructorId(id, user.id)
             ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Activity does not exist")
 
         val courseGroupIds = when(val result = courseGroupService.validateNames(user.id,payload.courseGroupNames)){
@@ -98,16 +97,7 @@ class ActivityController(
             is Either.Right -> result.value
         }
 
-        val editedActivity = Activity(
-            name = payload.name,
-            maxScore = payload.maxScore,
-            duration = payload.duration,
-            description = payload.description,
-            activityTypeId = activityTypeId,
-            activityCategoryId = activityCategoryId
-        )
-
-        return when(val result = activityService.editActivity(user.id,activityToEdit,editedActivity,courseGroupIds,payload.courseGroupStartDates)){
+        return when(val result = activityService.editActivity(user.id,activityToEdit,payload.name,payload.maxScore,payload.description,payload.duration,activityTypeId,activityCategoryId,courseGroupIds,payload.courseGroupStartDates)){
             is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
             is Either.Right -> "Activity edited successfully"
         }
@@ -117,7 +107,7 @@ class ActivityController(
     fun deleteActivity(@RequestHeader("Authorization") token: String, @PathVariable id: Long):String{
         val user = tokenService.parseToken(token.substring("Bearer".length))
 
-        val activityToDelete = activityService.findByIdAndInstructorId(id,user.id!!)
+        val activityToDelete = activityService.findByIdAndInstructorId(id, user.id)
             ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Activity does not exist")
 
         return when(val result = activityService.deleteActivity(activityToDelete)){
@@ -129,7 +119,7 @@ class ActivityController(
     fun createActivity(@RequestBody payload:CreateActivityRequest, @RequestHeader("Authorization") token: String): String{
         val user = tokenService.parseToken(token.substring("Bearer".length))
 
-        val courseGroupIds = when(val result = courseGroupService.validateNames(user.id!!,payload.courseGroupNames)){
+        val courseGroupIds = when(val result = courseGroupService.validateNames(user.id,payload.courseGroupNames)){
             is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
             is Either.Right -> result.value
         }
@@ -143,15 +133,7 @@ class ActivityController(
             is Either.Right -> result.value
         }
 
-        val activity = Activity(
-            name = payload.name,
-            description = payload.description,
-            duration = payload.duration,
-            maxScore = payload.maxScore,
-            activityTypeId = activityTypeId,
-            activityCategoryId = activityCategoryId
-        )
-        when(val result = activityService.createActivity(user.id,activity,courseGroupIds,payload.courseGroupStartDates)){
+        when(val result = activityService.createActivity(user.id,payload.name,payload.description,payload.duration, payload.maxScore,activityTypeId,activityCategoryId,courseGroupIds,payload.courseGroupStartDates)){
             is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
             is Either.Right -> return "Activity created successfully"
         }

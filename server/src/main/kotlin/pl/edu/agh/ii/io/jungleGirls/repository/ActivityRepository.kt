@@ -14,6 +14,9 @@ interface ActivityRepository : ReactiveCrudRepository<Activity,Long> {
     fun findByName(name: String): Mono<Activity>
     fun existsByName(name: String): Mono<Boolean>
 
+    @Query("Insert into activity (name,max_score,duration,description,activity_type_id,activity_category_id) values (:name,:max_score,:duration,:description,:activity_type_id,:activity_category_id) returning *")
+    fun save(@Param("name")name: String, @Param("max_score")maxScore: Double, @Param("duration")duration: Duration, @Param("description")description: String, @Param("activity_type_id")activityTypeId: Long, @Param("activity_category_id")activityCategoryId: Long): Mono<Activity>
+
     @Query("select CASE WHEN COUNT(a.name) > 0 THEN true ELSE false END from activity as a inner join activity_category ac on ac.id = a.activity_category_id where ac.instructor_id = :instructor_id and a.name = :name;")
     fun existsByInstructorIdAndName(@Param("instructor_id")instructorId:Long, @Param("name")name: String): Mono<Boolean>
     @Query("select a.name from activity as a inner join activity_category ac on a.activity_category_id = ac.id where ac.instructor_id = :instructor_id")

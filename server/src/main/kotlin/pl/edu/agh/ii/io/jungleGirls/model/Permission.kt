@@ -9,6 +9,6 @@ import org.springframework.data.annotation.Id
 @AllArgsConstructor
 class Permission (
     @Id
-    val id:Long? =null,
+    val id:Long,
     val name:String
 )

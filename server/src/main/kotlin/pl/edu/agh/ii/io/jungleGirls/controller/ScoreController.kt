@@ -18,7 +18,7 @@ class ScoreController(
     @GetMapping("/{id}")
     fun getScores(@PathVariable id:Long, @RequestHeader("Authorization") token: String): List<ActivityScoreList> {
         val instructor = tokenService.parseToken(token.substring("Bearer".length))
-        when(val score=scoreService.getScores(id,instructor.id!!)){
+        when(val score=scoreService.getScores(id, instructor.id)){
             is Either.Right ->{
                 return score.value
             }
@@ -29,7 +29,7 @@ class ScoreController(
         }
     }
 
-    @GetMapping()
+    @GetMapping
     fun getScore(@RequestHeader("Authorization") token: String):List<ActivityScore>{
         val user = tokenService.parseToken(token.substring("Bearer".length))
         when(val score = scoreService.getScore(user)){
@@ -41,7 +41,7 @@ class ScoreController(
     @PutMapping("/{id}")
     fun updateScores(@PathVariable id:Long, @RequestBody scores:List<ActivityScoreList>, @RequestHeader("Authorization") token: String):List<ActivityScoreList>{
         val instructor = tokenService.parseToken(token.substring("Bearer".length))
-        when(val scoreList=scoreService.updateScores(id,instructor.id!!,scores)){
+        when(val scoreList=scoreService.updateScores(id, instructor.id,scores)){
             is Either.Right ->{
                 return scoreList.value
             }

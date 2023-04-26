@@ -3,7 +3,6 @@ package pl.edu.agh.ii.io.jungleGirls.service
 import arrow.core.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import pl.edu.agh.ii.io.jungleGirls.dto.EditActivityRequest
 import pl.edu.agh.ii.io.jungleGirls.model.Activity
 import pl.edu.agh.ii.io.jungleGirls.model.CourseGroupActivity
 import pl.edu.agh.ii.io.jungleGirls.repository.*
@@ -24,16 +23,16 @@ class ActivityService(
     fun existsByInstructorIdAndName(instructorId:Long, name: String): Boolean {
         return activityRepository.existsByInstructorIdAndName(instructorId,name).block() ?: false
     }
-    fun createActivity(instructorId: Long,activity: Activity,groupIds:ArrayList<Long>,courseGroupStartDates:ArrayList<LocalDateTime>):Either<String,None>{
-        return validateActivity(instructorId,activity).flatMap {_ ->
+    fun createActivity(instructorId: Long,name: String,description: String,duration: Duration,maxScore: Double,activityTypeId: Long,activityCategoryId: Long,groupIds:ArrayList<Long>,courseGroupStartDates:ArrayList<LocalDateTime>):Either<String,None>{
+        return validateActivity(instructorId,name,description,duration,maxScore).flatMap {_ ->
             checkIsCorrectSize(courseGroupStartDates,groupIds).flatMap { _->
             validateStartDates(courseGroupStartDates).flatMap { _->
 
             @Transactional
             fun transaction(): Boolean {
-                val createdActivity = activityRepository.save(activity).block() ?: return false
+                val createdActivity = activityRepository.save(name,maxScore,duration,description,activityTypeId,activityCategoryId).block() ?: return false
                 for((groupId,startDime) in groupIds.zip(courseGroupStartDates)){
-                    courseGroupActivityRepository.save(CourseGroupActivity(groupId, createdActivity.id!!,startDime)).block() ?: return false
+                    courseGroupActivityRepository.save(CourseGroupActivity(groupId, createdActivity.id,startDime)).block() ?: return false
                 }
                 return true
             }
@@ -42,33 +41,33 @@ class ActivityService(
             return None.right()
         }}}
     }
-    fun editActivity(instructorId: Long, activityToEdit : Activity, editedActivity: Activity,groupIds:ArrayList<Long>,courseGroupStartDates:ArrayList<LocalDateTime>): Either<String, None> {
-        return validateEditedActivity(instructorId,editedActivity,activityToEdit).flatMap {_ ->
+    fun editActivity(instructorId: Long, activityToEdit : Activity, name: String,maxScore: Double,description:String,duration:Duration,activityTypeId:Long,activityCategoryId:Long,groupIds:ArrayList<Long>,courseGroupStartDates:ArrayList<LocalDateTime>): Either<String, None> {
+        return validateEditedActivity(instructorId,name,maxScore,description,duration,activityToEdit).flatMap {_ ->
             checkIsCorrectSize(courseGroupStartDates,groupIds).flatMap { _->
                 validateStartDates(courseGroupStartDates).flatMap { _->
 
 
                     @Transactional
                     fun transaction(): Boolean {
-                        val edited = activityRepository.editActivity(activityToEdit.id!!,editedActivity.name,editedActivity.maxScore,editedActivity.description,editedActivity.duration,editedActivity.activityTypeId,editedActivity.activityCategoryId).block()
+                        val edited = activityRepository.editActivity(activityToEdit.id,name,maxScore,description,duration,activityTypeId,activityCategoryId).block()
                             ?: return false
                         for((groupId,startDime) in groupIds.zip(courseGroupStartDates)){
-                            courseGroupActivityRepository.updateStartDate(groupId, edited.id!!,startDime).block() ?: return false
+                            courseGroupActivityRepository.updateStartDate(groupId, edited.id,startDime).block() ?: return false
                         }
                         return true
                     }
                     if(!transaction()) return "Error while saving to database".left()
 
-                    return None.right();
+                    return None.right()
         }}}
     }
 
-    private fun validateEditedActivity(instructorId: Long, editedActivity: Activity, activityToEdit: Activity): Either<String, None> {
-        return checkIsBlank(editedActivity.name,"name can not be empty")
-            .flatMap {_ ->  checkIfEditedNameIsNotTaken(instructorId,editedActivity.name,activityToEdit.name)
-                .flatMap {_ -> checkIsBlank(editedActivity.description,"description can not be empty")
-                    .flatMap {_ -> checkIsDurationPositive(editedActivity.duration)
-                        .flatMap {_ -> checkIsMaxScorePositive(editedActivity.maxScore)
+    private fun validateEditedActivity(instructorId: Long, name: String,maxScore: Double,description:String,duration:Duration, activityToEdit: Activity): Either<String, None> {
+        return checkIsBlank(name,"name can not be empty")
+            .flatMap {_ ->  checkIfEditedNameIsNotTaken(instructorId,name,activityToEdit.name)
+                .flatMap {_ -> checkIsBlank(description,"description can not be empty")
+                    .flatMap {_ -> checkIsDurationPositive(duration)
+                        .flatMap {_ -> checkIsMaxScorePositive(maxScore)
                         }}}}
     }
 
@@ -88,12 +87,12 @@ class ActivityService(
 
 
 
-    private fun validateActivity(instructorId: Long,activity: Activity): Either<String, None> {
-        return checkIsBlank(activity.name,"name can not be empty")
-            .flatMap {_ -> checkIfNameIsNotTaken(instructorId,activity.name)
-            .flatMap {_ -> checkIsBlank(activity.description,"description can not be empty")
-            .flatMap {_ -> checkIsDurationPositive(activity.duration)
-            .flatMap {_ -> checkIsMaxScorePositive(activity.maxScore)
+    private fun validateActivity(instructorId: Long,name: String,description: String,duration: Duration,maxScore: Double): Either<String, None> {
+        return checkIsBlank(name,"name can not be empty")
+            .flatMap {_ -> checkIfNameIsNotTaken(instructorId,name)
+            .flatMap {_ -> checkIsBlank(description,"description can not be empty")
+            .flatMap {_ -> checkIsDurationPositive(duration)
+            .flatMap {_ -> checkIsMaxScorePositive(maxScore)
             }}}}
     }
     private fun checkIsCorrectSize(a: ArrayList<LocalDateTime>, b: ArrayList<Long>):Either<String, None>{
@@ -122,10 +121,10 @@ class ActivityService(
 
 
     fun deleteActivity(activity: Activity): Either<String, None>{
-        return checkIfCanBeDeleted(activity.id!!).flatMap { _ ->
+        return checkIfCanBeDeleted(activity.id).flatMap { _ ->
             @Transactional
             fun transaction(){
-                courseGroupActivityRepository.deleteByActivityId(activity.id!!).blockLast()
+                courseGroupActivityRepository.deleteByActivityId(activity.id).blockLast()
                 activityRepository.delete(activity).block()
             }
             transaction()

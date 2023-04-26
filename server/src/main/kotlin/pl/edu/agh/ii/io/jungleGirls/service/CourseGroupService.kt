@@ -2,6 +2,7 @@ package pl.edu.agh.ii.io.jungleGirls.service
 
 import arrow.core.*
 import org.springframework.stereotype.Service
+import pl.edu.agh.ii.io.jungleGirls.model.CourseGroup
 import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import pl.edu.agh.ii.io.jungleGirls.repository.CourseGroupRepository
 
@@ -36,5 +37,9 @@ class CourseGroupService(private val courseGroupRepository: CourseGroupRepositor
 
     fun existsByCourseId(courseId: Long):Boolean{
         return courseGroupRepository.existsById(courseId).block() ?: return false
+    }
+
+    fun getAllGroups(instructorId:Long):ArrayList<CourseGroup>{
+        return courseGroupRepository.getAllGroups(instructorId).collectList().block() as ArrayList<CourseGroup>
     }
 }

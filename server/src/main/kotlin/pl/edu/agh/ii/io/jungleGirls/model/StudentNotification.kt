@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 @AllArgsConstructor
 data class StudentNotification(
     @Id
-    val id: Long? = null,
+    val id: Long,
     val date: LocalDateTime,
     val subject: String,
     val content: String,

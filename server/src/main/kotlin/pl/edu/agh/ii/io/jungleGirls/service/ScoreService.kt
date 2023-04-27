@@ -91,7 +91,7 @@ class ScoreService(
     }
 
     fun generateCSV(instructorId: Long, groupId: Long, bufferedWriter: BufferedWriter) {
-        println(groupId)
+
         val students = courseGroupService.getAllStudentIdsAndIndexesByGroupId(groupId)
         val activities = courseGroupService.getAllActivityIdsAndNames(groupId)
         val scores = courseGroupService.getAllScoresWithActivityIdAndStudentIdByGroupId(groupId)

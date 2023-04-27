@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import pl.edu.agh.ii.io.jungleGirls.dto.ActivityScore
 import pl.edu.agh.ii.io.jungleGirls.dto.ActivityScoreList
+import pl.edu.agh.ii.io.jungleGirls.service.CourseGroupService
 import pl.edu.agh.ii.io.jungleGirls.service.ScoreService
 import pl.edu.agh.ii.io.jungleGirls.service.TokenService
 import java.io.BufferedWriter
@@ -22,7 +23,8 @@ import java.nio.file.Files
 @RequestMapping("/api/score")
 class ScoreController(
     private val tokenService: TokenService,
-    private val scoreService: ScoreService
+    private val scoreService: ScoreService,
+    private val courseGroupService: CourseGroupService,
 ) {
     @GetMapping("/{id}")
     fun getScores(@PathVariable id:Long, @RequestHeader("Authorization") token: String): List<ActivityScoreList> {
@@ -42,15 +44,14 @@ class ScoreController(
     @GetMapping("/to-csv/{groupId}")
     fun downloadCSV(response: HttpServletResponse, @PathVariable groupId:Long, @RequestHeader("Authorization") token: String){
         val instructor = tokenService.parseToken(token.substring("Bearer".length))
-
+        if(!courseGroupService.checkLecturerGroup(instructor.id,groupId)){
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST,"Group does not belongs to instructor")
+        }
         val filename = "group_${groupId}_grades.csv"
-        val file = File(filename)
 
-        // Ustawienie nagłówków dla odpowiedzi HTTP
         response.contentType = "text/csv"
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=$filename")
 
-        // Zapisanie pliku do strumienia odpowiedzi HTTP
         val outputStream = response.outputStream
         val writer = OutputStreamWriter(outputStream, StandardCharsets.UTF_8)
         val bufferedWriter = BufferedWriter(writer)
@@ -58,7 +59,6 @@ class ScoreController(
         scoreService.generateCSV(instructor.id,groupId,bufferedWriter)
         bufferedWriter.flush()
 
-        // Zamknięcie strumienia odpowiedzi HTTP
         outputStream.close()
         outputStream.flush()
     }

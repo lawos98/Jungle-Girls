@@ -3,6 +3,7 @@ package pl.edu.agh.ii.io.jungleGirls.service
 import arrow.core.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import pl.edu.agh.ii.io.jungleGirls.dto.CreateActivityRequest
 import pl.edu.agh.ii.io.jungleGirls.model.Activity
 import pl.edu.agh.ii.io.jungleGirls.model.CourseGroupActivity
 import pl.edu.agh.ii.io.jungleGirls.repository.*
@@ -23,15 +24,15 @@ class ActivityService(
     fun existsByInstructorIdAndName(instructorId:Long, name: String): Boolean {
         return activityRepository.existsByInstructorIdAndName(instructorId,name).block() ?: false
     }
-    fun createActivity(instructorId: Long,name: String,description: String,duration: Duration,maxScore: Double,activityTypeId: Long,activityCategoryId: Long,groupIds:ArrayList<Long>,courseGroupStartDates:ArrayList<LocalDateTime>):Either<String,None>{
-        return validateActivity(instructorId,name,description,duration,maxScore).flatMap {_ ->
-            checkIsCorrectSize(courseGroupStartDates,groupIds).flatMap { _->
-            validateStartDates(courseGroupStartDates).flatMap { _->
+    fun createActivity(instructorId: Long, createActivity: CreateActivityRequest,activityTypeId: Long,activityCategoryId: Long,groupIds:ArrayList<Long>):Either<String,None>{
+        return validateActivity(instructorId,createActivity.name,createActivity.description,createActivity.duration,createActivity.maxScore).flatMap {_ ->
+            checkIsCorrectSize(createActivity.courseGroupStartDates,groupIds).flatMap { _->
+            validateStartDates(createActivity.courseGroupStartDates).flatMap { _->
 
             @Transactional
             fun transaction(): Boolean {
-                val createdActivity = activityRepository.save(name,maxScore,duration,description,activityTypeId,activityCategoryId).block() ?: return false
-                for((groupId,startDime) in groupIds.zip(courseGroupStartDates)){
+                val createdActivity = activityRepository.save(createActivity.name,createActivity.maxScore,createActivity.duration,createActivity.description,activityTypeId,activityCategoryId).block() ?: return false
+                for((groupId,startDime) in groupIds.zip(createActivity.courseGroupStartDates)){
                     courseGroupActivityRepository.save(CourseGroupActivity(groupId, createdActivity.id,startDime)).block() ?: return false
                 }
                 return true
@@ -41,17 +42,17 @@ class ActivityService(
             return None.right()
         }}}
     }
-    fun editActivity(instructorId: Long, activityToEdit : Activity, name: String,maxScore: Double,description:String,duration:Duration,activityTypeId:Long,activityCategoryId:Long,groupIds:ArrayList<Long>,courseGroupStartDates:ArrayList<LocalDateTime>): Either<String, None> {
-        return validateEditedActivity(instructorId,name,maxScore,description,duration,activityToEdit).flatMap {_ ->
-            checkIsCorrectSize(courseGroupStartDates,groupIds).flatMap { _->
-                validateStartDates(courseGroupStartDates).flatMap { _->
+    fun editActivity(instructorId: Long, activityToEdit : Activity, createActivity: CreateActivityRequest, activityTypeId:Long, activityCategoryId:Long, groupIds:ArrayList<Long>): Either<String, None> {
+        return validateEditedActivity(instructorId,createActivity.name,createActivity.maxScore,createActivity.description,createActivity.duration,activityToEdit).flatMap {_ ->
+            checkIsCorrectSize(createActivity.courseGroupStartDates,groupIds).flatMap { _->
+                validateStartDates(createActivity.courseGroupStartDates).flatMap { _->
 
 
                     @Transactional
                     fun transaction(): Boolean {
-                        val edited = activityRepository.editActivity(activityToEdit.id,name,maxScore,description,duration,activityTypeId,activityCategoryId).block()
+                        val edited = activityRepository.editActivity(activityToEdit.id,createActivity.name,createActivity.maxScore,createActivity.description,createActivity.duration,activityTypeId,activityCategoryId).block()
                             ?: return false
-                        for((groupId,startDime) in groupIds.zip(courseGroupStartDates)){
+                        for((groupId,startDime) in groupIds.zip(createActivity.courseGroupStartDates)){
                             courseGroupActivityRepository.updateStartDate(groupId, edited.id,startDime).block() ?: return false
                         }
                         return true

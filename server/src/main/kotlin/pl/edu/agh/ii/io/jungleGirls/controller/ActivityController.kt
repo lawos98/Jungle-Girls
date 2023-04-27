@@ -97,7 +97,7 @@ class ActivityController(
             is Either.Right -> result.value
         }
 
-        return when(val result = activityService.editActivity(user.id,activityToEdit,payload.name,payload.maxScore,payload.description,payload.duration,activityTypeId,activityCategoryId,courseGroupIds,payload.courseGroupStartDates)){
+        return when(val result = activityService.editActivity(user.id,activityToEdit,payload,activityTypeId,activityCategoryId,courseGroupIds)){
             is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
             is Either.Right -> "Activity edited successfully"
         }
@@ -133,7 +133,7 @@ class ActivityController(
             is Either.Right -> result.value
         }
 
-        when(val result = activityService.createActivity(user.id,payload.name,payload.description,payload.duration, payload.maxScore,activityTypeId,activityCategoryId,courseGroupIds,payload.courseGroupStartDates)){
+        when(val result = activityService.createActivity(user.id,payload,activityTypeId,activityCategoryId,courseGroupIds)){
             is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
             is Either.Right -> return "Activity created successfully"
         }

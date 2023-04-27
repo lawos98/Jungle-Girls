@@ -28,9 +28,6 @@ class InstructorController(
             is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, role.value)
             is Either.Right -> {
                 if (role.value.id!=Roles.COORDINATOR.getId() && role.value.id!=Roles.LECTURER.getId()) throw ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to access this resource")
-                println("=====================================")
-                println(user.id)
-                println(courseGroupService.getAllGroups(user.id))
                 return InstructorGroups(courseGroupService.getAllGroups(user.id).map{ it.id })
             }
         }

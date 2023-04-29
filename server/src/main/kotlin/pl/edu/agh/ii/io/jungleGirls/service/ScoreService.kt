@@ -92,21 +92,18 @@ class ScoreService(
 
     fun generateCSV(instructorId: Long, groupId: Long, bufferedWriter: BufferedWriter) {
 
-        val students = courseGroupService.getAllStudentIdsAndIndexesByGroupId(groupId)
+        val students = courseGroupService.getAllStudentIdsAndNamesByGroupId(groupId)
         val activities = courseGroupService.getAllActivityIdsAndNames(groupId)
         val scores = courseGroupService.getAllScoresWithActivityIdAndStudentIdByGroupId(groupId)
 
-        for(studentIndex in students.values){
-            bufferedWriter.write(",$studentIndex")
+        for(studentName in students.values){
+            bufferedWriter.write(",$studentName")
         }
         bufferedWriter.write("\n")
         for(activityEntry in activities.entries){
             bufferedWriter.write(activityEntry.value)
             for(studentEntry in students.entries){
-                val score = when(val res = scores[Pair(activityEntry.key,studentEntry.key)]){
-                    null -> 0.0
-                    else -> res
-                }
+                val score = scores[Pair(activityEntry.key,studentEntry.key)]
                 bufferedWriter.write(",$score")
             }
             bufferedWriter.write("\n")

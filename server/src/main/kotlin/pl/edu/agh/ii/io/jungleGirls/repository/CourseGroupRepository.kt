@@ -6,7 +6,7 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Repository
 import pl.edu.agh.ii.io.jungleGirls.dto.ActivityIdWithName
 import pl.edu.agh.ii.io.jungleGirls.dto.ScoreWithActivityIdAndStudentId
-import pl.edu.agh.ii.io.jungleGirls.dto.StudentIdWithIndex
+import pl.edu.agh.ii.io.jungleGirls.dto.StudentIdWithName
 import pl.edu.agh.ii.io.jungleGirls.model.CourseGroup
 import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import reactor.core.publisher.Flux
@@ -32,8 +32,8 @@ interface CourseGroupRepository : ReactiveCrudRepository<CourseGroup,Long> {
 
     @Query("select id,name,instructor_id,secret_code from course_group where instructor_id = :instructorId")
     fun getAllGroups(@Param("instructorId") instructorId:Long): Flux<CourseGroup>
-    @Query("Select id,index from student_description where course_group_id = :groupId")
-    fun getAllStudentIdsAndIndexesByGroupId(@Param("groupId") groupId:Long): Flux<StudentIdWithIndex>
+    @Query("Select sd.id,concat(lu.firstname,' ',lu.lastname) as name from student_description sd inner join login_user lu on sd.id = lu.id where course_group_id = :groupId")
+    fun getAllStudentIdsAndNamesByGroupId(@Param("groupId") groupId:Long): Flux<StudentIdWithName>
     @Query("Select a.id,a.name from course_group_activity as cga inner join activity a on a.id = cga.activity_id where cga.course_group_id = :groupId")
     fun getAllActivityIdsAndNamesByGroupId(@Param("groupId") groupId:Long): Flux<ActivityIdWithName>
     @Query("select s.student_id, s.activity_id, s.value as score from score s inner join course_group_activity cga on s.activity_id = cga.activity_id inner join student_description sd on s.student_id = sd.id where cga.course_group_id = :groupId and sd.course_group_id = :groupId")

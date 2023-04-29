@@ -3,7 +3,7 @@ type: Request
 parentId: fld_a2a780e7fd8b4a59b4ea9242024a45a0
 modified: 1682623695110
 created: 1682623684597
-url: "{{ _.ServerAddress }}/api/score/to-csv/1111"
+url: "{{ _.ServerAddress }}/api/score/to-csv/5"
 name: Get csv wrong group id
 description: ""
 method: GET

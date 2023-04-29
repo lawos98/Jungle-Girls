@@ -10,8 +10,12 @@ import validateInput from "../../utils/utils"
 type EditableGridProps = {
     groupId: number;
 }
-// TODO: Add search functionality (maybe another task)
-// TODO: add pagination (another task)
+type Grade = {
+    score: number;
+    activityId: number;
+    activityCategoryId: number;
+}
+// TODO: add colors :)
 const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
     const [zoomedRowIndex, setZoomedRowIndex] = useState<null | number>(null);
     const [zoomedColumnIndex, setZoomedColumnIndex] = useState<null | number>(null);
@@ -23,36 +27,97 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const swiperSetupFlag = useRef(false);
 
-    const [data, setData] = useState<string[][]>([[]]);
+    const [data, setData] = useState<Grade[][]>([[]]);
     const [columnLabels, setColumnLabels] = useState<string[]>([]);
     const [rowLabels, setRowLabels] = useState<string[]>([]);
 
     const [scoreData, setScoreData] = useState<ActivityScoreList[]>([]);
     const [changedCells, setChangedCells] = useState<{ [key: string]: string }>({});
+    const [categories, setCategories] = useState<Array<{ id: number; name: string }>>([]);
+    const [foldedCategories, setFoldedCategories] = useState<{ [key: number]: boolean }>({});
+
 
     useEffect(() => {
-        actions.getGrades(groupId,(scoreData:any) => {
+        actions.getGrades(groupId, (scoreData: any) => {
             setScoreData(scoreData);
             console.log(scoreData);
-            setColumnLabels(scoreData.map((item:any) => item.activity.name));
-            setRowLabels(scoreData[0].students.map((item:any) => item.firstname + " " + item.lastname));
-            const organizedData: string[][] = scoreData[0].students.map((_: any, rowIndex: number) => {
-                return scoreData.map((item: any) => {
-                    const student = item.students[rowIndex];
-                    return student.value === null ? "" : student.value.toString();
-                });
+            setRowLabels(
+                scoreData[0].students.map(
+                    (item: any) => item.firstname + " " + item.lastname
+                )
+            );
+
+            let activityCategoryIds: number[];
+            activityCategoryIds = Array.from(
+                new Set(scoreData.map((item: any) => item.activity.activityCategoryId))
+            );
+            console.log(activityCategoryIds);
+
+            actions.getCategories(activityCategoryIds, (categories: Array<{ id: number; name: string }>) => {
+                // const uniqueCategories = categories.map((item: any) => item.name);
+                // console.log(uniqueCategories);
+                setCategories(categories);
+
+                const initialFoldedCategories = categories.reduce(
+                    (acc: { [key: number]: boolean }, category: { id: number; name: string }) => {
+                        acc[category.id] = false;
+                        return acc;
+                    },
+                    {}
+                );
+                setFoldedCategories(initialFoldedCategories);
+
+                const groupedActivities = categories.reduce(
+                    (acc: { [key: number]: any[] }, category: any) => {
+                        acc[category.id] = scoreData.filter(
+                            (item: any) => item.activity.activityCategoryId === category.id
+                        );
+                        return acc;
+                    },
+                    {}
+                );
+
+                const columnLabels = [];
+                for (const categoryId of activityCategoryIds) {
+                    const activities = groupedActivities[categoryId];
+                    for (const activity of activities) {
+                        columnLabels.push(activity.activity.name);
+                    }
+                }
+                setColumnLabels(columnLabels);
+
+                const organizedData: Grade[][] = scoreData[0].students.map(
+                    (_: any, rowIndex: number) => {
+                        const rowData = [];
+                        for (const categoryId of activityCategoryIds) {
+                            const activities = groupedActivities[categoryId];
+                            for (const activity of activities) {
+                                const student = activity.students[rowIndex];
+                                const score = student.value === null ? "" : student.value.toString();
+                                const activityId = activity.activity.id;
+                                const activityCategoryId = activity.activity.activityCategoryId;
+                                rowData.push({ score, activityId, activityCategoryId });
+                            }
+                        }
+                        return rowData;
+                    }
+                );
+                console.log(organizedData)
+                setData(organizedData);
+                setIsLoading(false);
             });
-            setData(organizedData);
-            setIsLoading(false);
-        })
+        });
         setupSwiper();
 
-        document.addEventListener("click", handleBackgroundClick);
+    document.addEventListener("click", handleBackgroundClick);
         // Remove the event listener when the component is unmounted
         return () => {
             document.removeEventListener("click", handleBackgroundClick);
         };
     }, []);
+    const toggleFoldCategory = (categoryId: number) => {
+        setFoldedCategories({ ...foldedCategories, [categoryId]: !foldedCategories[categoryId] });
+    };
 
     const setupSwiper = () => {
         if (!swiperSetupFlag.current) {
@@ -86,16 +151,29 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
 
         }
     }
-    const handleCellChange = useCallback((row: number, col: number, value: string) => {
-        if (validateInput(value, 0, scoreData[col].activity.maxScore)) {
-            const newData = data.map((r, i) => r.map((c, j) => (i === row && j === col ? value : c)));
-            setData(newData);
-            setChangedCells({ ...changedCells, [`${row}-${col}`]: value });
-        }
-        else{
-            toast.error(`Wartość musi być między 0 a ${scoreData[col].activity.maxScore}`);
-        }
-    },[data,scoreData]);
+    const handleCellChange = useCallback(
+        (row: number, col: number, value: string) => {
+            if (
+                validateInput(value, 0, scoreData[col].activity.maxScore)
+            ) {
+                const newData = data.map((r, i) =>
+                    r.map((c, j) =>
+                        i === row && j === col
+                            ? { ...c, score: parseInt(value) }
+                            : c
+                    )
+                );
+                setData(newData);
+                setChangedCells({ ...changedCells, [`${row}-${col}`]: value });
+            } else {
+                toast.error(
+                    `Wartość musi być między 0 a ${scoreData[col].activity.maxScore}`
+                );
+            }
+        },
+        [data, scoreData]
+    );
+
     const handleSaveGrades = () => {
         const updatedActivityScoreList: ActivityScoreList[] = [];
 
@@ -162,7 +240,22 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
         }
         // if column is zoomed in, prevent moving to other columns
         if (zoomedColumnIndex !== null) {
-            newCol = zoomedColumnIndex;
+            newCol = col;
+        }
+        // if the cell is in a folded category, move to the next available cell
+        if(direction === 'right')
+        {
+            while(foldedCategories[data[newRow][newCol].activityCategoryId] && newCol < data[newRow].length - 1)
+            {
+                newCol++;
+            }
+        }
+        else if(direction === 'left')
+        {
+            while(foldedCategories[data[newRow][newCol].activityCategoryId] && newCol > 0)
+            {
+                newCol--;
+            }
         }
         if (newRow !== row || newCol !== col) {
             const input = document.getElementById(`cell-${newRow}-${newCol}`) as HTMLInputElement;
@@ -174,48 +267,67 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
     };
 
     return (
-        <div
-            ref={containerRef}
-        >
-            {isLoading && (
-                <EditableGridSkeleton></EditableGridSkeleton>
-            )}
+        <div ref={containerRef}>
+            {isLoading && <EditableGridSkeleton></EditableGridSkeleton>}
 
-            <div
-                className="border-collapse flex flex-col h-min transition-all duration-300"
-            >
-                <div className="flex pb-1">
-                    <div className="w-40"></div>
-                    {columnLabels.map((label, index) => (
-                        // activities names
-                        <div key={index}
-                             className={`w-24 border-collapse text-center whitespace-nowrap cursor-pointer transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && index !== zoomedColumnIndex ? "opacity-50 overflow-hidden" : "opacity-100"} ${zoomedColumnIndex !== null && index == zoomedColumnIndex ? "origin-top scale-105" : "origin-left scale-100"}`}
-                             onClick={() => {
-                                 // if the row is zoomed in, zoom out and zoom in the column
-                                 if (zoomedRowIndex !== null) {
-                                     setZoomedRowIndex(null);
-                                     setTimeout(() => {
-                                         setZoomedColumnIndex(zoomedColumnIndex === index ? null : index);
-                                     }, 200);
-                                 }
-                                 else {
-                                     setZoomedColumnIndex(zoomedColumnIndex === index ? null : index);
-                                 }
-                             }}
-                        >
-                            {label}
-                            <p>0-{scoreData[index].activity.maxScore}</p>
-                        </div>
-                    ))}
+            <div className=" border-collapse flex flex-col h-min transition-all duration-300">
+                <div className="shrink-0  flex flex-row pb-1">
+                    <div className="shrink-0  w-40"></div>
+                    <div className="flex flex-row ">
+                        {categories.map((category, categoryIndex) => (
+                            <div key={`category-${categoryIndex}`} className={`flex flex-col ${
+                                foldedCategories[category.id]
+                                    ? "order-last pop-in-out"
+                                    : "order-none pop"
+                            }`}>
+                                <div
+                                    className={`cursor-pointer order-none font-bold text-center bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-1 px-2  mb-1`}
+                                    onClick={() => toggleFoldCategory(category.id)}
+                                >
+                                    {category.name}
+                                </div>
+                                <div className="flex">
+                                    {scoreData
+                                        .filter((item) => item.activity.activityCategoryId === category.id)
+                                        .map((item, index) => (
+                                            <div
+                                                key={item.activity.id}
+                                                className={`w-24 border-collapse text-center whitespace-nowrap cursor-pointer transition-all duration-500 ease-in-out ${
+                                                    foldedCategories[category.id]
+                                                        ? "opacity-0 max-w-0 max-h-0 overflow-hidden"
+                                                        : "opacity-100"
+                                                } ${zoomedColumnIndex !== null && item.activity.id !== zoomedColumnIndex ? "opacity-50 overflow-hidden" : "opacity-100"} ${zoomedColumnIndex !== null && item.activity.id == zoomedColumnIndex ? "origin-top scale-105" : "origin-left scale-100"}`}
+                                                onClick={() => {
+                                                    // if the row is zoomed in, zoom out and zoom in the column
+                                                    if (zoomedRowIndex !== null) {
+                                                        setZoomedRowIndex(null);
+                                                        setTimeout(() => {
+                                                            setZoomedColumnIndex(zoomedColumnIndex === item.activity.id ? null : item.activity.id);
+                                                        }, 200);
+                                                    }
+                                                    else {
+                                                        setZoomedColumnIndex(zoomedColumnIndex === item.activity.id ? null : item.activity.id);
+                                                    }
+                                                }}
+                                            >
+                                                {item.activity.name}
+                                                <p>0-{item.activity.maxScore}</p>
+                                            </div>
+                                        ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
                 </div>
                 {data.map((row, rowIndex) => {
                     // if (zoomedRowIndex !== null && rowIndex !== zoomedRowIndex) return null;
                     return (
                         <div key={`row-${rowIndex}`}
-                             className={`border-collapse flex items-center cursor-pointer transition-all duration-500 ease-in-out ${zoomedRowIndex !== null && rowIndex !== zoomedRowIndex ? "opacity-50 max-h-20 overflow-hidden" : "opacity-100 max-h-20"} ${zoomedRowIndex !== null && rowIndex == zoomedRowIndex ? "origin-top scale-[1.03] z-10" : "origin-left scale-100 z-0"}`}>
+                             className={`shrink-0 border-collapse flex items-center cursor-pointer transition-all duration-500 ease-in-out ${zoomedRowIndex !== null && rowIndex !== zoomedRowIndex ? "opacity-50 max-h-20 overflow-hidden" : "opacity-100 max-h-20"} ${zoomedRowIndex !== null && rowIndex == zoomedRowIndex ? "origin-top scale-[1.03] z-10" : "origin-left scale-100 z-0"}`}>
                             <div
                                 // names
-                                className="text-center w-40"
+                                className="shrink-0 text-center w-40"
                                 onClick={() => {
                                     // if the column is zoomed in, zoom out and zoom in the row
                                     if (zoomedColumnIndex !== null) {
@@ -236,11 +348,11 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                             {row.map((cell, colIndex) => (
                                 // transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && colIndex !== zoomedColumnIndex ? 'opacity-0 max-w-0 max-h-0 overflow-hidden' : 'opacity-100 max-w-24 max-h-20'
                                 <div key={`cell-${rowIndex}-${colIndex}`}
-                                     className={`w-24 border-collapse transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && colIndex !== zoomedColumnIndex ? "opacity-50 overflow-hidden" : "opacity-100"} ${zoomedColumnIndex !== null && colIndex == zoomedColumnIndex ? "origin-top scale-110 z-10" : "origin-bottom scale-100 z-0"}`}>
+                                     className={`shrink-0 w-24 border-collapse transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && cell.activityId !== zoomedColumnIndex ? "opacity-50 overflow-hidden" : "opacity-100"} ${zoomedColumnIndex !== null && cell.activityId == zoomedColumnIndex ? "origin-top scale-110 z-10" : "origin-bottom scale-100 z-0"} ${foldedCategories[cell.activityCategoryId]? "fade-out overflow-hidden" : "fade-in"}`}>
                                     <GridCell
-                                        isZoomedIn={rowIndex === zoomedRowIndex || colIndex === zoomedColumnIndex}
+                                        isZoomedIn={rowIndex === zoomedRowIndex || cell.activityId === zoomedColumnIndex}
                                         id={`cell-${rowIndex}-${colIndex}`}
-                                        value={cell}
+                                        value={cell.score.toString()}
                                         onChange={(value) => handleCellChange(rowIndex, colIndex, value)}
                                         focusNextCell={(direction) => focusNextCell(rowIndex, colIndex, direction)}
                                     />

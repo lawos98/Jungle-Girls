@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect, useCallback} from 'react';
 import Swiper from "swiper";
 import "swiper/css/bundle";
 import * as actions from "./EditableGridActions"
-import {Activity, ActivityScoreList} from '../types/EditableGridTypes';
+import {ActivityScoreList} from '../types/EditableGridTypes';
 import EditableGridSkeleton from "./EditableGridSkeleton";
 import toast from 'react-hot-toast';
 import GridCell from "./GridCell";
@@ -15,22 +15,17 @@ type Grade = {
     activityId: number;
     activityCategoryId: number;
     maxScore: number;
-    activity: Activity;
 }
-// TODO: add colors :)
 const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
     const [zoomedRowIndex, setZoomedRowIndex] = useState<null | number>(null);
     const [zoomedColumnIndex, setZoomedColumnIndex] = useState<null | number>(null);
-    const [isSliding, setIsSliding] = useState(false);
     const [swiper, setSwiper] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
-
 
     const containerRef = useRef<HTMLDivElement>(null);
     const swiperSetupFlag = useRef(false);
 
     const [data, setData] = useState<Grade[][]>([[]]);
-    const [columnLabels, setColumnLabels] = useState<string[]>([]);
     const [rowLabels, setRowLabels] = useState<string[]>([]);
 
     const [scoreData, setScoreData] = useState<ActivityScoreList[]>([]);
@@ -42,7 +37,6 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
     useEffect(() => {
         actions.getGrades(groupId, (scoreData: any) => {
             setScoreData(scoreData);
-            console.log(scoreData);
             setRowLabels(
                 scoreData[0].students.map(
                     (item: any) => item.firstname + " " + item.lastname
@@ -53,11 +47,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
             activityCategoryIds = Array.from(
                 new Set(scoreData.map((item: any) => item.activity.activityCategoryId))
             );
-            console.log(activityCategoryIds);
-
             actions.getCategories(activityCategoryIds, (categories: Array<{ id: number; name: string }>) => {
-                // const uniqueCategories = categories.map((item: any) => item.name);
-                // console.log(uniqueCategories);
                 setCategories(categories);
 
                 const initialFoldedCategories = categories.reduce(
@@ -79,15 +69,6 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                     {}
                 );
 
-                const columnLabels = [];
-                for (const categoryId of activityCategoryIds) {
-                    const activities = groupedActivities[categoryId];
-                    for (const activity of activities) {
-                        columnLabels.push(activity.activity.name);
-                    }
-                }
-                setColumnLabels(columnLabels);
-
                 const organizedData: Grade[][] = scoreData[0].students.map(
                     (_: any, rowIndex: number) => {
                         const rowData = [];
@@ -105,14 +86,13 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                         return rowData;
                     }
                 );
-                console.log(organizedData)
                 setData(organizedData);
                 setIsLoading(false);
             });
         });
         setupSwiper();
 
-    document.addEventListener("click", handleBackgroundClick);
+        document.addEventListener("click", handleBackgroundClick);
         // Remove the event listener when the component is unmounted
         return () => {
             document.removeEventListener("click", handleBackgroundClick);
@@ -138,16 +118,6 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
             swiperInstance.off('slideChange');
             swiperInstance.on('slideChange', () => {
                 setZoomedRowIndex(swiperInstance.activeIndex);
-            });
-            // set isSliding to true when the slide transition starts
-            swiperInstance.off('transitionStart');
-            swiperInstance.on('transitionStart', () => {
-                setIsSliding(true);
-            });
-            // set isSliding to false when the slide transition ends
-            swiperInstance.off('transitionEnd');
-            swiperInstance.on('transitionEnd', () => {
-                setIsSliding(false);
             });
             setSwiper(swiperInstance);
             swiperSetupFlag.current = true;
@@ -248,16 +218,12 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
         if(direction === 'right')
         {
             while(foldedCategories[data[newRow][newCol].activityCategoryId] && newCol < data[newRow].length - 1)
-            {
                 newCol++;
-            }
         }
         else if(direction === 'left')
         {
             while(foldedCategories[data[newRow][newCol].activityCategoryId] && newCol > 0)
-            {
                 newCol--;
-            }
         }
         if (newRow !== row || newCol !== col) {
             const input = document.getElementById(`cell-${newRow}-${newCol}`) as HTMLInputElement;
@@ -272,7 +238,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
         <div ref={containerRef}>
             {isLoading && <EditableGridSkeleton></EditableGridSkeleton>}
 
-            <div className=" border-collapse flex flex-col h-min transition-all duration-300">
+            <div className=" border-collapse flex flex-col h-min">
                 <div className=" flex flex-row pb-1">
                     <div className="shrink-0  w-40"></div>
                     <div className="flex flex-row ">
@@ -291,7 +257,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                                 <div className="flex">
                                     {scoreData
                                         .filter((item) => item.activity.activityCategoryId === category.id)
-                                        .map((item, index) => (
+                                        .map((item) => (
                                             <div
                                                 key={item.activity.id}
                                                 className={`w-24 border-collapse text-center whitespace-nowrap cursor-pointer transition-all duration-500 ease-in-out ${

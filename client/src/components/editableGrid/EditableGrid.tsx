@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect, useCallback} from 'react';
 import Swiper from "swiper";
 import "swiper/css/bundle";
 import * as actions from "./EditableGridActions"
-import { ActivityScoreList } from '../types/EditableGridTypes';
+import {Activity, ActivityScoreList} from '../types/EditableGridTypes';
 import EditableGridSkeleton from "./EditableGridSkeleton";
 import toast from 'react-hot-toast';
 import GridCell from "./GridCell";
@@ -11,9 +11,11 @@ type EditableGridProps = {
     groupId: number;
 }
 type Grade = {
-    score: number;
+    score: string;
     activityId: number;
     activityCategoryId: number;
+    maxScore: number;
+    activity: Activity;
 }
 // TODO: add colors :)
 const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
@@ -96,7 +98,8 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                                 const score = student.value === null ? "" : student.value.toString();
                                 const activityId = activity.activity.id;
                                 const activityCategoryId = activity.activity.activityCategoryId;
-                                rowData.push({ score, activityId, activityCategoryId });
+                                const maxScore = activity.activity.maxScore;
+                                rowData.push({ score, activityId, activityCategoryId, maxScore});
                             }
                         }
                         return rowData;
@@ -154,12 +157,12 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
     const handleCellChange = useCallback(
         (row: number, col: number, value: string) => {
             if (
-                validateInput(value, 0, scoreData[col].activity.maxScore)
+                validateInput(value, 0, data[row][col].maxScore)
             ) {
                 const newData = data.map((r, i) =>
                     r.map((c, j) =>
                         i === row && j === col
-                            ? { ...c, score: parseInt(value) }
+                            ? { ...c, score: value }
                             : c
                     )
                 );
@@ -167,7 +170,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                 setChangedCells({ ...changedCells, [`${row}-${col}`]: value });
             } else {
                 toast.error(
-                    `Wartość musi być między 0 a ${scoreData[col].activity.maxScore}`
+                    `Wartość musi być między 0 a ${data[row][col].maxScore}`
                 );
             }
         },
@@ -176,25 +179,24 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
 
     const handleSaveGrades = () => {
         const updatedActivityScoreList: ActivityScoreList[] = [];
-
         Object.keys(changedCells).forEach((key) => {
             const [rowIndex, colIndex] = key.split('-').map(Number);
-            const activity = scoreData[colIndex].activity;
+            const activityId = data[rowIndex][colIndex].activityId;
             const student = scoreData[colIndex].students[rowIndex];
             const updatedValue = parseFloat(changedCells[key]);
 
             let activityScoreList = updatedActivityScoreList.find(
-                (item) => item.activity.id === activity.id
+                (item) => item.activity.id === activityId
             );
-
             if (!activityScoreList) {
-                activityScoreList = {
-                    activity,
-                    students: [],
-                };
-                updatedActivityScoreList.push(activityScoreList);
+                activityScoreList = scoreData.find((item) => item.activity.id === activityId);
+                if (activityScoreList)
+                    updatedActivityScoreList.push(activityScoreList);
+                else {
+                    console.log("Activity not found");
+                    return;
+                }
             }
-            console.log(activity, student, updatedValue);
             const studentScore = {
                 ...student,
                 value: isNaN(updatedValue) ? null : updatedValue,
@@ -271,7 +273,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
             {isLoading && <EditableGridSkeleton></EditableGridSkeleton>}
 
             <div className=" border-collapse flex flex-col h-min transition-all duration-300">
-                <div className="shrink-0  flex flex-row pb-1">
+                <div className=" flex flex-row pb-1">
                     <div className="shrink-0  w-40"></div>
                     <div className="flex flex-row ">
                         {categories.map((category, categoryIndex) => (
@@ -321,10 +323,9 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
 
                 </div>
                 {data.map((row, rowIndex) => {
-                    // if (zoomedRowIndex !== null && rowIndex !== zoomedRowIndex) return null;
                     return (
                         <div key={`row-${rowIndex}`}
-                             className={`shrink-0 border-collapse flex items-center cursor-pointer transition-all duration-500 ease-in-out ${zoomedRowIndex !== null && rowIndex !== zoomedRowIndex ? "opacity-50 max-h-20 overflow-hidden" : "opacity-100 max-h-20"} ${zoomedRowIndex !== null && rowIndex == zoomedRowIndex ? "origin-top scale-[1.03] z-10" : "origin-left scale-100 z-0"}`}>
+                             className={`border-collapse flex items-center cursor-pointer transition-all duration-500 ease-in-out ${zoomedRowIndex !== null && rowIndex !== zoomedRowIndex ? "opacity-50 max-h-20 overflow-hidden" : "opacity-100 max-h-20"} ${zoomedRowIndex !== null && rowIndex == zoomedRowIndex ? "origin-top scale-[1.03] z-10" : "origin-left scale-100 z-0"}`}>
                             <div
                                 // names
                                 className="shrink-0 text-center w-40"
@@ -352,7 +353,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                                     <GridCell
                                         isZoomedIn={rowIndex === zoomedRowIndex || cell.activityId === zoomedColumnIndex}
                                         id={`cell-${rowIndex}-${colIndex}`}
-                                        value={cell.score.toString()}
+                                        value={cell.score}
                                         onChange={(value) => handleCellChange(rowIndex, colIndex, value)}
                                         focusNextCell={(direction) => focusNextCell(rowIndex, colIndex, direction)}
                                     />

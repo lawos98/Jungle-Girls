@@ -1,10 +1,10 @@
 _id: ut_75a03525c67046f28f90357b5811c8e2
 type: UnitTest
 parentId: uts_c9ac2887038a40adafee101dd48f2e26
-modified: 1682623787202
+modified: 1682848488611
 created: 1682623743389
 requestId: req_5c7af954e7bf47e6b047179c8f3de6fa
-name: Get csv wrong group
+name: Get CSV group does not belongs to instructor
 code: |-
   const response = await insomnia.send();
   const body = JSON.parse(response.data);

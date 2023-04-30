@@ -1,10 +1,10 @@
 _id: req_8838287ac5354673af03c3d9cbb0b7c1
 type: Request
 parentId: fld_a2a780e7fd8b4a59b4ea9242024a45a0
-modified: 1682623640701
+modified: 1682848529640
 created: 1682601253855
 url: "{{ _.ServerAddress }}/api/score/to-csv/2"
-name: Get csv for group
+name: Get CSV for group
 description: ""
 method: GET
 body: {}

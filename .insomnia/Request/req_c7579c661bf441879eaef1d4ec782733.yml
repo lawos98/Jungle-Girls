@@ -1,10 +1,10 @@
-_id: req_5c7af954e7bf47e6b047179c8f3de6fa
+_id: req_c7579c661bf441879eaef1d4ec782733
 type: Request
 parentId: fld_a2a780e7fd8b4a59b4ea9242024a45a0
-modified: 1682848426058
-created: 1682623684597
-url: "{{ _.ServerAddress }}/api/score/to-csv/5"
-name: Get CSV group does not belongs to instructor
+modified: 1682848443690
+created: 1682848439513
+url: "{{ _.ServerAddress }}/api/score/to-csv/1111"
+name: Get CSV group does not exist
 description: ""
 method: GET
 body: {}
@@ -14,7 +14,7 @@ authentication:
   type: bearer
   token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
     'b64::JC50b2tlbg==::46b', 'always', 60 %}"
-metaSortKey: -1681763815431.375
+metaSortKey: -1681763815425.125
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

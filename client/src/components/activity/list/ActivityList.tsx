@@ -63,6 +63,15 @@ function ActivityList() {
         });
   }
 
+    function getTranslatedActivityType(type) {
+        const translations = {
+            compulsory: "obowiązkowe",
+            optional: "bonusowe",
+            reparative: "naprawcze",
+        };
+        return translations[type] || type;
+    }
+
     function Row(props: { row}) {
         const { row } = props;
         const [open, setOpen] = React.useState(false);
@@ -104,7 +113,7 @@ function ActivityList() {
                                         <TableRow>
                                             <TableCell>Maksymalna ilość punktów</TableCell>
                                             <TableCell>Czas trwania aktywności</TableCell>
-                                            <TableCell >Typ aktywności</TableCell>
+                                            <TableCell >Typ krwinek do zdobycia</TableCell>
                                             <TableCell>Kategoria aktywności</TableCell>
                                         </TableRow>
                                     </TableHead>
@@ -114,7 +123,7 @@ function ActivityList() {
                                                     {row.maxScore}
                                             </TableCell>
                                             <TableCell>{handleConvertDuration(row.duration)}</TableCell>
-                                            <TableCell >{row.activityTypeName}</TableCell>
+                                            <TableCell >{getTranslatedActivityType(row.activityTypeName)}</TableCell>
                                             <TableCell >
                                                 {row.activityCategoryName}
                                             </TableCell>

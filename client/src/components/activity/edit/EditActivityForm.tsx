@@ -118,7 +118,7 @@ const ActivityEditForm: React.FC = (props) => {
   });
 
   const termsFormik = termsFormikUtils.termsFormik(formik);
-  
+
   return (
       <div className="min-h-screen mt-8 bg-gray-100 flex items-center justify-center">
         <form
@@ -302,12 +302,16 @@ const ActivityEditForm: React.FC = (props) => {
                   onChange={formik.handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
+                {/*<option value="">--Wybierz typ--</option>*/}
+                {/*{types.map((typeName,index) => (*/}
+                {/*    <option key={index} value={typeName}>*/}
+                {/*      {typeName}*/}
+                {/*    </option>*/}
+                {/*))}*/}
                 <option value="">--Wybierz typ--</option>
-                {types.map((typeName,index) => (
-                    <option key={index} value={typeName}>
-                      {typeName}
-                    </option>
-                ))}
+                <option value="compulsory">obowiązkowe</option>
+                <option value="optional">bonusowe</option>
+                <option value="reparative">naprawcze</option>
               </select>
               {formik.touched.activityTypeName && formik.errors.activityTypeName && (
                   <div className={errorStyle}>{formik.errors.activityTypeName}</div>

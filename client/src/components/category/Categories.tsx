@@ -2,15 +2,16 @@ import React from "react";
 import { useEffect, useState } from "react";
 import * as actions from "./CategoryActions";
 import Cookies from "js-cookie";
+import {buttonStyle, errorStyle, formStyle, inputStyle, labelStyle} from "../../utils/formStyles";
+import {useFormik} from "formik";
+import * as Yup from "yup";
 
 const Categories: React.FC = () => {
-  const [editedCategory, setEditedCategory] = useState({
+  let editedCategory = {
     id: 0,
     name: "",
     description: "",
-  });
-  const [name, setName] = useState(editedCategory.name);
-  const [description, setDescription] = useState(editedCategory.description);
+  };
   const [categories, setCategories] = useState([]);
   const [addFormVisible, setAddFormVisible] = useState(false);
   const [editFormVisible, setEditFormVisible] = useState(false);
@@ -23,6 +24,54 @@ const Categories: React.FC = () => {
         .then((data) => setCategories(data));
   }, []);
 
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+        .notOneOf(categories.map(category => category.name), 'Kategoria o tej nazwie już istnieje')
+        .required('Nazwa jest wymagana'),
+    description: Yup.string().required('Opis kategorii jest wymagany'),
+  });
+
+  const addFormik = useFormik({
+    initialValues: {
+      name: "",
+      description: "",
+    },
+    onSubmit: values => {
+      actions.createCategory(
+          values.name,values.description,authToken).then(() => {
+        actions.getCategories()
+            .then((response) => {
+              setCategories(response);
+              return response;
+            })
+      })
+      closeAddForm();
+    },
+    validationSchema: validationSchema,
+  });
+
+  const editFormik = useFormik({
+    initialValues: {
+      name: editedCategory.name,
+      description: editedCategory.description,
+    },
+    onSubmit: values => {
+      const payload = {
+        id: editedCategoryId,
+        name: values.name,
+        description: values.description,
+      };
+      actions.editCategory(payload).then(() => {
+        actions.getCategories().then((response) => {
+          setCategories(response);
+          return response;
+        });})
+      closeEditForm();
+    },
+    validationSchema: validationSchema,
+  });
+
   function handleDeleteCategory(id: number) {
     const payload = {
       id: id,
@@ -32,68 +81,6 @@ const Categories: React.FC = () => {
           setCategories(categories.filter((category: any) => category.id !== id));
         });
   }
-
-  const handleEditCategory = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const payload = {
-      id: editedCategoryId,
-      name: name,
-      description: description,
-    };
-
-    if (!name.trim()) {
-      alert("Nazwa kategorii nie może być pusta!");
-      return;
-    }
-
-    if (!description.trim()) {
-      alert("Opis kategorii nie może być pusty!");
-      return;
-    }
-
-    actions.editCategory(payload)
-        .then(() => {
-          actions.getCategories()
-              .then((response) => {
-                setCategories(response);
-                return response;
-              });
-        });
-
-    closeEditForm();
-  };
-
-  const handleAddCategory = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!name.trim()) {
-      alert("Nazwa kategorii nie może być pusta!");
-      return;
-    }
-
-    if (!description.trim()) {
-      alert("Opis kategorii nie może być pusty!");
-      return;
-    }
-
-    closeAddForm();
-
-    try {
-      actions.createCategory(name, description, authToken).then(() => {
-        actions.getCategories()
-            .then((response) => {
-              setCategories(response);
-              return response;
-            });
-      });
-    } catch (error) {
-      console.error(error);
-    }
-
-    setName("");
-    setDescription("");
-  };
 
   function showAddForm(): void {
     closeEditForm();
@@ -106,11 +93,11 @@ const Categories: React.FC = () => {
 
   function showEditForm(id: number): void {
     closeAddForm();
-    let editedCategory = categories.filter((category) => category.id == id)[0];
-    setEditedCategory(editedCategory);
-    setDescription(editedCategory.description);
-    setName(editedCategory.name);
+    editedCategory = categories.find((category) => category.id == id);
+    editFormik.setFieldValue("name",editedCategory.name);
+    editFormik.setFieldValue("description",editedCategory.description);
     setEditFormVisible(true);
+    console.log(editedCategory)
     setEditedCategoryId(id);
   }
 
@@ -157,48 +144,52 @@ const Categories: React.FC = () => {
         </button>
         {addFormVisible && (
             <form
-                onSubmit={handleAddCategory}
-                className="bg-white rounded-lg shadow-md p-8 w-full max-w-md text-center"
+                onSubmit={addFormik.handleSubmit}
+                className={formStyle}
             >
               <h2 className="text-2xl font-bold mb-6">Dodaj kategorię</h2>
               <div className="mb-4">
                 <label
                     htmlFor="name"
-                    className="block text-gray-700 font-medium text-center"
+                    className={labelStyle}
                 >
                   Nazwa:
                 </label>
 
                 <input
                     type="text"
-                    id="categoryName"
-                    name="categoryName"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    id="name"
+                    name="name"
+                    onChange={addFormik.handleChange}
+                    className={inputStyle}
                 />
+                {addFormik.touched.name && addFormik.errors.name && (
+                    <div className={errorStyle}>{addFormik.errors.name}</div>
+                )}
               </div>
 
               <div className="mb-4">
                 {" "}
                 <label
                     htmlFor="description"
-                    className="block text-gray-700 font-medium text-center"
+                    className={labelStyle}
                 >
                   Opis:
                 </label>
                 <textarea
                     id="description"
                     name="description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={addFormik.handleChange}
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 ></textarea>
+                {addFormik.touched.description && addFormik.errors.description && (
+                    <div className={errorStyle}>{addFormik.errors.description}</div>
+                )}
               </div>
 
               <button
                   type="submit"
-                  className="w-full bg-indigo-400 text-white py-2 px-4 rounded-md hover:bg-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50"
+                  className={buttonStyle}
               >
                 Utwórz kategorię
               </button>
@@ -207,48 +198,54 @@ const Categories: React.FC = () => {
 
         {editFormVisible && (
             <form
-                onSubmit={handleEditCategory}
-                className="bg-white rounded-lg shadow-md p-8 w-full max-w-md text-center"
+                onSubmit={editFormik.handleSubmit}
+                className={formStyle}
             >
               <h2 className="text-2xl font-bold mb-6">Edytuj kategorię</h2>
               <div className="mb-4">
                 <label
                     htmlFor="name"
-                    className="block text-gray-700 font-medium text-center"
+                    className={labelStyle}
                 >
                   Nazwa:
                 </label>
 
                 <input
                     type="text"
-                    id="categoryName"
-                    name="categoryName"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    id="name"
+                    name="name"
+                    value={editFormik.values.name}
+                    onChange={editFormik.handleChange}
+                    className={inputStyle}
                 />
+                {editFormik.touched.name && editFormik.errors.name && (
+                    <div className={errorStyle}>{editFormik.errors.name}</div>
+                )}
               </div>
 
               <div className="mb-4">
                 {" "}
                 <label
                     htmlFor="description"
-                    className="block text-gray-700 font-medium text-center"
+                    className={labelStyle}
                 >
                   Opis:
                 </label>
                 <textarea
                     id="description"
                     name="description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    value={editFormik.values.description}
+                    onChange={editFormik.handleChange}
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 ></textarea>
+                {editFormik.touched.description && editFormik.errors.description && (
+                    <div className={errorStyle}>{editFormik.errors.description}</div>
+                )}
               </div>
 
               <button
                   type="submit"
-                  className="w-full bg-indigo-400 text-white py-2 px-4 rounded-md hover:bg-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50"
+                  className ={buttonStyle}
               >
                 Edytuj kategorię
               </button>

@@ -1,14 +1,19 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import * as actions from "./CreateActivityActions";
-import {Duration} from "luxon";
+import {Duration, DateTime} from "luxon";
 import Cookies from "js-cookie";
-import {buttonStyle, formStyle, inputStyle, labelStyle} from "../../../utils/formStyles";
+import {buttonStyle, errorStyle, formStyle, inputStyle, labelStyle} from "../../../utils/formStyles";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import * as formUtils from "../common/FormUtils";
+import moment from "moment";
+import * as termsFormikUtils from "../common/TermsFormik"
 
 const ActivityCreationForm: React.FC = () => {
   const [categories, setCategories] = useState([]);
+  const [types, setTypes] = useState([]);
+  const [activities,setActivites] = useState([]);
+  const [groupNames, setGroupNames] = useState([]);
 
   const styles = {
     inline: {
@@ -20,15 +25,38 @@ const ActivityCreationForm: React.FC = () => {
   };
 
   const authToken = Cookies.get("token");
+  let check = false;
+  let tmpGroupNames;
 
   const validationSchema = Yup.object({
-    name: Yup.string().required('Nazwa aktywności jest wymagana'),
+    name: Yup.string()
+        .notOneOf(activities, 'Aktywność o tej nazwie już istnieje')
+        .required('Nazwa aktywności jest wymagana'),
     description: Yup.string().required('Opis aktywności jest wymagany'),
     maxScore: Yup.string().required('Maksymalna liczba punktów do zdobycia jest wymagana'),
-    duration: Yup.string().required('Czas trwania aktywności jest wymagany'),
+    duration: Yup.object().test('at-least-one', 'Czas trwania jest wymagany', value => {
+      const { weeks, days, hours, minutes } = value;
+      return weeks !== 0 || days !== 0 || hours !== 0 || minutes !== 0;
+
+    }).required('Czas trwania jest wymagany'),
     activityTypeName: Yup.string().required('Typ krwinek do zdobycia jest wymagany'),
-    activityCategoryName: Yup.string().required('Kategoria aktywności jest wymagana')
+    activityCategoryName: Yup.string().required('Kategoria aktywności jest wymagana'),
+    courseGroupNames: Yup.array()
+        .of(Yup.string())
+        .test(
+            'contains-all-group-names',
+            'Wprowadzono niepoprawną liczbę grup',
+            value => {
+              if(!check){
+                check = !check;
+                tmpGroupNames = value;
+              }
+              return tmpGroupNames.length === groupNames.length && groupNames.every(groupName => tmpGroupNames.includes(groupName));
+             }
+        )
+        .required('Terminy powinny być ustalone dla wszystkich grup'),
   });
+
 
   const formik = useFormik({
     initialValues: {
@@ -45,39 +73,30 @@ const ActivityCreationForm: React.FC = () => {
       activityCategoryName: "",
       courseGroupNames: [],
       courseGroupStartDates: [],
-      groupName:"",
-      groupStartDate: new Date(Date.now()),
     },
     onSubmit: values => {
       actions.createActivity(
           values.name,values.maxScore, values.description, formUtils.serializeDuration(formik),
           values.activityTypeName, values.activityCategoryName
           ,values.courseGroupNames,
-          values.courseGroupStartDates, authToken);},
+          values.courseGroupStartDates, authToken).then(()=>{
+            actions.getInstructorData().then((data)=>{
+              setCategories(data.activityCategoryNames);
+              setTypes(data.activityTypeNames);
+              setActivites(data.activityNames);
+              setGroupNames(data.groupNames);
+            })
+      });},
     validationSchema: validationSchema,
   });
-
-  function resetForm(){
-    setName("");
-    setDescription("");
-    setMaxScore(0);
-    setDuration(Duration.fromObject({
-      weeks: 0,
-      days: 0,
-      hours: 0,
-      minutes: 0,
-    }));
-    setActivityTypeName("");
-    setActivityCategoryName("");
-    setGroupName("");
-    setTerms([]);
-    setCategories([]);
-
-  }
-
+  const termsFormik = termsFormikUtils.termsFormik(formik);
   useEffect(() => {
-    actions.getActivityCategories()
-        .then((data) => setCategories(data));
+    actions.getInstructorData().then((data)=>{
+      setCategories(data.activityCategoryNames);
+      setTypes(data.activityTypeNames);
+      setActivites(data.activityNames);
+      setGroupNames(data.groupNames);
+    })
   }, []);
 
 
@@ -104,6 +123,9 @@ const ActivityCreationForm: React.FC = () => {
                   onChange={formik.handleChange}
                   className={inputStyle}
               />
+              {formik.touched.name && formik.errors.name && (
+                  <div className={errorStyle}>{formik.errors.name}</div>
+              )}
             </div>
 
             <div className="mb-4">
@@ -125,9 +147,7 @@ const ActivityCreationForm: React.FC = () => {
                   <input
                       type="number"
                       id="weeks"
-                      name="weeks"
                       min="0"
-                      value={formik.values.duration.weeks}
                       className={inputStyle}
                       onChange={formUtils.handleWeeksChange(formik)}
                   />
@@ -144,10 +164,8 @@ const ActivityCreationForm: React.FC = () => {
                   <input
                       type="number"
                       id="days"
-                      name="days"
                       min="0"
                       style={styles.inline}
-                      value={formik.values.duration.days}
                       className={inputStyle}
                       onChange={formUtils.handleDaysChange(formik)}
                   />
@@ -164,11 +182,9 @@ const ActivityCreationForm: React.FC = () => {
                   <input
                       type="number"
                       id="hours"
-                      name="hours"
                       style={styles.inline}
                       min="0"
                       max="23"
-                      value={formik.values.duration.hours}
                       className={inputStyle}
                       onChange={formUtils.handleHoursChange(formik)}
                   />
@@ -184,15 +200,16 @@ const ActivityCreationForm: React.FC = () => {
                   <input
                       type="number"
                       id="minutes"
-                      name="minutes"
                       style={styles.inline}
                       min="0"
                       max="59"
-                      value={formik.values.duration.minutes}
                       className={inputStyle}
                       onChange={formUtils.handleMinutesChange(formik)}
                   />
                 </div>
+                {formik.touched.duration && formik.errors.duration && (
+                    <div className={errorStyle}>{formik.errors.duration}</div>
+                )}
               </div>
             </div>
 
@@ -212,6 +229,9 @@ const ActivityCreationForm: React.FC = () => {
                   onChange={formik.handleChange}
                   className={inputStyle}
               />
+              {formik.touched.maxScore && formik.errors.maxScore && (
+                  <div className={errorStyle}>{formik.errors.maxScore}</div>
+              )}
             </div>
 
             <div className="mb-4">
@@ -229,6 +249,9 @@ const ActivityCreationForm: React.FC = () => {
                   onChange={formik.handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               ></textarea>
+              {formik.touched.description && formik.errors.description && (
+                  <div className={errorStyle}>{formik.errors.description}</div>
+              )}
             </div>
 
             <div className="mb-4">
@@ -246,11 +269,16 @@ const ActivityCreationForm: React.FC = () => {
                   onChange={formik.handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
-                <option value="none">--Wybierz typ--</option>
-                <option value="compulsory">obowiązkowe</option>
-                <option value="optional">bonusowe</option>
-                <option value="reparative">naprawcze</option>
+                <option value="">--Wybierz typ--</option>
+                {types.map((typeName,index) => (
+                    <option key={index} value={typeName}>
+                      {typeName}
+                    </option>
+                ))}
               </select>
+              {formik.touched.activityTypeName && formik.errors.activityTypeName && (
+                  <div className={errorStyle}>{formik.errors.activityTypeName}</div>
+              )}
             </div>
 
             <div className="mb-4">
@@ -268,12 +296,15 @@ const ActivityCreationForm: React.FC = () => {
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="">--Wybierz kategorię aktywności--</option>
-                {categories.map((category) => (
-                    <option key={category.name} value={category.name}>
-                      {category.name}
+                {categories.map((categoryName,index) => (
+                    <option key={index} value={categoryName}>
+                      {categoryName}
                     </option>
                 ))}
               </select>
+              {formik.touched.activityCategoryName && formik.errors.activityCategoryName && (
+                  <div className={errorStyle}>{formik.errors.activityCategoryName}</div>
+              )}
             </div>
           </fieldset>
 
@@ -290,14 +321,23 @@ const ActivityCreationForm: React.FC = () => {
               >
                 Nazwa grupy:
               </label>
-              <input
+              <select
                   id="groupName"
                   name="groupName"
-                  type="text"
-                  value={formik.values.groupName}
-                  onChange={formik.handleChange}
-                  className={inputStyle}
-              />
+                  value={termsFormik.values.groupName}
+                  onChange={termsFormik.handleChange}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="">--Wybierz grupę--</option>
+                {groupNames.map((groupName,index) => (
+                    <option key={index} value={groupName}>
+                      {groupName}
+                    </option>
+                ))}
+              </select>
+              {termsFormik.touched.groupName && termsFormik.errors.groupName && (
+                  <div className={errorStyle}>{termsFormik.errors.groupName}</div>
+              )}
             </div>
 
             <div className="mb-4">
@@ -312,14 +352,17 @@ const ActivityCreationForm: React.FC = () => {
                   id="groupStartDate"
                   name="groupStartDate"
                   type="datetime-local"
-                  value={formik.values.groupStartDate}
-                  onChange = {formUtils.handleGroupStartDateChange(formik)}
+                  value={termsFormik.values.groupStartDate}
+                  onChange = {formUtils.handleGroupStartDateChange(termsFormik)}
                   className={inputStyle}
               />
+              {termsFormik.touched.groupStartDate && termsFormik.errors.groupStartDate && (
+                  <div className={errorStyle}>{termsFormik.errors.groupStartDate}</div>
+              )}
             </div>
 
             <a
-                onClick={formUtils.handleAddTerm(formik)}
+                onClick={termsFormik.handleSubmit}
                 className="text-indigo-600 hover:text-indigo-800 font-medium text-center "
             >
               Dodaj termin
@@ -355,8 +398,12 @@ const ActivityCreationForm: React.FC = () => {
                     </td>
                   </tr>
               ))}
+
               </tbody>
             </table>
+            {formik.touched.courseGroupNames && formik.errors.courseGroupNames && (
+                <div className={errorStyle}>{formik.errors.courseGroupNames}</div>
+            )}
           </fieldset>
           <button
               type="submit"

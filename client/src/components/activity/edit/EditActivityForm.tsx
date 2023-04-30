@@ -1,15 +1,19 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import * as actions from "./EditActivityActions";
 import {DateTime, Duration} from "luxon";
 import Cookies from "js-cookie";
 import moment from "moment";
-import {buttonStyle, formStyle, inputStyle, labelStyle} from "../../../utils/formStyles";
+import {buttonStyle, errorStyle, formStyle, inputStyle, labelStyle} from "../../../utils/formStyles";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import * as formUtils from "../common/FormUtils";
+import * as termsFormikUtils from "../common/TermsFormik";
 
 const ActivityEditForm: React.FC = (props) => {
   const [categories, setCategories] = useState([]);
+  const [types, setTypes] = useState([]);
+  const [activities,setActivites] = useState([]);
+  const [groupNames, setGroupNames] = useState([]);
 
   const styles = {
     inline: {
@@ -21,29 +25,44 @@ const ActivityEditForm: React.FC = (props) => {
   };
 
   const authToken = Cookies.get("token");
+  let check = false;
+  let tmpGroupNames;
 
   useEffect(() => {
-    actions.getActivityCategories().then((data) => setCategories(data));
-    actions.getActivities().then((response) => {
-      let updatedActivities = props.activities.filter(
-          (activity: any) => activity.id !== props.editedActivity.id
-      );
-      let result = [
-        ...updatedActivities,
-        response.data.find((obj) => obj.id == props.editedActivity.id),
-      ];
-      props.setActivities(result);
-      return response.data.find((obj) => obj.id == props.editedActivity.id);
-    });
+    actions.getInstructorData().then((data)=>{
+      setCategories(data.activityCategoryNames);
+      setTypes(data.activityTypeNames);
+      setActivites(data.activityNames);
+      setGroupNames(data.groupNames);
+    })
   }, []);
 
   const validationSchema = Yup.object({
-    name: Yup.string().required('Nazwa aktywności jest wymagana'),
+    name: Yup.string()
+        .required('Nazwa aktywności jest wymagana'),
     description: Yup.string().required('Opis aktywności jest wymagany'),
     maxScore: Yup.string().required('Maksymalna liczba punktów do zdobycia jest wymagana'),
-    duration: Yup.string().required('Czas trwania aktywności jest wymagany'),
+    duration: Yup.object().test('at-least-one', 'Czas trwania jest wymagany', value => {
+      const { weeks, days, hours, minutes } = value;
+      return weeks !== 0 || days !== 0 || hours !== 0 || minutes !== 0;
+
+    }).required('Czas trwania jest wymagany'),
     activityTypeName: Yup.string().required('Typ krwinek do zdobycia jest wymagany'),
-    activityCategoryName: Yup.string().required('Kategoria aktywności jest wymagana')
+    activityCategoryName: Yup.string().required('Kategoria aktywności jest wymagana'),
+    courseGroupNames: Yup.array()
+        .of(Yup.string())
+        .test(
+            'contains-all-group-names',
+            'Wprowadzono niepoprawną liczbę grup',
+            value => {
+              if(!check){
+                check = !check;
+                tmpGroupNames = value;
+              }
+              return tmpGroupNames.length === groupNames.length && groupNames.every(groupName => tmpGroupNames.includes(groupName));
+            }
+        )
+        .required('Terminy powinny być ustalone dla wszystkich grup'),
   });
 
   const formik = useFormik({
@@ -98,6 +117,8 @@ const ActivityEditForm: React.FC = (props) => {
     validationSchema: validationSchema,
   });
 
+  const termsFormik = termsFormikUtils.termsFormik(formik);
+  
   return (
       <div className="min-h-screen mt-8 bg-gray-100 flex items-center justify-center">
         <form
@@ -128,6 +149,9 @@ const ActivityEditForm: React.FC = (props) => {
                   onChange={formik.handleChange}
                   className={inputStyle}
               />
+              {formik.touched.name && formik.errors.name && (
+                  <div className={errorStyle}>{formik.errors.name}</div>
+              )}
             </div>
 
             <div className="mb-4">
@@ -217,6 +241,9 @@ const ActivityEditForm: React.FC = (props) => {
                       onChange={formUtils.handleMinutesChange(formik)}
                   />
                 </div>
+                {formik.touched.duration && formik.errors.duration && (
+                    <div className={errorStyle}>{formik.errors.duration}</div>
+                )}
               </div>
             </div>
 
@@ -235,6 +262,9 @@ const ActivityEditForm: React.FC = (props) => {
                   onChange={formik.handleChange}
                   className={inputStyle}
               />
+              {formik.touched.maxScore && formik.errors.maxScore && (
+                  <div className={errorStyle}>{formik.errors.maxScore}</div>
+              )}
             </div>
 
             <div className="mb-4">
@@ -252,6 +282,9 @@ const ActivityEditForm: React.FC = (props) => {
                   onChange={formik.handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               ></textarea>
+              {formik.touched.description && formik.errors.description && (
+                  <div className={errorStyle}>{formik.errors.description}</div>
+              )}
             </div>
 
             <div className="mb-4">
@@ -269,11 +302,16 @@ const ActivityEditForm: React.FC = (props) => {
                   onChange={formik.handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
-                <option value="none">--Wybierz typ--</option>
-                <option value="compulsory">obowiązkowe</option>
-                <option value="optional">bonusowe</option>
-                <option value="reparative">naprawcze</option>
+                <option value="">--Wybierz typ--</option>
+                {types.map((typeName,index) => (
+                    <option key={index} value={typeName}>
+                      {typeName}
+                    </option>
+                ))}
               </select>
+              {formik.touched.activityTypeName && formik.errors.activityTypeName && (
+                  <div className={errorStyle}>{formik.errors.activityTypeName}</div>
+              )}
             </div>
 
             <div className="mb-4">
@@ -291,12 +329,15 @@ const ActivityEditForm: React.FC = (props) => {
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="">--Wybierz kategorię aktywności--</option>
-                {categories.map((category) => (
-                    <option key={category.name} value={category.name}>
-                      {category.name}
+                {categories.map((categoryName,index) => (
+                    <option key={index} value={categoryName}>
+                      {categoryName}
                     </option>
                 ))}
               </select>
+              {formik.touched.activityCategoryName && formik.errors.activityCategoryName && (
+                  <div className={errorStyle}>{formik.errors.activityCategoryName}</div>
+              )}
             </div>
           </fieldset>
           <fieldset>
@@ -312,14 +353,23 @@ const ActivityEditForm: React.FC = (props) => {
               >
                 Nazwa grupy:
               </label>
-              <input
+              <select
                   id="groupName"
                   name="groupName"
-                  type="text"
-                  value={formik.values.groupName}
-                  onChange={formik.handleChange}
-                  className={inputStyle}
-              />
+                  value={termsFormik.values.groupName}
+                  onChange={termsFormik.handleChange}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="">--Wybierz grupę--</option>
+                {groupNames.map((groupName,index) => (
+                    <option key={index} value={groupName}>
+                      {groupName}
+                    </option>
+                ))}
+              </select>
+              {termsFormik.touched.groupName && termsFormik.errors.groupName && (
+                  <div className={errorStyle}>{termsFormik.errors.groupName}</div>
+              )}
             </div>
 
             <div className="mb-4">
@@ -334,14 +384,17 @@ const ActivityEditForm: React.FC = (props) => {
                   id="groupStartDate"
                   name="groupStartDate"
                   type="datetime-local"
-                  value={formik.values.groupStartDate}
-                  onChange = {formUtils.handleGroupStartDateChange(formik)}
+                  value={termsFormik.values.groupStartDate}
+                  onChange = {formUtils.handleGroupStartDateChange(termsFormik)}
                   className={inputStyle}
               />
+              {termsFormik.touched.groupStartDate && termsFormik.errors.groupStartDate && (
+                  <div className={errorStyle}>{termsFormik.errors.groupStartDate}</div>
+              )}
             </div>
 
             <a
-                onClick={formUtils.handleAddTerm(formik)}
+                onClick={termsFormik.handleSubmit}
                 className="text-indigo-600 hover:text-indigo-800 font-medium text-center "
             >
               Dodaj termin
@@ -379,6 +432,9 @@ const ActivityEditForm: React.FC = (props) => {
               ))}
               </tbody>
             </table>
+            {formik.touched.courseGroupNames && formik.errors.courseGroupNames && (
+                <div className={errorStyle}>{formik.errors.courseGroupNames}</div>
+            )}
           </fieldset>
           <button
               type="submit"

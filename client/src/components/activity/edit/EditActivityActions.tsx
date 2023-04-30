@@ -25,6 +25,18 @@ export const getActivities = () => {
         });
 }
 
+export const getInstructorData = () => {
+    return api
+        .get("/activity/create", )
+        .then((response) => {
+            return response.data;
+        }).catch(error => {
+            if (error.response) {
+                errorCallback(error.response.data.message);
+            }
+        });
+}
+
 export const editActivity = (
     activityId: string,
     activityName: string,

@@ -25,11 +25,14 @@ export const handleMinutesChange = (formik: FormikProps<FormValues>) => (event: 
 
 export const handleGroupStartDateChange = (formik: FormikProps<FormValues>) => (event: React.ChangeEvent<HTMLInputElement>) => {
     formik.setFieldValue('groupStartDate', DateTime.fromISO(event.target.value).toFormat('yyyy-MM-dd HH:mm:ss'))
-    // const updatedTerms = [...formik.values.terms];
-    // updatedTerms[index] = { ...updatedTerms[index], groupStartDate: date };
-    // formik.setFieldValue('terms', updatedTerms);
 }
 
+export const handleCourseGroupChange = (formik: FormikProps<FormValues>,termsFormik: FormikProps<FormValues>) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newGroupNames = [...formik.values.courseGroupNames, termsFormik.values.groupName];
+    const newGroupStartDates = [...formik.values.courseGroupStartDates,termsFormik.values.groupStartDate];
+    formik.setFieldValue('courseGroupNames',newGroupNames);
+    formik.setFieldValue('courseGroupStartDates',newGroupStartDates);
+}
 
 export function serializeDuration(formik: FormikProps<FormValues>){
     return Duration.fromObject({
@@ -48,24 +51,6 @@ export function convertDuration(duration) {
     return {weeks: weeks, days: days, hours: hours, minutes: minutes};
 }
 
-export const handleAddTerm = (formik: FormikProps<FormValues>) => (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!groupName.value.trim()) {
-        alert("Nazwa grupy nie może być pusta!");
-        return;
-    }
-    if (!groupStartDate.value.trim()) {
-        alert("Termin rozpoczęcia nie może być pusty!");
-        return;
-    }
-    const newGroupNames = [...formik.values.courseGroupNames, groupName.value];
-    const newGroupStartDates = [...formik.values.courseGroupStartDates, DateTime.fromISO(groupStartDate.value).toFormat('yyyy-MM-dd HH:mm:ss')];
-    console.log(newGroupStartDates);
-    formik.setFieldValue('courseGroupNames',newGroupNames);
-    formik.setFieldValue('courseGroupStartDates',newGroupStartDates);
-    formik.setFieldValue('groupStartDate',new Date(Date.now()));
-    formik.setFieldValue('groupName',"");
-};
 
 export function handleDeleteTerm(index: number,formik: FormikProps<FormValues>) {
     const newGroupNames = [...formik.values.courseGroupNames];

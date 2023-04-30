@@ -13,6 +13,18 @@ export const getActivityCategories = () => {
         });
 }
 
+export const getInstructorData = () => {
+    return api
+        .get("/activity/create", )
+        .then((response) => {
+            return response.data;
+        }).catch(error => {
+            if (error.response) {
+                errorCallback(error.response.data.message);
+            }
+        });
+}
+
 export const createActivity = (
     categoryName: string,
     maxScore: number,
@@ -34,7 +46,7 @@ export const createActivity = (
     courseGroupNames: courseGroupNames,
     courseGroupStartDates: courseGroupStartDates,
   };
-  api
+  return api
       .post("/activity/create", payload, {
         headers: {
           "Content-Type": "application/json",

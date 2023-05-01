@@ -4,6 +4,7 @@ import org.springframework.data.r2dbc.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Repository
+import pl.edu.agh.ii.io.jungleGirls.dto.TemporaryEventResponse
 import pl.edu.agh.ii.io.jungleGirls.model.Activity
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -45,6 +46,8 @@ interface ActivityRepository : ReactiveCrudRepository<Activity,Long> {
 
 
         ):Mono<Activity>
+    @Query("select a.name,a.duration,cga.start_date from student_description sd inner join course_group cg on cg.id = sd.course_group_id  inner join course_group_activity cga on cg.id = cga.course_group_id inner join activity a on a.id = cga.activity_id inner join activity_type t on a.activity_type_id = t.id where sd.id = :studentId and t.name = 'temporary_event' and  now() between cga.start_date and cga.start_date + a.duration::interval")
+    fun getCurrentTemporaryEvents(studentId: Long): Flux<TemporaryEventResponse>
 
 
 }

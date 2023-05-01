@@ -139,16 +139,10 @@ class ActivityController(
         }
     }
 
-//    @PostMapping("/delete")
-//    fun deleteActivity(@RequestBody payload: DeleteActivityRequest, @RequestHeader("Authorization") token: String): String {
-//        val user = tokenService.parseToken(token.substring("Bearer".length))
-//
-//        val activityToDelete = activityService.findByInstructorIdAndName(user.id!!,payload.name)
-//            ?: throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Activity does not exist")
-//
-//        return when(val result = activityService.deleteActivity(activityToDelete)){
-//            is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
-//            is Either.Right -> "Activity category deleted successfully"
-//        }
-//    }
+
+    @GetMapping("temporary-events")
+    fun getTemporaryEvents(@RequestHeader("Authorization") token: String):List<TemporaryEventResponse>{
+        val user = tokenService.parseToken(token.substring("Bearer".length))
+        return activityService.getTemporaryEvents(user.id)
+    }
 }

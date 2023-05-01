@@ -1,7 +1,7 @@
 _id: req_ade1a8f1a1ea4e70b8d71bbc1d76c974
 type: Request
 parentId: fld_a2a780e7fd8b4a59b4ea9242024a45a0
-modified: 1682501054672
+modified: 1682936683783
 created: 1681692373978
 url: "{{ _.ServerAddress }}/api/score/3"
 name: Edit Grade
@@ -345,7 +345,7 @@ body:
     	},
     	{
     		"activity": {
-    			"id": 5,
+    			"id": 6,
     			"name": "kartkowka2",
     			"maxScore": 10.0,
     			"duration": "PT12H",
@@ -428,7 +428,7 @@ body:
     	},
     	{
     		"activity": {
-    			"id": 6,
+    			"id": 7,
     			"name": "zadanie2",
     			"maxScore": 2.5,
     			"duration": "PT1H",
@@ -511,7 +511,7 @@ body:
     	},
     	{
     		"activity": {
-    			"id": 7,
+    			"id": 8,
     			"name": "domowe2",
     			"maxScore": 12.5,
     			"duration": "PT24H",
@@ -594,7 +594,7 @@ body:
     	},
     	{
     		"activity": {
-    			"id": 8,
+    			"id": 9,
     			"name": "plusy2",
     			"maxScore": 0.5,
     			"duration": "PT24H",
@@ -677,7 +677,7 @@ body:
     	},
     	{
     		"activity": {
-    			"id": 9,
+    			"id": 11,
     			"name": "kartkowka3",
     			"maxScore": 10.0,
     			"duration": "PT12H",
@@ -760,7 +760,7 @@ body:
     	},
     	{
     		"activity": {
-    			"id": 10,
+    			"id": 12,
     			"name": "zadanie3",
     			"maxScore": 2.5,
     			"duration": "PT1H",
@@ -843,7 +843,7 @@ body:
     	},
     	{
     		"activity": {
-    			"id": 11,
+    			"id": 13,
     			"name": "domowe3",
     			"maxScore": 12.5,
     			"duration": "PT24H",
@@ -926,7 +926,7 @@ body:
     	},
     	{
     		"activity": {
-    			"id": 12,
+    			"id": 14,
     			"name": "plusy3",
     			"maxScore": 0.5,
     			"duration": "PT24H",
@@ -1009,7 +1009,7 @@ body:
     	},
     	{
     		"activity": {
-    			"id": 49,
+    			"id": 61,
     			"name": "kartkowka",
     			"maxScore": 5.5,
     			"duration": "PT124H30M",

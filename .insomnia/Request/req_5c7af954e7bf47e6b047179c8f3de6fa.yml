@@ -1,0 +1,24 @@
+_id: req_5c7af954e7bf47e6b047179c8f3de6fa
+type: Request
+parentId: fld_a2a780e7fd8b4a59b4ea9242024a45a0
+modified: 1682848426058
+created: 1682623684597
+url: "{{ _.ServerAddress }}/api/score/to-csv/5"
+name: Get CSV group does not belongs to instructor
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1681763815431.375
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

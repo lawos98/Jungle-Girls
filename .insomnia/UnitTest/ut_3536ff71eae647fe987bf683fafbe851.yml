@@ -1,0 +1,10 @@
+_id: ut_3536ff71eae647fe987bf683fafbe851
+type: UnitTest
+parentId: uts_c9ac2887038a40adafee101dd48f2e26
+modified: 1682848493693
+created: 1682623716290
+requestId: req_8838287ac5354673af03c3d9cbb0b7c1
+name: Get CSV for group
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

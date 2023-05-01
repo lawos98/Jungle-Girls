@@ -11,6 +11,7 @@ import pl.edu.agh.ii.io.jungleGirls.enum.Permissions
 import pl.edu.agh.ii.io.jungleGirls.enum.StudentNotificationType
 import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import pl.edu.agh.ii.io.jungleGirls.repository.ScoreRepository
+import java.io.BufferedWriter
 
 @Service
 class ScoreService(
@@ -87,6 +88,27 @@ class ScoreService(
                 }}
             }
         return scoreList.right()
+    }
+
+    fun generateCSV(instructorId: Long, groupId: Long, bufferedWriter: BufferedWriter) {
+
+        val students = courseGroupService.getAllStudentIdsAndNamesByGroupId(groupId)
+        val activities = courseGroupService.getAllActivityIdsAndNames(groupId)
+        val scores = courseGroupService.getAllScoresWithActivityIdAndStudentIdByGroupId(groupId)
+
+        for(studentName in students.values){
+            bufferedWriter.write(",$studentName")
+        }
+        bufferedWriter.write("\n")
+        for(activityEntry in activities.entries){
+            bufferedWriter.write(activityEntry.value)
+            for(studentEntry in students.entries){
+                val score = scores[Pair(activityEntry.key,studentEntry.key)]
+                bufferedWriter.write(",$score")
+            }
+            bufferedWriter.write("\n")
+        }
+
     }
 
 }

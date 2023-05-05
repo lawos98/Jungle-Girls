@@ -12,11 +12,14 @@ const Categories: React.FC = () => {
     name: "",
     description: "",
   };
+  const [edited,setEdited] = useState( {
+    id: 0,
+    name: "",
+    description: "",
+  });
   const [categories, setCategories] = useState([]);
   const [addFormVisible, setAddFormVisible] = useState(false);
   const [editFormVisible, setEditFormVisible] = useState(false);
-  const [editedCategoryId, setEditedCategoryId] = useState<number>(0);
-
   const authToken = Cookies.get("token");
 
   useEffect(() => {
@@ -25,9 +28,18 @@ const Categories: React.FC = () => {
   }, []);
 
 
-  const validationSchema = Yup.object().shape({
+  const validationSchemaAdd = Yup.object().shape({
     name: Yup.string()
         .notOneOf(categories.map(category => category.name), 'Kategoria o tej nazwie już istnieje')
+        .required('Nazwa jest wymagana'),
+    description: Yup.string().required('Opis kategorii jest wymagany'),
+  });
+
+  const validationSchemaEdit = Yup.object().shape({
+    name: Yup.string()
+        .notOneOf(categories.filter((category) => category.id !== edited.id)
+        .map((category) => category.name),
+            'Kategoria! o tej nazwie już istnieje')
         .required('Nazwa jest wymagana'),
     description: Yup.string().required('Opis kategorii jest wymagany'),
   });
@@ -37,6 +49,7 @@ const Categories: React.FC = () => {
       name: "",
       description: "",
     },
+    validationSchema: validationSchemaAdd,
     onSubmit: values => {
       actions.createCategory(
           values.name,values.description,authToken).then(() => {
@@ -48,17 +61,18 @@ const Categories: React.FC = () => {
       })
       closeAddForm();
     },
-    validationSchema: validationSchema,
   });
 
   const editFormik = useFormik({
     initialValues: {
-      name: editedCategory.name,
-      description: editedCategory.description,
+      id: edited.id,
+      name: edited.name,
+      description: edited.description,
     },
+    validationSchema: validationSchemaEdit,
     onSubmit: values => {
       const payload = {
-        id: editedCategoryId,
+        id: edited.id,
         name: values.name,
         description: values.description,
       };
@@ -69,7 +83,6 @@ const Categories: React.FC = () => {
         });})
       closeEditForm();
     },
-    validationSchema: validationSchema,
   });
 
   function handleDeleteCategory(id: number) {
@@ -93,12 +106,11 @@ const Categories: React.FC = () => {
 
   function showEditForm(id: number): void {
     closeAddForm();
+    setEdited(categories.find((category) => category.id == id));
     editedCategory = categories.find((category) => category.id == id);
     editFormik.setFieldValue("name",editedCategory.name);
     editFormik.setFieldValue("description",editedCategory.description);
     setEditFormVisible(true);
-    console.log(editedCategory)
-    setEditedCategoryId(id);
   }
 
   function closeEditForm(): void {

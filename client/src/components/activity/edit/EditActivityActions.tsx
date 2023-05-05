@@ -69,6 +69,6 @@ export const editActivity = (
         },
       })
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
       });
 };

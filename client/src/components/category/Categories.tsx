@@ -39,7 +39,7 @@ const Categories: React.FC = () => {
     name: Yup.string()
         .notOneOf(categories.filter((category) => category.id !== edited.id)
         .map((category) => category.name),
-            'Kategoria! o tej nazwie już istnieje')
+            'Kategoria o tej nazwie już istnieje')
         .required('Nazwa jest wymagana'),
     description: Yup.string().required('Opis kategorii jest wymagany'),
   });

@@ -1,9 +1,9 @@
 _id: req_d29879a2ebdb45b59681764fae6c030a
 type: Request
 parentId: fld_a2a780e7fd8b4a59b4ea9242024a45a0
-modified: 1682243028319
+modified: 1683369191602
 created: 1681675724723
-url: "{{ _.ServerAddress }}/api/score/3"
+url: "{{ _.ServerAddress }}/api/score/2"
 name: Get Grade for group
 description: ""
 method: GET

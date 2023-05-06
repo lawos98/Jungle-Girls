@@ -1,9 +1,9 @@
 _id: req_5c7af954e7bf47e6b047179c8f3de6fa
 type: Request
 parentId: fld_a2a780e7fd8b4a59b4ea9242024a45a0
-modified: 1682848426058
+modified: 1682936000172
 created: 1682623684597
-url: "{{ _.ServerAddress }}/api/score/to-csv/5"
+url: "{{ _.ServerAddress }}/api/score/to-csv/11"
 name: Get CSV group does not belongs to instructor
 description: ""
 method: GET

@@ -61,14 +61,17 @@ fun main(args: Array<String>) {
             activityFile.appendText("insert into activity(name, duration, max_score, description, activity_type_id, activity_category_id) values ('zadanie$activityNumber','PT1H',2.5,'zadanie$activityNumber',1,${activityCategoryBaseId+2});\n")
             activityFile.appendText("insert into activity(name, duration, max_score, description, activity_type_id, activity_category_id) values ('domowe$activityNumber','PT24H',12.5,'domowe$activityNumber',1,${activityCategoryBaseId+3});\n")
             activityFile.appendText("insert into activity(name, duration, max_score, description, activity_type_id, activity_category_id) values ('plusy$activityNumber','PT24H',0.5,'plusy$activityNumber',1,${activityCategoryBaseId+4});\n")
+            activityFile.appendText("insert into activity(name, duration, max_score, description, activity_type_id, activity_category_id) values ('event$activityNumber','PT2000H',3.5,'event$activityNumber',4,${activityCategoryBaseId+4});\n")
+
             activityFile.appendText("\n")
             for(groupNumber in 1..numberOfGroupsPerInstructor){
                 val groupId = (instructorNumber-1)* numberOfGroupsPerInstructor+groupNumber
-                val activityId = (instructorNumber-1)* 4* numberOfActivitiesPerActivityCategory+4*(activityNumber-1)
+                val activityId = (instructorNumber-1)* 5* numberOfActivitiesPerActivityCategory+5*(activityNumber-1)
                 activityFile.appendText("insert into course_group_activity(activity_id, course_group_id, start_date) values (${activityId+1},$groupId,'2024-05-05T12:00:00');\n")
                 activityFile.appendText("insert into course_group_activity(activity_id, course_group_id, start_date) values (${activityId+2},$groupId,'2024-05-12T15:00:00');\n")
                 activityFile.appendText("insert into course_group_activity(activity_id, course_group_id, start_date) values (${activityId+3},$groupId,'2024-05-16T20:00:00');\n")
                 activityFile.appendText("insert into course_group_activity(activity_id, course_group_id, start_date) values (${activityId+4},$groupId,'2024-05-20T20:00:00');\n")
+                activityFile.appendText("insert into course_group_activity(activity_id, course_group_id, start_date) values (${activityId+5},$groupId,'2023-05-01T8:00:00');\n")
                 activityFile.appendText("\n")
             }
         }

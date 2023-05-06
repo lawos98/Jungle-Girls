@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import pl.edu.agh.ii.io.jungleGirls.dto.ActivityScore
 import pl.edu.agh.ii.io.jungleGirls.dto.ActivityScoreList
+import pl.edu.agh.ii.io.jungleGirls.dto.LeaderboardResponse
 import pl.edu.agh.ii.io.jungleGirls.enum.Permissions
-import pl.edu.agh.ii.io.jungleGirls.service.CourseGroupService
-import pl.edu.agh.ii.io.jungleGirls.service.RolePermissionService
-import pl.edu.agh.ii.io.jungleGirls.service.ScoreService
-import pl.edu.agh.ii.io.jungleGirls.service.TokenService
+import pl.edu.agh.ii.io.jungleGirls.service.*
 import java.io.BufferedWriter
 import java.io.File
 import java.io.OutputStreamWriter
@@ -27,7 +25,8 @@ class ScoreController(
     private val tokenService: TokenService,
     private val scoreService: ScoreService,
     private val courseGroupService: CourseGroupService,
-    private val rolePermissionService: RolePermissionService
+    private val rolePermissionService: RolePermissionService,
+    private val studentDescriptionService: StudentDescriptionService
 ) {
     @GetMapping("/{id}")
     fun getScores(@PathVariable id:Long, @RequestHeader("Authorization") token: String): List<ActivityScoreList> {
@@ -86,9 +85,26 @@ class ScoreController(
             }
             is Either.Left -> {
                 throw ResponseStatusException(HttpStatus.BAD_REQUEST,scoreList.value)
-
             }
         }
+    }
+
+    @GetMapping("/leaderboard")
+    fun getLeaderboard(@RequestHeader("Authorization") token: String):LeaderboardResponse{
+        val user = tokenService.parseToken(token.substring("Bearer".length))
+        when(val courseGroupId = studentDescriptionService.getUserGroupId(user.id)){
+            is Either.Right ->{
+                return LeaderboardResponse(
+                    username = user.username,
+                    scoreSumList = scoreService.getScoreSumList(courseGroupId.value)
+                )
+            }
+            is Either.Left -> {
+                throw ResponseStatusException(HttpStatus.BAD_REQUEST,courseGroupId.value)
+            }
+        }
+
+
     }
 
 

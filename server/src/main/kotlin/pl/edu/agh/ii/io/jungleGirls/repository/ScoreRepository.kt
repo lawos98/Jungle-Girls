@@ -4,6 +4,7 @@ import org.springframework.data.r2dbc.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Repository
+import pl.edu.agh.ii.io.jungleGirls.dto.ScoreSum
 import pl.edu.agh.ii.io.jungleGirls.model.Score
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -25,4 +26,7 @@ interface ScoreRepository: ReactiveCrudRepository<Score, Long> {
 
     @Query("Insert into score (student_id,activity_id,value) values (:studentId,:activity,:value) returning *")
     fun save(@Param("studentId")studentId:Long, @Param("activity")activityId:Long, @Param("value")value:Double) : Mono<Score>
+
+    @Query("select lu.username, row_number() over(order by COALESCE(sum(s.value), -1)  desc) as rank, sum(s.value)  as score_sum  from login_user lu inner join student_description sd on lu.id = sd.id left outer join score s on lu.id = s.student_id where sd.course_group_id = :groupId group by lu.id")
+    fun getScoreSumList(@Param("groupId") groupId: Long):Flux<ScoreSum>
 }

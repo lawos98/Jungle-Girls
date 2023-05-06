@@ -44,6 +44,9 @@ class SecurityConfig (
             .requestMatchers(HttpMethod.GET,"/api/activity-category").hasAuthority(Permissions.ACTIVITY_CATEGORY_MANAGEMENT.getName())
             .requestMatchers("/api/activity-category/*").hasAuthority(Permissions.ACTIVITY_CATEGORY_MANAGEMENT.getName())
 
+            .requestMatchers(HttpMethod.GET,"/api/score/leaderboard").hasAuthority(Permissions.LEADERBOARD_VIEW.getName())
+
+
             .requestMatchers("/api/**").authenticated()
             .anyRequest().permitAll()
 

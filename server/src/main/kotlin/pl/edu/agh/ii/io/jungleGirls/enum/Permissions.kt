@@ -8,7 +8,8 @@ enum class Permissions {
     ACTIVITY_CATEGORY_MANAGEMENT, // To add/edit/delete activity categories
     NOTIFICATION_VIEW, // To see notifications and edit wasRead field
     CSV_GENERATION, // To generate csv for all groups
-    TEMPORARY_EVENT_VIEW // To see temporary events
+    TEMPORARY_EVENT_VIEW, // To see temporary events
+    LEADERBOARD_VIEW // To see leaderboard view
     ;
 
     fun getName():String{
@@ -21,6 +22,7 @@ enum class Permissions {
             NOTIFICATION_VIEW -> "Notification view"
             CSV_GENERATION -> "CSV generation"
             TEMPORARY_EVENT_VIEW -> "Temporary event view"
+            LEADERBOARD_VIEW -> "Leaderboard view"
         }
     }
 }

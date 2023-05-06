@@ -1,0 +1,24 @@
+_id: req_156aa60d06674ae8a4ed8724d0e4278a
+type: Request
+parentId: fld_002cd6945762402e80895be5f3c1f5f2
+modified: 1683390812367
+created: 1683385695691
+url: "{{ _.ServerAddress }}/api/score/leaderboard"
+name: Get Leaderboard
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_205e09dbd7a74bf69bc76051b1620591',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1681773383840.8672
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

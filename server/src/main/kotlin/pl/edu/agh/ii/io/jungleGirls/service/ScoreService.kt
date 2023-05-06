@@ -20,7 +20,8 @@ class ScoreService(
     private val scoreRepository: ScoreRepository,
     private val activityService: ActivityService,
     private val studentDescriptionService: StudentDescriptionService,
-    private val studentNotificationService: StudentNotificationService
+    private val studentNotificationService: StudentNotificationService,
+    private val gitHubService: GitHubService
 ) {
 
     fun getScores(groupId: Long, lecturerId: Long): Either<String, List<ActivityScoreList>> {
@@ -29,16 +30,22 @@ class ScoreService(
             return "You don't have permission to view scores".left()
         }
         val scores = scoreRepository.getScoresByGroupId(groupId).collectList().block() ?: return "Server cannot find scores for groupId $groupId".left()
-        val studentList = courseGroupService.getAllStudentsByGroupId(groupId).map { StudentScore(it.id, it.username, it.firstname, it.lastname, null) }
+        val studentList = courseGroupService.getAllStudentsByGroupId(groupId).map { StudentScore(it.id, it.username, it.firstname, it.lastname, null,null,null) }
         val studentMap = studentList.associateBy { it.id }
+        val studentDescriptionMap = studentDescriptionService.getMapOfStudentDescription()
+
         return activityService.getAllActivityByGroupId(groupId).distinct().map { activity ->
             val currentScoreList = scores.filter { it.activityId == activity.id }
             val studentHavingScoreList = currentScoreList.mapNotNull { elem ->
                 val student = studentMap[elem.studentId] ?: return "Server cannot find user ${elem.studentId} on table Score".left()
-                StudentScore(student.id, student.username, student.firstname, student.lastname, elem.value)
+                StudentScore(student.id, student.username, student.firstname, student.lastname, elem.value,null,null)
             }
             val studentNotHavingScoreList = studentList.filterNot { student -> studentHavingScoreList.map { it.id }.contains(student.id) }
-            ActivityScoreList(activity, (studentHavingScoreList + studentNotHavingScoreList).sortedBy { it.id })
+            ActivityScoreList(activity, (studentHavingScoreList + studentNotHavingScoreList).map { activityScore ->
+                val studentDescription = studentDescriptionMap[activityScore.id] ?: return "Server cannot find student description for student ${activityScore.id}".left()
+                val (lastCommitTime,lastCommitError)=gitHubService.getLastCommit(studentDescription,activity.name)
+                activityScore.copy(lastCommitTime = lastCommitTime,lastCommitError = lastCommitError)
+            }.sortedBy { it.id })
         }.toCollection(ArrayList()).right()
     }
     fun getScore(user: LoginUser): Either<String, List<ActivityScore>> {

@@ -3,7 +3,9 @@ package pl.edu.agh.ii.io.jungleGirls
 import pl.edu.agh.ii.io.jungleGirls.Config.activityCategoryFile
 import pl.edu.agh.ii.io.jungleGirls.Config.activityFile
 import pl.edu.agh.ii.io.jungleGirls.Config.courseGroupFile
+import pl.edu.agh.ii.io.jungleGirls.Config.firstNames
 import pl.edu.agh.ii.io.jungleGirls.Config.instructorFile
+import pl.edu.agh.ii.io.jungleGirls.Config.lastNames
 import pl.edu.agh.ii.io.jungleGirls.Config.numberOfActivitiesPerActivityCategory
 import pl.edu.agh.ii.io.jungleGirls.Config.rolePermissionFile
 import pl.edu.agh.ii.io.jungleGirls.Config.studentFile
@@ -11,6 +13,7 @@ import pl.edu.agh.ii.io.jungleGirls.Config.numberOfGroupsPerInstructor
 import pl.edu.agh.ii.io.jungleGirls.Config.numberOfInstructors
 import pl.edu.agh.ii.io.jungleGirls.Config.numberOfStudentsPerGroup
 import pl.edu.agh.ii.io.jungleGirls.enum.Permissions
+import java.util.*
 
 fun main(args: Array<String>) {
     println(args)
@@ -41,14 +44,14 @@ fun main(args: Array<String>) {
             courseGroupFile.appendText("insert into course_group(name,instructor_id,secret_code) values ('group$groupId',$instructorNumber,null);\n")
             for(studentsNumber in 1..numberOfStudentsPerGroup){
                 val studentId=studentsNumber+(groupNumber-1)*numberOfStudentsPerGroup+(instructorNumber-1)* numberOfGroupsPerInstructor* numberOfStudentsPerGroup
-                studentFile.appendText("insert into login_user(username,password,firstname,lastname,role_id) values ('student$studentId','\$2a\$10\$bzGDiQIL/YVOFAGXrAIXk.7hf4JioELIsmy6kwT39Gn4i.Q.CHpTy','student$studentId','student$studentId',2);\n")
-                studentFile.appendText("insert into student_description(id,index,github_link,course_group_id) values (${studentId+ numberOfInstructors},null,null,$groupId);\n")
+                studentFile.appendText("insert into login_user(username,password,firstname,lastname,role_id) values ('student$studentId','\$2a\$10\$bzGDiQIL/YVOFAGXrAIXk.7hf4JioELIsmy6kwT39Gn4i.Q.CHpTy','${firstNames[Random().nextInt(firstNames.size)]}','${lastNames[Random().nextInt(lastNames.size)]}',2);\n")
+                studentFile.appendText("insert into student_description(id,index,github_link,course_group_id) values (${studentId+ numberOfInstructors},${if (Random().nextDouble() < 0.1) null else Random().nextInt(900000) + 100000},${if (Random().nextDouble() < 0.1) "\'https://github.com/lawos-test/test\'" else null},$groupId);\n")
             }
         }
     }
 
     for(instructorNumber in 1..numberOfInstructors){
-        instructorFile.appendText("insert into login_user(username,password,firstname,lastname,role_id) values ('mod$instructorNumber','\$2a\$10\$XwMIl8yC/TxaD4Xzpmla.OntZ3cnYIeW7OGSxFjCI3NVS3BY7KsWO','mod$instructorNumber','mod$instructorNumber',3);\n")
+        instructorFile.appendText("insert into login_user(username,password,firstname,lastname,role_id) values ('mod$instructorNumber','\$2a\$10\$XwMIl8yC/TxaD4Xzpmla.OntZ3cnYIeW7OGSxFjCI3NVS3BY7KsWO','${firstNames[Random().nextInt(firstNames.size)]}','${lastNames[Random().nextInt(lastNames.size)]}',3);\n")
         activityCategoryFile.appendText("insert into activity_category(name, description, instructor_id)\n" +
                 "values\n" +
                 "    ('praca na zajeciach','wykonanie wszystkich cwiczen, aktywne uczestnictwo w zajeciach',$instructorNumber),\n" +

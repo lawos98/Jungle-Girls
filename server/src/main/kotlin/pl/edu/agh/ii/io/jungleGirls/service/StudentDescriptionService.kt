@@ -30,4 +30,7 @@ class StudentDescriptionService(
         return studentDescriptionRepository.findById(id).block()
     }
 
+    fun getMapOfStudentDescription(): MutableMap<Long, StudentDescription> {
+        return studentDescriptionRepository.findAll().collectMap { it.id }.block() ?: mutableMapOf()
+    }
 }

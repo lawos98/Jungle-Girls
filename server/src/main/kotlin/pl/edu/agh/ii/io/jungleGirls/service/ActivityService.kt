@@ -4,6 +4,7 @@ import arrow.core.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import pl.edu.agh.ii.io.jungleGirls.dto.CreateActivityRequest
+import pl.edu.agh.ii.io.jungleGirls.dto.TemporaryEventResponse
 import pl.edu.agh.ii.io.jungleGirls.model.Activity
 import pl.edu.agh.ii.io.jungleGirls.model.CourseGroupActivity
 import pl.edu.agh.ii.io.jungleGirls.repository.*
@@ -154,7 +155,9 @@ class ActivityService(
         return activityRepository.getAllActivityByInstructorId(instructorId).collectList().block() as ArrayList<Activity>
     }
 
-
+    fun getTemporaryEvents(studentId: Long): List<TemporaryEventResponse> {
+        return activityRepository.getCurrentTemporaryEvents(studentId).collectList().block() as ArrayList<TemporaryEventResponse>
+    }
 
 
 }

@@ -1,10 +1,10 @@
-_id: req_d29879a2ebdb45b59681764fae6c030a
+_id: req_c7579c661bf441879eaef1d4ec782733
 type: Request
 parentId: fld_a2a780e7fd8b4a59b4ea9242024a45a0
-modified: 1683369191602
-created: 1681675724723
-url: "{{ _.ServerAddress }}/api/score/2"
-name: Get Grade for group
+modified: 1682848443690
+created: 1682848439513
+url: "{{ _.ServerAddress }}/api/score/to-csv/1111"
+name: Get CSV group does not exist
 description: ""
 method: GET
 body: {}
@@ -12,9 +12,9 @@ parameters: []
 headers: []
 authentication:
   type: bearer
-  token: "{% response 'body', 'req_d7e675e349814b6bb841c832597b86dc',
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
     'b64::JC50b2tlbg==::46b', 'always', 60 %}"
-metaSortKey: -1681763815468.875
+metaSortKey: -1681763815425.125
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

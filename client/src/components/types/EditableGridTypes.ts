@@ -2,6 +2,8 @@ export interface Activity {
     id: number;
     name: string;
     maxScore: number;
+    activityCategoryId: number;
+
 }
 
 export interface StudentScore {

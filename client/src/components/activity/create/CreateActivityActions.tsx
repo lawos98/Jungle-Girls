@@ -1,0 +1,59 @@
+import api from "../../../api/axios";
+import { Duration } from "luxon";
+
+export const getActivityCategories = () => {
+    return api
+        .get("/activity-category", )
+        .then((response) => {
+            return response.data;
+        }).catch(error => {
+            if (error.response) {
+                errorCallback(error.response.data.message);
+            }
+        });
+}
+
+export const getInstructorData = () => {
+    return api
+        .get("/activity/create", )
+        .then((response) => {
+            return response.data;
+        }).catch(error => {
+            if (error.response) {
+                errorCallback(error.response.data.message);
+            }
+        });
+}
+
+export const createActivity = (
+    categoryName: string,
+    maxScore: number,
+    description: string,
+    duration: Duration,
+    activityTypeName: string,
+    activityCategoryName: string,
+    courseGroupNames: Array<string>,
+    courseGroupStartDates: Array<Date>,
+    token: string | undefined
+) => {
+  const payload = {
+    name: categoryName,
+    maxScore: maxScore,
+    description: description,
+    duration: duration,
+    activityTypeName: activityTypeName,
+    activityCategoryName: activityCategoryName,
+    courseGroupNames: courseGroupNames,
+    courseGroupStartDates: courseGroupStartDates,
+  };
+  return api
+      .post("/activity/create", payload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      });
+};

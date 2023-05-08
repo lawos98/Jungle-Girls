@@ -13,6 +13,9 @@ interface ActivityCategoryRepository : ReactiveCrudRepository<ActivityCategory, 
     override fun findById(id: Long): Mono<ActivityCategory>
     override fun existsById(id: Long): Mono<Boolean>
 
+    @Query("Insert into activity_category (name,description,instructor_id) VALUES (:name,:description,:instructorId) returning *")
+    fun save(@Param("name")name: String,@Param("description")description: String,@Param("instructorId")instructorId: Long): Mono<ActivityCategory>
+
     @Query(
         "select CASE WHEN COUNT(name) > 0 THEN true ELSE false END from activity_category where instructor_id = :instructor_id and name = :name;"
     )

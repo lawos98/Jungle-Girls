@@ -10,6 +10,6 @@ import org.springframework.data.annotation.Id
 @AllArgsConstructor
 data class ActivityType(
     @Id
-    var id: Long? = null,
+    var id: Long,
     var name: String
 )

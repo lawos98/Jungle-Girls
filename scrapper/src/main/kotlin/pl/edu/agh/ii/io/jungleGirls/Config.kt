@@ -10,6 +10,18 @@ object Config {
     val activityCategoryFile = File("../migrations/v08_add_activity_category.sql")
     val activityFile = File("../migrations/v09_add_activity.sql")
 
+    val firstNames = listOf(
+        "Jan", "Katarzyna", "Anna", "Maria", "Michał",
+        "Piotr", "Krystyna", "Barbara", "Tomasz", "Adam",
+        "Małgorzata", "Joanna", "Marek", "Andrzej", "Aleksandra"
+    )
+
+    val lastNames = listOf(
+        "Kowalski", "Nowak", "Wiśniewski", "Wójcik", "Kowalczyk",
+        "Kaczmarek", "Zieliński", "Szymański", "Wojciechowski", "Adamczyk",
+        "Dąbrowski", "Pawlak", "Górski", "Jabłoński", "Kwiatkowski"
+    )
+
     const val numberOfGroupsPerInstructor = 3
     const val numberOfInstructors = 4
     const val numberOfStudentsPerGroup = 10

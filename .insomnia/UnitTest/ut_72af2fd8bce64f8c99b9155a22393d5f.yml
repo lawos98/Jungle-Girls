@@ -1,0 +1,12 @@
+_id: ut_72af2fd8bce64f8c99b9155a22393d5f
+type: UnitTest
+parentId: uts_c9ac2887038a40adafee101dd48f2e26
+modified: 1682848508389
+created: 1682848478242
+requestId: req_c7579c661bf441879eaef1d4ec782733
+name: Get CSV group does not exist
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Group does not exist");
+  expect(response.status).to.equal(400);

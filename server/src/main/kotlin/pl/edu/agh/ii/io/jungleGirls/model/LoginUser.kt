@@ -10,7 +10,7 @@ import org.springframework.data.annotation.Id
 @AllArgsConstructor
 data class LoginUser(
     @Id
-    val id: Long? = null,
+    val id: Long,
     var username: String,
     var password: String,
     var firstname: String,

@@ -50,3 +50,9 @@ data class EditActivityRequest(
     val duration: Duration,
     val maxScore: Double,
 )
+
+data class TemporaryEventResponse(
+    val name: String,
+    val duration: Duration,
+    val startDate: LocalDateTime
+)

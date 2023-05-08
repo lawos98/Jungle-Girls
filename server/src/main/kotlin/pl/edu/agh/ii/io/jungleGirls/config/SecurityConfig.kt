@@ -38,6 +38,7 @@ class SecurityConfig (
             .requestMatchers(HttpMethod.GET,"/api/student-notification").hasAuthority(Permissions.NOTIFICATION_VIEW.getName())
             .requestMatchers(HttpMethod.PUT,"/api/student-notification/update/{id}").hasAuthority(Permissions.NOTIFICATION_VIEW.getName())
 
+            .requestMatchers(HttpMethod.GET,"/api/activity/temporary-events").hasAuthority(Permissions.TEMPORARY_EVENT_VIEW.getName())
             .requestMatchers(HttpMethod.GET,"/api/activity").hasAuthority(Permissions.ACTIVITY_MANAGEMENT.getName())
             .requestMatchers("/api/activity/*").hasAuthority(Permissions.ACTIVITY_MANAGEMENT.getName())
             .requestMatchers(HttpMethod.GET,"/api/activity-category").hasAuthority(Permissions.ACTIVITY_CATEGORY_MANAGEMENT.getName())
@@ -52,7 +53,7 @@ class SecurityConfig (
             val jwt = auth as BearerTokenAuthenticationToken
             val user = tokenService.parseToken(jwt.token)
             val authorities = rolePermissionService.getPermissionNamesByRoleId(user.roleId)
-                .map { SimpleGrantedAuthority(permissionService.findById(it.permissionId!!).name) }
+                .map { SimpleGrantedAuthority(permissionService.findById(it.permissionId).name) }
             UsernamePasswordAuthenticationToken(user, "", authorities)
         }
 

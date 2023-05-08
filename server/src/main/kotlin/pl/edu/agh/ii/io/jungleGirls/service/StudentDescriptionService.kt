@@ -17,7 +17,7 @@ class StudentDescriptionService(
         return when(val role = roleService.getRoleByUserId(id)){
             is Either.Left -> role.value.left()
             is Either.Right -> {
-                if(role.value.id!! == Roles.STUDENT.getId()) studentDescriptionRepository.findById(id).block()?.right() ?: "Server cant find student description for id $id".left()
+                if(role.value.id == Roles.STUDENT.getId()) studentDescriptionRepository.findById(id).block()?.right() ?: "Server cant find student description for id $id".left()
                 else "That user is not a student".left()
             }
         }
@@ -30,4 +30,7 @@ class StudentDescriptionService(
         return studentDescriptionRepository.findById(id).block()
     }
 
+    fun getMapOfStudentDescription(): MutableMap<Long, StudentDescription> {
+        return studentDescriptionRepository.findAll().collectMap { it.id }.block() ?: mutableMapOf()
+    }
 }

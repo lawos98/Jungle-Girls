@@ -10,7 +10,7 @@ import org.springframework.data.annotation.Id
 data class Role(
 
     @Id
-    val id: Long? = null,
+    val id: Long,
     val name: String,
     val description: String,
     var secretCode: String,

@@ -18,9 +18,8 @@ class StudentDescriptionController(
 
     @GetMapping
     fun getStudentDescription(@RequestHeader("Authorization") token: String): StudentDescription {
-        println("===================")
         val user = tokenService.parseToken(token.substring("Bearer".length))
-        return when (val description = studentDescriptionService.findByUserId(user.id!!)) {
+        return when (val description = studentDescriptionService.findByUserId(user.id)) {
             is Either.Right -> description.value
             is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, description.value)
         }
@@ -28,7 +27,7 @@ class StudentDescriptionController(
     @PatchMapping
     fun updateStudentDescription(@RequestHeader("Authorization") token: String,@RequestBody payload: StudentDescriptionRequest) :StudentDescription{
         val user = tokenService.parseToken(token.substring("Bearer".length))
-        when (val description = studentDescriptionService.findByUserId(user.id!!)) {
+        when (val description = studentDescriptionService.findByUserId(user.id)) {
             is Either.Right -> when (val updatedDescription = studentDescriptionService.updateStudentDescription(description.value.id,payload.index,payload.githubLink)){
                     is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST,updatedDescription.value)
                     is Either.Right -> return updatedDescription.value

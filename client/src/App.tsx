@@ -13,6 +13,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import StudentGrades from "./components/studentGrades/StudentGrades";
 import SecretCode from "./components/account/SecretCode";
 
+import ActivityCreationForm from "./components/activity/create/CreateActivityForm";
+import ActivityList from "./components/activity/list/ActivityList";
+import Categories from "./components/category/Categories";
 
 function App() {
     const user = useSelector((state: any) => state.user);
@@ -60,6 +63,30 @@ function App() {
                         <StudentGrades/>
                     </PrivateRoute>
                 }/>
+                <Route
+                    path="/create-activity"
+                    element={
+                        <PrivateRoute>
+                            <ActivityCreationForm />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/activity-list"
+                    element={
+                        <PrivateRoute>
+                            <ActivityList />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/categories"
+                    element={
+                        <PrivateRoute>
+                            <Categories></Categories>
+                        </PrivateRoute>
+                    }
+                />
             </Routes>
         </Router>
     );

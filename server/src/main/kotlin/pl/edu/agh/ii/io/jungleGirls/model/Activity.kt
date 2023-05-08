@@ -11,7 +11,7 @@ import java.time.Duration
 @AllArgsConstructor
 data class Activity(
     @Id
-    var id: Long? = null,
+    var id: Long,
     var name: String,
     var maxScore: Double,
     var duration: Duration,

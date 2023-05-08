@@ -18,9 +18,9 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
         }
     }
     fun deleteCategory(activityCategory: ActivityCategory): Either<String, None> {
-        return checkIfCanBeDeleted(activityCategory.id!!).flatMap { _ ->
+        return checkIfCanBeDeleted(activityCategory.id).flatMap { _ ->
             activityCategoryRepository.delete(activityCategory).block()
-            if (existsById(activityCategory.id!!)) return "Error while deleting activity category".left()
+            if (existsById(activityCategory.id)) return "Error while deleting activity category".left()
             return None.right()
         }
     }
@@ -49,7 +49,7 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
         return activityCategoryRepository.findAllNamesById(instructorId).collectList().block() as ArrayList<String>
     }
 
-    fun getNameByIdAndInstructorId(id: Long,instructorId: Long,):String?{
+    fun getNameByIdAndInstructorId(id: Long,instructorId: Long):String?{
         return activityCategoryRepository.getNameByIdAndInstructorId(id,instructorId).block()
 
     }
@@ -62,16 +62,16 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
         return if (existsByInstructorIdAndName(instructorId, name)) "Activity category name is already taken!".left() else None.right()
     }
 
-    private fun validateActivityCategory(activityCategory: ActivityCategory): Either<String, None> {
-        return checkIsBlank(activityCategory.name, "name can not be empty")
+    private fun validateActivityCategory(name:String,description: String,instructorId: Long): Either<String, None> {
+        return checkIsBlank(name, "name can not be empty")
             .flatMap { _ ->
                 checkIfNameIsNotTaken(
-                    activityCategory.instructorId,
-                    activityCategory.name
+                    instructorId,
+                    name
                 )
                     .flatMap { _ ->
                         checkIsBlank(
-                            activityCategory.description,
+                            description,
                             "description can not be empty"
                         )
                     }
@@ -80,26 +80,26 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
     private fun checkIfEditedNameIsNotTaken(instructorId: Long,oldName: String, newName: String): Either<String, None> {
         return if (oldName != newName &&  existsByInstructorIdAndName(instructorId, newName)) "Activity category name is already taken!".left() else None.right()
     }
-    private fun validateEditedActivityCategory(categoryToEdit: ActivityCategory, editedCategory: ActivityCategory): Either<String, None> {
-        return checkIsBlank(editedCategory.name, "name can not be empty")
+    private fun validateEditedActivityCategory(categoryToEdit: ActivityCategory, newName: String,newDescription: String,newInstructorId:Long): Either<String, None> {
+        return checkIsBlank(newName, "name can not be empty")
             .flatMap { _ ->
                 checkIfEditedNameIsNotTaken(
-                    editedCategory.instructorId,
+                    newInstructorId,
                     categoryToEdit.name,
-                    editedCategory.name,
+                    newName,
                 )
                     .flatMap { _ ->
                         checkIsBlank(
-                            editedCategory.description,
+                            newDescription,
                             "description can not be empty"
                         )
                     }
             }
     }
 
-    fun createCategory(activityCategory: ActivityCategory): Either<String, None> {
-        return validateActivityCategory(activityCategory).flatMap { _ ->
-            activityCategoryRepository.save(activityCategory).block() ?: return "Error while saving activity category".left()
+    fun createCategory(name:String , description:String , instructorId: Long): Either<String, None> {
+        return validateActivityCategory(name,description,instructorId).flatMap { _ ->
+            activityCategoryRepository.save(name,description,instructorId).block() ?: return "Error while saving activity category".left()
             return None.right()
         }
     }
@@ -116,9 +116,9 @@ class ActivityCategoryService(private val activityCategoryRepository: ActivityCa
         return activityCategoryRepository.findByIdAndInstructorId(activityCategoryId, instructorId).block()
     }
 
-    fun editCategory(categoryToEdit: ActivityCategory, editedCategory: ActivityCategory): Either<String, None> {
-        return validateEditedActivityCategory(categoryToEdit,editedCategory).flatMap { _ ->
-            activityCategoryRepository.update(categoryToEdit.id!!,editedCategory.name,editedCategory.description).block() ?: return "Error while editing activity category".left()
+    fun editCategory(categoryToEdit: ActivityCategory, newName: String, newDescription:String,newInstructorId: Long): Either<String, None> {
+        return validateEditedActivityCategory(categoryToEdit,newName,newDescription,newInstructorId).flatMap { _ ->
+            activityCategoryRepository.update(categoryToEdit.id,newName,newDescription).block() ?: return "Error while editing activity category".left()
             return None.right()
         }
     }

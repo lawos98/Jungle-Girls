@@ -10,7 +10,6 @@ import org.springframework.web.server.ResponseStatusException
 import pl.edu.agh.ii.io.jungleGirls.dto.LoginRequest
 import pl.edu.agh.ii.io.jungleGirls.dto.AuthResponse
 import pl.edu.agh.ii.io.jungleGirls.dto.RegisterRequest
-import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import pl.edu.agh.ii.io.jungleGirls.service.TokenService
 import pl.edu.agh.ii.io.jungleGirls.service.LoginUserService
 
@@ -26,7 +25,7 @@ class AuthController(
             is Either.Right -> {
                 val loginUser=user.value
                 return AuthResponse(
-                    loginUser.id!!,
+                    loginUser.id,
                     loginUser.roleId,
                     loginUser.username,
                     loginUser.firstname,
@@ -45,18 +44,11 @@ class AuthController(
         if (loginUserService.findByUsername(payload.username)!=null) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists")
         }
-        val user = LoginUser(
-            username = payload.username,
-            password = payload.password,
-            firstname = payload.firstname,
-            lastname = payload.lastname,
-            roleId = 1
-        )
-        when(val savedUser = loginUserService.createUser(user)){
+        when(val savedUser = loginUserService.createUser(payload)){
             is Either.Right -> {
                 val loginUser=savedUser.value
                 return AuthResponse(
-                    loginUser.id!!,
+                    loginUser.id,
                     loginUser.roleId,
                     loginUser.username,
                     loginUser.firstname,

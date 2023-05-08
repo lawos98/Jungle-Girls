@@ -18,14 +18,14 @@ class RoleController(
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long):RoleResponse{
         when(val role = roleService.getRoleById(id)){
-            is Either.Right -> return RoleResponse(role.value.id!!,role.value.name,role.value.description)
+            is Either.Right -> return RoleResponse(role.value.id,role.value.name,role.value.description)
             is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST,role.value)
         }
     }
 
     @GetMapping
     fun getAll():ArrayList<RoleResponse>{
-        return roleService.getRoles().map { elem -> RoleResponse(elem.id!!,elem.name,elem.description) } as ArrayList<RoleResponse>
+        return roleService.getRoles().map { elem -> RoleResponse(elem.id,elem.name,elem.description) } as ArrayList<RoleResponse>
     }
 
     @GetMapping("/secret-code/{id}")
@@ -46,7 +46,7 @@ class RoleController(
         val user = tokenService.parseToken(token.substring("Bearer".length))
         when(val updatedUser=roleService.updateUserRoleViaSecretCode(payload.code, user)){
             is Either.Right ->{
-                return RoleUpdateResponse(updatedUser.value.id!!,updatedUser.value.username,updatedUser.value.firstname,updatedUser.value.lastname,updatedUser.value.roleId)
+                return RoleUpdateResponse(updatedUser.value.id,updatedUser.value.username,updatedUser.value.firstname,updatedUser.value.lastname,updatedUser.value.roleId)
             }
             is Either.Left -> {
                 throw ResponseStatusException(HttpStatus.BAD_REQUEST,updatedUser.value)

@@ -1,6 +1,7 @@
 package pl.edu.agh.ii.io.jungleGirls.dto
 
 import pl.edu.agh.ii.io.jungleGirls.model.Activity
+import java.time.LocalDateTime
 
 data class ActivityScoreList(
     val activity: Activity,
@@ -18,4 +19,6 @@ data class StudentScore(
     val firstname: String,
     val lastname: String,
     var value: Double?,
+    val lastCommitTime: LocalDateTime?,
+    val lastCommitError: String?
 )

@@ -54,6 +54,16 @@ const TeacherNavbar: React.FC = () => {
                         Stwórz aktywności
                     </Link>
                     <Link
+                        to="/activity-list"
+                        className={`${
+                            isActive("/activity-list")
+                                ? "text-indigo-100 font-semibold border-b-2 border-indigo-300"
+                                : "hover:text-indigo-300"
+                        }`}
+                    >
+                        Aktywności
+                    </Link>
+                    <Link
                         to="/leaderboard"
                         className={`${
                             isActive("/leaderboard")
@@ -62,6 +72,16 @@ const TeacherNavbar: React.FC = () => {
                         }`}
                     >
                         Leaderboard
+                    </Link>
+                    <Link
+                        to="/categories"
+                        className={`${
+                            isActive("/categories")
+                                ? "text-indigo-100 font-semibold border-b-2 border-indigo-300"
+                                : "hover:text-indigo-300"
+                        }`}
+                    >
+                        Kategorie
                     </Link>
                 </div>
                 <div className="flex items-center space-x-4">

@@ -1,7 +1,7 @@
 _id: req_4f1e82d4ca29469cba668d5143f4716b
 type: Request
 parentId: fld_a2a780e7fd8b4a59b4ea9242024a45a0
-modified: 1681776451294
+modified: 1682936786139
 created: 1681772968767
 url: "{{ _.ServerAddress }}/api/score/3"
 name: Edit Grade incorect score value
@@ -23,34 +23,6 @@ body:
     		},
     		"students": [
     			{
-    				"id": 21,
-    				"username": "student17",
-    				"firstname": "student17",
-    				"lastname": "student17",
-    				"value": -1
-    			},
-    			{
-    				"id": 22,
-    				"username": "student18",
-    				"firstname": "student18",
-    				"lastname": "student18",
-    				"value": null
-    			},
-    			{
-    				"id": 23,
-    				"username": "student19",
-    				"firstname": "student19",
-    				"lastname": "student19",
-    				"value": null
-    			},
-    			{
-    				"id": 24,
-    				"username": "student20",
-    				"firstname": "student20",
-    				"lastname": "student20",
-    				"value": 2
-    			},
-    			{
     				"id": 25,
     				"username": "student21",
     				"firstname": "student21",
@@ -69,7 +41,7 @@ body:
     				"username": "student23",
     				"firstname": "student23",
     				"lastname": "student23",
-    				"value": null
+    				"value": 8
     			},
     			{
     				"id": 28,
@@ -91,6 +63,34 @@ body:
     				"firstname": "student26",
     				"lastname": "student26",
     				"value": null
+    			},
+    			{
+    				"id": 31,
+    				"username": "student27",
+    				"firstname": "student27",
+    				"lastname": "student27",
+    				"value": null
+    			},
+    			{
+    				"id": 32,
+    				"username": "student28",
+    				"firstname": "student28",
+    				"lastname": "student28",
+    				"value": 2
+    			},
+    			{
+    				"id": 33,
+    				"username": "student29",
+    				"firstname": "student29",
+    				"lastname": "student29",
+    				"value": null
+    			},
+    			{
+    				"id": 34,
+    				"username": "student30",
+    				"firstname": "student30",
+    				"lastname": "student30",
+    				"value": 1
     			}
     		]
     	},
@@ -106,34 +106,6 @@ body:
     		},
     		"students": [
     			{
-    				"id": 21,
-    				"username": "student17",
-    				"firstname": "student17",
-    				"lastname": "student17",
-    				"value": null
-    			},
-    			{
-    				"id": 22,
-    				"username": "student18",
-    				"firstname": "student18",
-    				"lastname": "student18",
-    				"value": null
-    			},
-    			{
-    				"id": 23,
-    				"username": "student19",
-    				"firstname": "student19",
-    				"lastname": "student19",
-    				"value": null
-    			},
-    			{
-    				"id": 24,
-    				"username": "student20",
-    				"firstname": "student20",
-    				"lastname": "student20",
-    				"value": 2.5
-    			},
-    			{
     				"id": 25,
     				"username": "student21",
     				"firstname": "student21",
@@ -159,7 +131,7 @@ body:
     				"username": "student24",
     				"firstname": "student24",
     				"lastname": "student24",
-    				"value": null
+    				"value": 2
     			},
     			{
     				"id": 29,
@@ -173,6 +145,34 @@ body:
     				"username": "student26",
     				"firstname": "student26",
     				"lastname": "student26",
+    				"value": null
+    			},
+    			{
+    				"id": 31,
+    				"username": "student27",
+    				"firstname": "student27",
+    				"lastname": "student27",
+    				"value": 1
+    			},
+    			{
+    				"id": 32,
+    				"username": "student28",
+    				"firstname": "student28",
+    				"lastname": "student28",
+    				"value": null
+    			},
+    			{
+    				"id": 33,
+    				"username": "student29",
+    				"firstname": "student29",
+    				"lastname": "student29",
+    				"value": null
+    			},
+    			{
+    				"id": 34,
+    				"username": "student30",
+    				"firstname": "student30",
+    				"lastname": "student30",
     				"value": null
     			}
     		]
@@ -189,34 +189,6 @@ body:
     		},
     		"students": [
     			{
-    				"id": 21,
-    				"username": "student17",
-    				"firstname": "student17",
-    				"lastname": "student17",
-    				"value": null
-    			},
-    			{
-    				"id": 22,
-    				"username": "student18",
-    				"firstname": "student18",
-    				"lastname": "student18",
-    				"value": null
-    			},
-    			{
-    				"id": 23,
-    				"username": "student19",
-    				"firstname": "student19",
-    				"lastname": "student19",
-    				"value": null
-    			},
-    			{
-    				"id": 24,
-    				"username": "student20",
-    				"firstname": "student20",
-    				"lastname": "student20",
-    				"value": 10
-    			},
-    			{
     				"id": 25,
     				"username": "student21",
     				"firstname": "student21",
@@ -242,7 +214,7 @@ body:
     				"username": "student24",
     				"firstname": "student24",
     				"lastname": "student24",
-    				"value": null
+    				"value": 3
     			},
     			{
     				"id": 29,
@@ -256,6 +228,34 @@ body:
     				"username": "student26",
     				"firstname": "student26",
     				"lastname": "student26",
+    				"value": null
+    			},
+    			{
+    				"id": 31,
+    				"username": "student27",
+    				"firstname": "student27",
+    				"lastname": "student27",
+    				"value": null
+    			},
+    			{
+    				"id": 32,
+    				"username": "student28",
+    				"firstname": "student28",
+    				"lastname": "student28",
+    				"value": null
+    			},
+    			{
+    				"id": 33,
+    				"username": "student29",
+    				"firstname": "student29",
+    				"lastname": "student29",
+    				"value": null
+    			},
+    			{
+    				"id": 34,
+    				"username": "student30",
+    				"firstname": "student30",
+    				"lastname": "student30",
     				"value": null
     			}
     		]
@@ -272,34 +272,6 @@ body:
     		},
     		"students": [
     			{
-    				"id": 21,
-    				"username": "student17",
-    				"firstname": "student17",
-    				"lastname": "student17",
-    				"value": null
-    			},
-    			{
-    				"id": 22,
-    				"username": "student18",
-    				"firstname": "student18",
-    				"lastname": "student18",
-    				"value": null
-    			},
-    			{
-    				"id": 23,
-    				"username": "student19",
-    				"firstname": "student19",
-    				"lastname": "student19",
-    				"value": null
-    			},
-    			{
-    				"id": 24,
-    				"username": "student20",
-    				"firstname": "student20",
-    				"lastname": "student20",
-    				"value": null
-    			},
-    			{
     				"id": 25,
     				"username": "student21",
     				"firstname": "student21",
@@ -318,7 +290,7 @@ body:
     				"username": "student23",
     				"firstname": "student23",
     				"lastname": "student23",
-    				"value": null
+    				"value": 0.5
     			},
     			{
     				"id": 28,
@@ -340,12 +312,40 @@ body:
     				"firstname": "student26",
     				"lastname": "student26",
     				"value": null
+    			},
+    			{
+    				"id": 31,
+    				"username": "student27",
+    				"firstname": "student27",
+    				"lastname": "student27",
+    				"value": null
+    			},
+    			{
+    				"id": 32,
+    				"username": "student28",
+    				"firstname": "student28",
+    				"lastname": "student28",
+    				"value": null
+    			},
+    			{
+    				"id": 33,
+    				"username": "student29",
+    				"firstname": "student29",
+    				"lastname": "student29",
+    				"value": null
+    			},
+    			{
+    				"id": 34,
+    				"username": "student30",
+    				"firstname": "student30",
+    				"lastname": "student30",
+    				"value": null
     			}
     		]
     	},
     	{
     		"activity": {
-    			"id": 5,
+    			"id": 6,
     			"name": "kartkowka2",
     			"maxScore": 10.0,
     			"duration": "PT12H",
@@ -355,34 +355,6 @@ body:
     		},
     		"students": [
     			{
-    				"id": 21,
-    				"username": "student17",
-    				"firstname": "student17",
-    				"lastname": "student17",
-    				"value": null
-    			},
-    			{
-    				"id": 22,
-    				"username": "student18",
-    				"firstname": "student18",
-    				"lastname": "student18",
-    				"value": null
-    			},
-    			{
-    				"id": 23,
-    				"username": "student19",
-    				"firstname": "student19",
-    				"lastname": "student19",
-    				"value": null
-    			},
-    			{
-    				"id": 24,
-    				"username": "student20",
-    				"firstname": "student20",
-    				"lastname": "student20",
-    				"value": null
-    			},
-    			{
     				"id": 25,
     				"username": "student21",
     				"firstname": "student21",
@@ -423,12 +395,40 @@ body:
     				"firstname": "student26",
     				"lastname": "student26",
     				"value": null
+    			},
+    			{
+    				"id": 31,
+    				"username": "student27",
+    				"firstname": "student27",
+    				"lastname": "student27",
+    				"value": null
+    			},
+    			{
+    				"id": 32,
+    				"username": "student28",
+    				"firstname": "student28",
+    				"lastname": "student28",
+    				"value": null
+    			},
+    			{
+    				"id": 33,
+    				"username": "student29",
+    				"firstname": "student29",
+    				"lastname": "student29",
+    				"value": null
+    			},
+    			{
+    				"id": 34,
+    				"username": "student30",
+    				"firstname": "student30",
+    				"lastname": "student30",
+    				"value": null
     			}
     		]
     	},
     	{
     		"activity": {
-    			"id": 6,
+    			"id": 7,
     			"name": "zadanie2",
     			"maxScore": 2.5,
     			"duration": "PT1H",
@@ -438,34 +438,6 @@ body:
     		},
     		"students": [
     			{
-    				"id": 21,
-    				"username": "student17",
-    				"firstname": "student17",
-    				"lastname": "student17",
-    				"value": null
-    			},
-    			{
-    				"id": 22,
-    				"username": "student18",
-    				"firstname": "student18",
-    				"lastname": "student18",
-    				"value": null
-    			},
-    			{
-    				"id": 23,
-    				"username": "student19",
-    				"firstname": "student19",
-    				"lastname": "student19",
-    				"value": null
-    			},
-    			{
-    				"id": 24,
-    				"username": "student20",
-    				"firstname": "student20",
-    				"lastname": "student20",
-    				"value": null
-    			},
-    			{
     				"id": 25,
     				"username": "student21",
     				"firstname": "student21",
@@ -506,12 +478,40 @@ body:
     				"firstname": "student26",
     				"lastname": "student26",
     				"value": null
+    			},
+    			{
+    				"id": 31,
+    				"username": "student27",
+    				"firstname": "student27",
+    				"lastname": "student27",
+    				"value": null
+    			},
+    			{
+    				"id": 32,
+    				"username": "student28",
+    				"firstname": "student28",
+    				"lastname": "student28",
+    				"value": null
+    			},
+    			{
+    				"id": 33,
+    				"username": "student29",
+    				"firstname": "student29",
+    				"lastname": "student29",
+    				"value": null
+    			},
+    			{
+    				"id": 34,
+    				"username": "student30",
+    				"firstname": "student30",
+    				"lastname": "student30",
+    				"value": null
     			}
     		]
     	},
     	{
     		"activity": {
-    			"id": 7,
+    			"id": 8,
     			"name": "domowe2",
     			"maxScore": 12.5,
     			"duration": "PT24H",
@@ -521,34 +521,6 @@ body:
     		},
     		"students": [
     			{
-    				"id": 21,
-    				"username": "student17",
-    				"firstname": "student17",
-    				"lastname": "student17",
-    				"value": null
-    			},
-    			{
-    				"id": 22,
-    				"username": "student18",
-    				"firstname": "student18",
-    				"lastname": "student18",
-    				"value": null
-    			},
-    			{
-    				"id": 23,
-    				"username": "student19",
-    				"firstname": "student19",
-    				"lastname": "student19",
-    				"value": null
-    			},
-    			{
-    				"id": 24,
-    				"username": "student20",
-    				"firstname": "student20",
-    				"lastname": "student20",
-    				"value": null
-    			},
-    			{
     				"id": 25,
     				"username": "student21",
     				"firstname": "student21",
@@ -589,12 +561,40 @@ body:
     				"firstname": "student26",
     				"lastname": "student26",
     				"value": null
+    			},
+    			{
+    				"id": 31,
+    				"username": "student27",
+    				"firstname": "student27",
+    				"lastname": "student27",
+    				"value": null
+    			},
+    			{
+    				"id": 32,
+    				"username": "student28",
+    				"firstname": "student28",
+    				"lastname": "student28",
+    				"value": null
+    			},
+    			{
+    				"id": 33,
+    				"username": "student29",
+    				"firstname": "student29",
+    				"lastname": "student29",
+    				"value": null
+    			},
+    			{
+    				"id": 34,
+    				"username": "student30",
+    				"firstname": "student30",
+    				"lastname": "student30",
+    				"value": null
     			}
     		]
     	},
     	{
     		"activity": {
-    			"id": 8,
+    			"id": 9,
     			"name": "plusy2",
     			"maxScore": 0.5,
     			"duration": "PT24H",
@@ -604,34 +604,6 @@ body:
     		},
     		"students": [
     			{
-    				"id": 21,
-    				"username": "student17",
-    				"firstname": "student17",
-    				"lastname": "student17",
-    				"value": null
-    			},
-    			{
-    				"id": 22,
-    				"username": "student18",
-    				"firstname": "student18",
-    				"lastname": "student18",
-    				"value": null
-    			},
-    			{
-    				"id": 23,
-    				"username": "student19",
-    				"firstname": "student19",
-    				"lastname": "student19",
-    				"value": null
-    			},
-    			{
-    				"id": 24,
-    				"username": "student20",
-    				"firstname": "student20",
-    				"lastname": "student20",
-    				"value": null
-    			},
-    			{
     				"id": 25,
     				"username": "student21",
     				"firstname": "student21",
@@ -672,12 +644,40 @@ body:
     				"firstname": "student26",
     				"lastname": "student26",
     				"value": null
+    			},
+    			{
+    				"id": 31,
+    				"username": "student27",
+    				"firstname": "student27",
+    				"lastname": "student27",
+    				"value": null
+    			},
+    			{
+    				"id": 32,
+    				"username": "student28",
+    				"firstname": "student28",
+    				"lastname": "student28",
+    				"value": null
+    			},
+    			{
+    				"id": 33,
+    				"username": "student29",
+    				"firstname": "student29",
+    				"lastname": "student29",
+    				"value": null
+    			},
+    			{
+    				"id": 34,
+    				"username": "student30",
+    				"firstname": "student30",
+    				"lastname": "student30",
+    				"value": null
     			}
     		]
     	},
     	{
     		"activity": {
-    			"id": 9,
+    			"id": 11,
     			"name": "kartkowka3",
     			"maxScore": 10.0,
     			"duration": "PT12H",
@@ -687,34 +687,6 @@ body:
     		},
     		"students": [
     			{
-    				"id": 21,
-    				"username": "student17",
-    				"firstname": "student17",
-    				"lastname": "student17",
-    				"value": null
-    			},
-    			{
-    				"id": 22,
-    				"username": "student18",
-    				"firstname": "student18",
-    				"lastname": "student18",
-    				"value": null
-    			},
-    			{
-    				"id": 23,
-    				"username": "student19",
-    				"firstname": "student19",
-    				"lastname": "student19",
-    				"value": null
-    			},
-    			{
-    				"id": 24,
-    				"username": "student20",
-    				"firstname": "student20",
-    				"lastname": "student20",
-    				"value": null
-    			},
-    			{
     				"id": 25,
     				"username": "student21",
     				"firstname": "student21",
@@ -755,12 +727,40 @@ body:
     				"firstname": "student26",
     				"lastname": "student26",
     				"value": null
+    			},
+    			{
+    				"id": 31,
+    				"username": "student27",
+    				"firstname": "student27",
+    				"lastname": "student27",
+    				"value": null
+    			},
+    			{
+    				"id": 32,
+    				"username": "student28",
+    				"firstname": "student28",
+    				"lastname": "student28",
+    				"value": null
+    			},
+    			{
+    				"id": 33,
+    				"username": "student29",
+    				"firstname": "student29",
+    				"lastname": "student29",
+    				"value": null
+    			},
+    			{
+    				"id": 34,
+    				"username": "student30",
+    				"firstname": "student30",
+    				"lastname": "student30",
+    				"value": null
     			}
     		]
     	},
     	{
     		"activity": {
-    			"id": 10,
+    			"id": 12,
     			"name": "zadanie3",
     			"maxScore": 2.5,
     			"duration": "PT1H",
@@ -770,34 +770,6 @@ body:
     		},
     		"students": [
     			{
-    				"id": 21,
-    				"username": "student17",
-    				"firstname": "student17",
-    				"lastname": "student17",
-    				"value": null
-    			},
-    			{
-    				"id": 22,
-    				"username": "student18",
-    				"firstname": "student18",
-    				"lastname": "student18",
-    				"value": null
-    			},
-    			{
-    				"id": 23,
-    				"username": "student19",
-    				"firstname": "student19",
-    				"lastname": "student19",
-    				"value": null
-    			},
-    			{
-    				"id": 24,
-    				"username": "student20",
-    				"firstname": "student20",
-    				"lastname": "student20",
-    				"value": null
-    			},
-    			{
     				"id": 25,
     				"username": "student21",
     				"firstname": "student21",
@@ -838,12 +810,40 @@ body:
     				"firstname": "student26",
     				"lastname": "student26",
     				"value": null
+    			},
+    			{
+    				"id": 31,
+    				"username": "student27",
+    				"firstname": "student27",
+    				"lastname": "student27",
+    				"value": null
+    			},
+    			{
+    				"id": 32,
+    				"username": "student28",
+    				"firstname": "student28",
+    				"lastname": "student28",
+    				"value": null
+    			},
+    			{
+    				"id": 33,
+    				"username": "student29",
+    				"firstname": "student29",
+    				"lastname": "student29",
+    				"value": null
+    			},
+    			{
+    				"id": 34,
+    				"username": "student30",
+    				"firstname": "student30",
+    				"lastname": "student30",
+    				"value": null
     			}
     		]
     	},
     	{
     		"activity": {
-    			"id": 11,
+    			"id": 13,
     			"name": "domowe3",
     			"maxScore": 12.5,
     			"duration": "PT24H",
@@ -853,34 +853,6 @@ body:
     		},
     		"students": [
     			{
-    				"id": 21,
-    				"username": "student17",
-    				"firstname": "student17",
-    				"lastname": "student17",
-    				"value": null
-    			},
-    			{
-    				"id": 22,
-    				"username": "student18",
-    				"firstname": "student18",
-    				"lastname": "student18",
-    				"value": null
-    			},
-    			{
-    				"id": 23,
-    				"username": "student19",
-    				"firstname": "student19",
-    				"lastname": "student19",
-    				"value": null
-    			},
-    			{
-    				"id": 24,
-    				"username": "student20",
-    				"firstname": "student20",
-    				"lastname": "student20",
-    				"value": null
-    			},
-    			{
     				"id": 25,
     				"username": "student21",
     				"firstname": "student21",
@@ -921,12 +893,40 @@ body:
     				"firstname": "student26",
     				"lastname": "student26",
     				"value": null
+    			},
+    			{
+    				"id": 31,
+    				"username": "student27",
+    				"firstname": "student27",
+    				"lastname": "student27",
+    				"value": null
+    			},
+    			{
+    				"id": 32,
+    				"username": "student28",
+    				"firstname": "student28",
+    				"lastname": "student28",
+    				"value": null
+    			},
+    			{
+    				"id": 33,
+    				"username": "student29",
+    				"firstname": "student29",
+    				"lastname": "student29",
+    				"value": null
+    			},
+    			{
+    				"id": 34,
+    				"username": "student30",
+    				"firstname": "student30",
+    				"lastname": "student30",
+    				"value": null
     			}
     		]
     	},
     	{
     		"activity": {
-    			"id": 12,
+    			"id": 14,
     			"name": "plusy3",
     			"maxScore": 0.5,
     			"duration": "PT24H",
@@ -936,34 +936,6 @@ body:
     		},
     		"students": [
     			{
-    				"id": 21,
-    				"username": "student17",
-    				"firstname": "student17",
-    				"lastname": "student17",
-    				"value": null
-    			},
-    			{
-    				"id": 22,
-    				"username": "student18",
-    				"firstname": "student18",
-    				"lastname": "student18",
-    				"value": null
-    			},
-    			{
-    				"id": 23,
-    				"username": "student19",
-    				"firstname": "student19",
-    				"lastname": "student19",
-    				"value": null
-    			},
-    			{
-    				"id": 24,
-    				"username": "student20",
-    				"firstname": "student20",
-    				"lastname": "student20",
-    				"value": null
-    			},
-    			{
     				"id": 25,
     				"username": "student21",
     				"firstname": "student21",
@@ -1003,6 +975,117 @@ body:
     				"username": "student26",
     				"firstname": "student26",
     				"lastname": "student26",
+    				"value": null
+    			},
+    			{
+    				"id": 31,
+    				"username": "student27",
+    				"firstname": "student27",
+    				"lastname": "student27",
+    				"value": null
+    			},
+    			{
+    				"id": 32,
+    				"username": "student28",
+    				"firstname": "student28",
+    				"lastname": "student28",
+    				"value": null
+    			},
+    			{
+    				"id": 33,
+    				"username": "student29",
+    				"firstname": "student29",
+    				"lastname": "student29",
+    				"value": null
+    			},
+    			{
+    				"id": 34,
+    				"username": "student30",
+    				"firstname": "student30",
+    				"lastname": "student30",
+    				"value": null
+    			}
+    		]
+    	},
+    	{
+    		"activity": {
+    			"id": 61,
+    			"name": "kartkowka",
+    			"maxScore": 5.5,
+    			"duration": "PT124H30M",
+    			"description": "łatwizna!!",
+    			"activityTypeId": 1,
+    			"activityCategoryId": 2
+    		},
+    		"students": [
+    			{
+    				"id": 25,
+    				"username": "student21",
+    				"firstname": "student21",
+    				"lastname": "student21",
+    				"value": null
+    			},
+    			{
+    				"id": 26,
+    				"username": "student22",
+    				"firstname": "student22",
+    				"lastname": "student22",
+    				"value": null
+    			},
+    			{
+    				"id": 27,
+    				"username": "student23",
+    				"firstname": "student23",
+    				"lastname": "student23",
+    				"value": null
+    			},
+    			{
+    				"id": 28,
+    				"username": "student24",
+    				"firstname": "student24",
+    				"lastname": "student24",
+    				"value": null
+    			},
+    			{
+    				"id": 29,
+    				"username": "student25",
+    				"firstname": "student25",
+    				"lastname": "student25",
+    				"value": -1
+    			},
+    			{
+    				"id": 30,
+    				"username": "student26",
+    				"firstname": "student26",
+    				"lastname": "student26",
+    				"value": null
+    			},
+    			{
+    				"id": 31,
+    				"username": "student27",
+    				"firstname": "student27",
+    				"lastname": "student27",
+    				"value": null
+    			},
+    			{
+    				"id": 32,
+    				"username": "student28",
+    				"firstname": "student28",
+    				"lastname": "student28",
+    				"value": null
+    			},
+    			{
+    				"id": 33,
+    				"username": "student29",
+    				"firstname": "student29",
+    				"lastname": "student29",
+    				"value": null
+    			},
+    			{
+    				"id": 34,
+    				"username": "student30",
+    				"firstname": "student30",
+    				"lastname": "student30",
     				"value": null
     			}
     		]

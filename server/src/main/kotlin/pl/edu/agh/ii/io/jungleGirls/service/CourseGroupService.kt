@@ -2,6 +2,10 @@ package pl.edu.agh.ii.io.jungleGirls.service
 
 import arrow.core.*
 import org.springframework.stereotype.Service
+import pl.edu.agh.ii.io.jungleGirls.dto.ActivityIdWithName
+import pl.edu.agh.ii.io.jungleGirls.dto.ScoreWithActivityIdAndStudentId
+import pl.edu.agh.ii.io.jungleGirls.dto.StudentIdWithName
+import pl.edu.agh.ii.io.jungleGirls.model.CourseGroup
 import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import pl.edu.agh.ii.io.jungleGirls.repository.CourseGroupRepository
 
@@ -37,4 +41,21 @@ class CourseGroupService(private val courseGroupRepository: CourseGroupRepositor
     fun existsByCourseId(courseId: Long):Boolean{
         return courseGroupRepository.existsById(courseId).block() ?: return false
     }
+
+    fun getAllGroups(instructorId:Long):ArrayList<CourseGroup>{
+        return courseGroupRepository.getAllGroups(instructorId).collectList().block() as ArrayList<CourseGroup>
+    }
+
+    fun getAllStudentIdsAndNamesByGroupId(groupId: Long):HashMap<Long,String>{
+        return courseGroupRepository.getAllStudentIdsAndNamesByGroupId(groupId).collectMap(StudentIdWithName::id, StudentIdWithName::name).block() as HashMap<Long, String>
+    }
+
+    fun getAllActivityIdsAndNames(groupId:Long):HashMap<Long,String>{
+        return courseGroupRepository.getAllActivityIdsAndNamesByGroupId(groupId).collectMap(ActivityIdWithName::id, ActivityIdWithName::name).block() as HashMap<Long, String>
+    }
+
+    fun getAllScoresWithActivityIdAndStudentIdByGroupId(groupId:Long):HashMap<Pair<Long,Long>,Double>{
+        return courseGroupRepository.getAllScoresWithActivityIdAndStudentIdByGroupId(groupId).collectMap(ScoreWithActivityIdAndStudentId::getKey,ScoreWithActivityIdAndStudentId::score).block() as HashMap<Pair<Long, Long>, Double>
+    }
+
 }

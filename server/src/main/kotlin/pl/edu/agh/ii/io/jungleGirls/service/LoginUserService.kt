@@ -2,6 +2,7 @@ package pl.edu.agh.ii.io.jungleGirls.service
 
 import arrow.core.*
 import org.springframework.stereotype.Service
+import pl.edu.agh.ii.io.jungleGirls.dto.RegisterRequest
 import pl.edu.agh.ii.io.jungleGirls.repository.LoginUserRepository
 import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import pl.edu.agh.ii.io.jungleGirls.util.Bcrypt
@@ -21,10 +22,9 @@ class LoginUserService(
         return loginUserRepository.findByUsername(username).block()
     }
 
-    fun createUser(user: LoginUser): Either<String, LoginUser> {
+    fun createUser(user: RegisterRequest): Either<String, LoginUser> {
         return validateNewUser(user).flatMap { _ ->
-            user.password=Bcrypt.hashBcrypt(user.password)
-            val loginUser = loginUserRepository.save(user).block() ?: return "Error while saving User".left()
+            val loginUser = loginUserRepository.save(user.username,Bcrypt.hashBcrypt(user.password),user.firstname,user.lastname,1).block() ?: return "Error while saving User".left()
             return loginUser.right()
         }
     }
@@ -67,7 +67,7 @@ class LoginUserService(
             .flatMap { _ -> checkIsBlank(password,"Password cannot be empty") }
     }
 
-    private fun validateNewUser(user: LoginUser): Either<String, None> {
+    private fun validateNewUser(user: RegisterRequest): Either<String, None> {
         return checkBlankUser(user.username, user.password)
             .flatMap { _ -> checkIsBlank(user.firstname, "Firstname cannot be empty")
             .flatMap { _ -> checkIsBlank(user.lastname, "Lastname cannot be empty")

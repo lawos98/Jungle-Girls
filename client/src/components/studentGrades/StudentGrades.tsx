@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as actions from "./StudentGradesActions";
-import { ActivityScore } from '../types/EditableGridTypes'; // Replace 'your-types-file' with the actual file name containing the TypeScript types
+import { ActivityScore } from '../types/EditableGridTypes';
 
 interface GradesGridProps {
     // token: string;

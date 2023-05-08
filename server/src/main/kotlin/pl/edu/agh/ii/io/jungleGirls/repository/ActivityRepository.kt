@@ -4,6 +4,7 @@ import org.springframework.data.r2dbc.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Repository
+import pl.edu.agh.ii.io.jungleGirls.dto.TemporaryEventResponse
 import pl.edu.agh.ii.io.jungleGirls.model.Activity
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -13,6 +14,9 @@ import java.time.Duration
 interface ActivityRepository : ReactiveCrudRepository<Activity,Long> {
     fun findByName(name: String): Mono<Activity>
     fun existsByName(name: String): Mono<Boolean>
+
+    @Query("Insert into activity (name,max_score,duration,description,activity_type_id,activity_category_id) values (:name,:max_score,:duration,:description,:activity_type_id,:activity_category_id) returning *")
+    fun save(@Param("name")name: String, @Param("max_score")maxScore: Double, @Param("duration")duration: Duration, @Param("description")description: String, @Param("activity_type_id")activityTypeId: Long, @Param("activity_category_id")activityCategoryId: Long): Mono<Activity>
 
     @Query("select CASE WHEN COUNT(a.name) > 0 THEN true ELSE false END from activity as a inner join activity_category ac on ac.id = a.activity_category_id where ac.instructor_id = :instructor_id and a.name = :name;")
     fun existsByInstructorIdAndName(@Param("instructor_id")instructorId:Long, @Param("name")name: String): Mono<Boolean>
@@ -42,6 +46,8 @@ interface ActivityRepository : ReactiveCrudRepository<Activity,Long> {
 
 
         ):Mono<Activity>
+    @Query("select a.name,a.duration,cga.start_date from student_description sd inner join course_group cg on cg.id = sd.course_group_id  inner join course_group_activity cga on cg.id = cga.course_group_id inner join activity a on a.id = cga.activity_id inner join activity_type t on a.activity_type_id = t.id where sd.id = :studentId and t.name = 'temporary_event' and  now() between cga.start_date and cga.start_date + a.duration::interval")
+    fun getCurrentTemporaryEvents(studentId: Long): Flux<TemporaryEventResponse>
 
 
 }

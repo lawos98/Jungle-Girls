@@ -2,18 +2,18 @@ import React, {useEffect, useState, useMemo} from "react";
 import Cookies from "js-cookie";
 import moment from "moment";
 import ActivityEditForm from "../edit/EditActivityForm";
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import * as actions from "./ActivityListActions";
 
 function ActivityList() {
@@ -78,7 +78,7 @@ function ActivityList() {
 
         return (
             <>
-                <TableRow sx={{'& > *': {borderBottom: 'unset'}}}>
+                <TableRow sx={{"& > *": {borderBottom: "unset"}}}>
                     <TableCell>
                         <IconButton
                             aria-label="expand row"

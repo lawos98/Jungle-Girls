@@ -1,18 +1,18 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer,persistCombineReducers, FLUSH,
     REHYDRATE,
     PAUSE,
     PERSIST,
     PURGE,
     REGISTER,
-} from 'redux-persist';
-import storageSession from 'redux-persist/lib/storage/session';
-import userReducer from './reducers/UserReducer';
+} from "redux-persist";
+import storageSession from "redux-persist/lib/storage/session";
+import userReducer from "./reducers/UserReducer";
 
 const persistConfig = {
-    key: 'root',
+    key: "root",
     storage: storageSession,
-}
+};
 
 const rootReducer = persistCombineReducers(persistConfig, {
     user: userReducer,

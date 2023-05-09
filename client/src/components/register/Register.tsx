@@ -10,37 +10,37 @@ import {useNavigate} from "react-router-dom";
 const Register: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [serverError, setServerError] = useState('');
+    const [serverError, setServerError] = useState("");
     const user = useSelector((state: any) => state.user);
 
     useEffect(() => {
         if (user.isLogged) {
-            navigate('/');
+            navigate("/");
         }
     },[]);
 
     const validationSchema = Yup.object({
-        username: Yup.string().required('Nazwa użytkownika jest wymagana'),
-        firstname: Yup.string().required('Imię jest wymagane'),
-        lastname: Yup.string().required('Nazwisko jest wymagane'),
-        password: Yup.string().required('Hasło jest wymagane'),
+        username: Yup.string().required("Nazwa użytkownika jest wymagana"),
+        firstname: Yup.string().required("Imię jest wymagane"),
+        lastname: Yup.string().required("Nazwisko jest wymagane"),
+        password: Yup.string().required("Hasło jest wymagane"),
         confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password'), ''], 'Hasła muszą być takie same')
-            .required('Powtórzenie hasła jest wymagane'),
+            .oneOf([Yup.ref("password"), ""], "Hasła muszą być takie same")
+            .required("Powtórzenie hasła jest wymagane"),
     });
 
     const successCallback = (userData: any) => {
         dispatch(setUser(userData));
-        navigate('/');
-    }
+        navigate("/");
+    };
 
     const formik = useFormik({
         initialValues: {
-            username: '',
-            firstname: '',
-            lastname: '',
-            password: '',
-            confirmPassword: '',
+            username: "",
+            firstname: "",
+            lastname: "",
+            password: "",
+            confirmPassword: "",
         },
         onSubmit: values => {
             actions.register(values.username, values.firstname, values.lastname, values.password,successCallback ,(message:string) => {

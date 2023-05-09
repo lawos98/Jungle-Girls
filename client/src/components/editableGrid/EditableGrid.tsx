@@ -1,12 +1,12 @@
-import React, {useState, useRef, useEffect, useCallback} from 'react';
+import React, {useState, useRef, useEffect, useCallback} from "react";
 import Swiper from "swiper";
 import "swiper/css/bundle";
-import * as actions from "./EditableGridActions"
-import {ActivityScoreList} from '../types/EditableGridTypes';
+import * as actions from "./EditableGridActions";
+import {ActivityScoreList} from "../types/EditableGridTypes";
 import EditableGridSkeleton from "./EditableGridSkeleton";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import GridCell from "./GridCell";
-import validateInput from "../../utils/utils"
+import validateInput from "../../utils/utils";
 type EditableGridProps = {
     groupId: number;
 }
@@ -104,26 +104,26 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
 
     const setupSwiper = () => {
         if (!swiperSetupFlag.current) {
-            const swiperInstance = (new Swiper('.swiper', {
+            const swiperInstance = (new Swiper(".swiper", {
                 slidesPerView: 3,
                 spaceBetween: 10,
                 centeredSlides: true,
                 grabCursor: false,
                 navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
                 }
             }));
             // remove any existing event listeners
-            swiperInstance.off('slideChange');
-            swiperInstance.on('slideChange', () => {
+            swiperInstance.off("slideChange");
+            swiperInstance.on("slideChange", () => {
                 setZoomedRowIndex(swiperInstance.activeIndex);
             });
             setSwiper(swiperInstance);
             swiperSetupFlag.current = true;
 
         }
-    }
+    };
     const handleCellChange = useCallback(
         (row: number, col: number, value: string) => {
             if (
@@ -150,7 +150,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
     const handleSaveGrades = () => {
         const updatedActivityScoreList: ActivityScoreList[] = [];
         Object.keys(changedCells).forEach((key) => {
-            const [rowIndex, colIndex] = key.split('-').map(Number);
+            const [rowIndex, colIndex] = key.split("-").map(Number);
             const activityId = data[rowIndex][colIndex].activityId;
             const student = scoreData[colIndex].students[rowIndex];
             const updatedValue = parseFloat(changedCells[key]);
@@ -176,9 +176,9 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
 
         const updateGradesPromise = actions.updateGrades(groupId, updatedActivityScoreList);
         toast.promise(updateGradesPromise, {
-            loading: 'Zapisuję Oceny...',
-            success: 'Oceny Zapisane!',
-            error: 'Błąd podczas zapisywania ocen',
+            loading: "Zapisuję Oceny...",
+            success: "Oceny Zapisane!",
+            error: "Błąd podczas zapisywania ocen",
         });
     };
 
@@ -188,23 +188,23 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
             setZoomedColumnIndex(null);
         }
     };
-    const focusNextCell = (row: number, col: number, direction: 'up' | 'down' | 'left' | 'right') => {
+    const focusNextCell = (row: number, col: number, direction: "up" | "down" | "left" | "right") => {
         let newRow = row;
         let newCol = col;
 
         switch (direction) {
-            case 'up':
-                newRow = newRow - 1 >= 0 ? newRow - 1 : newRow;
-                break;
-            case 'down':
-                newRow = newRow + 1 < data.length ? newRow + 1 : newRow;
-                break;
-            case 'left':
-                newCol = newCol - 1 >= 0 ? newCol - 1 : newCol;
-                break;
-            case 'right':
-                newCol = newCol + 1 < data[row].length ? newCol + 1 : newCol;
-                break;
+        case "up":
+            newRow = newRow - 1 >= 0 ? newRow - 1 : newRow;
+            break;
+        case "down":
+            newRow = newRow + 1 < data.length ? newRow + 1 : newRow;
+            break;
+        case "left":
+            newCol = newCol - 1 >= 0 ? newCol - 1 : newCol;
+            break;
+        case "right":
+            newCol = newCol + 1 < data[row].length ? newCol + 1 : newCol;
+            break;
         }
         // if row is zoomed in, prevent moving to other rows
         if (zoomedRowIndex !== null) {
@@ -215,12 +215,12 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
             newCol = col;
         }
         // if the cell is in a folded category, move to the next available cell
-        if(direction === 'right')
+        if(direction === "right")
         {
             while(foldedCategories[data[newRow][newCol].activityCategoryId] && newCol < data[newRow].length - 1)
                 newCol++;
         }
-        else if(direction === 'left')
+        else if(direction === "left")
         {
             while(foldedCategories[data[newRow][newCol].activityCategoryId] && newCol > 0)
                 newCol--;
@@ -238,7 +238,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
         <div ref={containerRef}>
             {isLoading && <EditableGridSkeleton></EditableGridSkeleton>}
 
-            <div className=" border-collapse flex flex-col h-min">
+            <div className=" border-collapse flex flex-col h-min overflow-auto">
                 <div className=" flex flex-row pb-1">
                     <div className="shrink-0  w-40"></div>
                     <div className="flex flex-row ">
@@ -249,7 +249,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                                     : "order-none pop"
                             }`}>
                                 <div
-                                    className={`cursor-pointer order-none font-bold text-center bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-1 px-2  mb-1`}
+                                    className={"cursor-pointer order-none font-bold text-center bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-1 px-2  mb-1"}
                                     onClick={() => toggleFoldCategory(category.id)}
                                 >
                                     {category.name}
@@ -291,7 +291,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                 {data.map((row, rowIndex) => {
                     return (
                         <div key={`row-${rowIndex}`}
-                             className={`border-collapse flex items-center cursor-pointer transition-all duration-500 ease-in-out ${zoomedRowIndex !== null && rowIndex !== zoomedRowIndex ? "opacity-50 max-h-20 overflow-hidden" : "opacity-100 max-h-20"} ${zoomedRowIndex !== null && rowIndex == zoomedRowIndex ? "origin-top scale-[1.03] z-10" : "origin-left scale-100 z-0"}`}>
+                            className={`border-collapse flex items-center cursor-pointer transition-all duration-500 ease-in-out ${zoomedRowIndex !== null && rowIndex !== zoomedRowIndex ? "opacity-50 max-h-20 overflow-visible" : "opacity-100 max-h-20"} ${zoomedRowIndex !== null && rowIndex == zoomedRowIndex ? "origin-top scale-[1.03] z-10" : "origin-left scale-100 z-0"}`}>
                             <div
                                 // names
                                 className="shrink-0 text-center w-40"
@@ -302,9 +302,9 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                                         setTimeout(() => {
                                             setZoomedRowIndex(zoomedRowIndex === rowIndex ? null : rowIndex);
                                         }, 200);
-                                        }
+                                    }
                                     else {
-                                    setZoomedRowIndex(zoomedRowIndex === rowIndex ? null : rowIndex);
+                                        setZoomedRowIndex(zoomedRowIndex === rowIndex ? null : rowIndex);
                                     }
                                     // slide to the row
                                     swiper.slideTo(rowIndex, 10);
@@ -315,7 +315,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                             {row.map((cell, colIndex) => (
                                 // transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && colIndex !== zoomedColumnIndex ? 'opacity-0 max-w-0 max-h-0 overflow-hidden' : 'opacity-100 max-w-24 max-h-20'
                                 <div key={`cell-${rowIndex}-${colIndex}`}
-                                     className={`shrink-0 w-24 border-collapse transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && cell.activityId !== zoomedColumnIndex ? "opacity-50 overflow-hidden" : "opacity-100"} ${zoomedColumnIndex !== null && cell.activityId == zoomedColumnIndex ? "origin-top scale-110 z-10" : "origin-bottom scale-100 z-0"} ${foldedCategories[cell.activityCategoryId]? "fade-out overflow-hidden" : "fade-in"}`}>
+                                    className={`shrink-0 w-24 border-collapse transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && cell.activityId !== zoomedColumnIndex ? "opacity-50 overflow-hidden" : "opacity-100"} ${zoomedColumnIndex !== null && cell.activityId == zoomedColumnIndex ? "origin-top scale-110 z-10" : "origin-bottom scale-100 z-0"} ${foldedCategories[cell.activityCategoryId]? "fade-out overflow-hidden" : "fade-in"}`}>
                                     <GridCell
                                         isZoomedIn={rowIndex === zoomedRowIndex || cell.activityId === zoomedColumnIndex}
                                         id={`cell-${rowIndex}-${colIndex}`}
@@ -341,7 +341,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                     <div className="swiper-button-next"></div>
                 </div>
             </div>
-            <div className={'mt-5 flex justify-center'}>
+            <div className={"mt-5 flex justify-center"}>
                 {!isLoading && (
                     <button onClick={handleSaveGrades} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Save Grades
@@ -352,4 +352,4 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
     );
 };
 
-export default EditableGrid
+export default EditableGrid;

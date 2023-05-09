@@ -11,7 +11,7 @@ export const getActivityCategories = () => {
                 errorCallback(error.response.data.message);
             }
         });
-}
+};
 
 export const getInstructorData = () => {
     return api
@@ -23,7 +23,7 @@ export const getInstructorData = () => {
                 errorCallback(error.response.data.message);
             }
         });
-}
+};
 
 export const createActivity = (
     categoryName: string,
@@ -36,24 +36,24 @@ export const createActivity = (
     courseGroupStartDates: Array<Date>,
     token: string | undefined
 ) => {
-  const payload = {
-    name: categoryName,
-    maxScore: maxScore,
-    description: description,
-    duration: duration,
-    activityTypeName: activityTypeName,
-    activityCategoryName: activityCategoryName,
-    courseGroupNames: courseGroupNames,
-    courseGroupStartDates: courseGroupStartDates,
-  };
-  return api
-      .post("/activity/create", payload, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log(response);
-      });
+    const payload = {
+        name: categoryName,
+        maxScore: maxScore,
+        description: description,
+        duration: duration,
+        activityTypeName: activityTypeName,
+        activityCategoryName: activityCategoryName,
+        courseGroupNames: courseGroupNames,
+        courseGroupStartDates: courseGroupStartDates,
+    };
+    return api
+        .post("/activity/create", payload, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((response) => {
+            console.log(response);
+        });
 };

@@ -13,6 +13,6 @@ export const joinGroup = (secretCode: string, successCallback:Function, errorCal
     ).then(response => {
         successCallback(response.data);
     }).catch(error => {
-        console.log(error);
+        errorCallback(error.response.data.message);
     });
-}
+};

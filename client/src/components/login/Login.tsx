@@ -10,31 +10,31 @@ import {useNavigate} from "react-router-dom";
 const Login: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [serverError, setServerError] = useState('');
+    const [serverError, setServerError] = useState("");
     const user = useSelector((state: any) => state.user);
 
 
     const validationSchema = Yup.object({
-        nick: Yup.string().required('Nazwa użytkownika jest wymagana'),
-        password: Yup.string().required('Hasło jest wymagane'),
+        nick: Yup.string().required("Nazwa użytkownika jest wymagana"),
+        password: Yup.string().required("Hasło jest wymagane"),
     });
 
     const successCallback = (userData: any) => {
         dispatch(setUser(userData));
-        navigate('/');
-    }
+        navigate("/");
+    };
 
     useEffect(() => {
         if (user.isLogged) {
-            navigate('/');
+            navigate("/");
         }
     },[]);
 
 
     const formik = useFormik({
         initialValues: {
-            nick: '',
-            password: '',
+            nick: "",
+            password: "",
         },
         onSubmit: values => {
             actions.login(values.nick, values.password, successCallback ,(message:string) => {
@@ -45,8 +45,8 @@ const Login: React.FC = () => {
     });
 
     useEffect(() => {
-        setServerError('');
-    }, [formik.values.nick, formik.values.password])
+        setServerError("");
+    }, [formik.values.nick, formik.values.password]);
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">

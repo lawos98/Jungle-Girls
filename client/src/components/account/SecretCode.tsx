@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import * as actions from "./SecretCodeActions";
 import {useDispatch} from "react-redux";
-import {setUser} from "../../reducers/UserReducer";
+import {setUser, clearUser} from "../../reducers/UserReducer";
 
 const SecretCode: React.FC = () => {
     const navigate = useNavigate();
@@ -17,8 +17,13 @@ const SecretCode: React.FC = () => {
     });
 
     const successCallback = () => {
-        dispatch(setUser({roleId: 2}))
+        dispatch(setUser({roleId: 2}));
         navigate("/");
+    };
+
+    const handleLogout = () => {
+        dispatch(clearUser());
+        navigate("/login");
     };
 
     const formik = useFormik({
@@ -60,7 +65,14 @@ const SecretCode: React.FC = () => {
                     Dołącz
                 </button>
                 {serverError && <div className={errorStyle}>{serverError}</div>}
+                <button
+                    onClick={handleLogout}
+                    className="mt-4 text-xs text-blue-500 hover:text-blue-700"
+                >
+                    Wyloguj się
+                </button>
             </form>
+
         </div>
     );
 };

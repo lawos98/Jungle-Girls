@@ -9,9 +9,11 @@ import {useSelector} from "react-redux";
 
 import StudentNavbar from "./components/navbars/StudentNavbar";
 import TeacherNavbar from "./components/navbars/TeacherNavbar";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, {Toaster} from "react-hot-toast";
 import StudentGrades from "./components/studentGrades/StudentGrades";
 import SecretCode from "./components/account/SecretCode";
+import Account from "./components/account/Account";
+import MainStudentView from "./components/mainView/MainStudentView";
 
 import ActivityCreationForm from "./components/activity/create/CreateActivityForm";
 import ActivityList from "./components/activity/list/ActivityList";
@@ -21,74 +23,95 @@ function App() {
     const user = useSelector((state: any) => state.user);
 
     const getProperNavbar = () => {
-        if (user.roleId === 1)
-        {
+        if (user.roleId === 1) {
             return (
-              <SecretCode />
+                <SecretCode/>
             );
-        }
-        else if (user.roleId === 2)
-        {
+        } else if (user.roleId === 2) {
             return (
                 <StudentNavbar/>
             );
-        }
-        else if (user.roleId === 3 || user.roleId === 4)
-        {
+        } else if (user.roleId === 3 || user.roleId === 4) {
             return (
                 <TeacherNavbar/>
             );
         }
-    }
+    };
+
+    const getProperMainView = () => {
+        if (user.roleId === 1) {
+            return (
+                <SecretCode/>
+            );
+        } else if (user.roleId === 2) {
+            return (
+                <MainStudentView/>
+            );
+        } else if (user.roleId === 3 || user.roleId === 4) {
+            return (
+                <h1>Teacher</h1>
+            );
+        }
+    };
 
     return (
-        <Router>
-            <Toaster />
-            {getProperNavbar()}
-            <Routes>
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/register" element={<Register/>}/>
-                <Route path="/" element={
-                    <PrivateRoute>
-                        <h1>Home</h1>
-                    </PrivateRoute>
-                }/>
-                <Route path="/edit-grades" element={
-                    <PrivateRoute>
-                        <EditGrades/>
-                    </PrivateRoute>
-                }/>
-                <Route path="/grades" element={
-                    <PrivateRoute>
-                        <StudentGrades/>
-                    </PrivateRoute>
-                }/>
-                <Route
-                    path="/create-activity"
-                    element={
+        <div className="p-5 min-h-screen min-w-full">
+            <Router>
+                <Toaster/>
+                {getProperNavbar()}
+                <Routes>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/register" element={<Register/>}/>
+                    <Route path="/" element={
                         <PrivateRoute>
-                            <ActivityCreationForm />
+                            {getProperMainView()}
                         </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/activity-list"
-                    element={
+                    }/>
+                    <Route path="/edit-grades" element={
                         <PrivateRoute>
-                            <ActivityList />
+                            <EditGrades/>
                         </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/categories"
-                    element={
+                    }/>
+                    <Route path="/grades" element={
                         <PrivateRoute>
-                            <Categories></Categories>
+                            <StudentGrades/>
                         </PrivateRoute>
-                    }
-                />
-            </Routes>
-        </Router>
+                    }/>
+                    <Route
+                        path="/create-activity"
+                        element={
+                            <PrivateRoute>
+                                <ActivityCreationForm/>
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/activity-list"
+                        element={
+                            <PrivateRoute>
+                                <ActivityList/>
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/categories"
+                        element={
+                            <PrivateRoute>
+                                <Categories></Categories>
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/account"
+                        element={
+                            <PrivateRoute>
+                                <Account></Account>
+                            </PrivateRoute>
+                        }
+                    />
+                </Routes>
+            </Router>
+        </div>
     );
 }
 

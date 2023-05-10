@@ -6,8 +6,8 @@ export const getActivities = () => {
         .then((response: { data }) => {
             console.log(response);
             return response.data;
-        })
-}
+        });
+};
 
 export const deleteActivity = (payload) => {
     return api
@@ -15,5 +15,5 @@ export const deleteActivity = (payload) => {
         .then((response) => {
             console.log(response);
             return response.data;
-        })
-}
+        });
+};

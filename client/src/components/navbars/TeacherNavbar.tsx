@@ -20,7 +20,7 @@ const TeacherNavbar: React.FC = () => {
     };
 
     return (
-        <nav className="bg-indigo-600 text-white p-4">
+        <nav className="bg-indigo-600 text-white p-4 mb-6">
             <div className="container mx-auto flex items-center justify-between">
                 <div className="flex space-x-4">
                     <Link

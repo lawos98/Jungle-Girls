@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import * as formUtils from "../common/FormUtils";
 import * as termsFormikUtils from "../common/TermsFormik";
 import "./EditActivityForm.css";
+import toast from "react-hot-toast";
 
 const ActivityEditForm: React.FC = (props) => {
     const [categories, setCategories] = useState([]);
@@ -35,29 +36,29 @@ const ActivityEditForm: React.FC = (props) => {
             setTypes(data.activityTypeNames);
             setActivites(data.activityNames);
             setGroupNames(data.groupNames);
-        })
+        });
     }, []);
 
     const validationSchema = Yup.object({
         name: Yup.string()
             .notOneOf(activities.filter(activity =>
                 activity !== props.editedActivity.name
-            ), 'Aktywność o tej nazwie już istnieje')
-            .required('Nazwa aktywności jest wymagana'),
-        description: Yup.string().required('Opis aktywności jest wymagany'),
-        maxScore: Yup.string().required('Maksymalna liczba punktów do zdobycia jest wymagana'),
-        duration: Yup.object().test('at-least-one', 'Czas trwania jest wymagany', value => {
+            ), "Aktywność o tej nazwie już istnieje")
+            .required("Nazwa aktywności jest wymagana"),
+        description: Yup.string().required("Opis aktywności jest wymagany"),
+        maxScore: Yup.string().required("Maksymalna liczba punktów do zdobycia jest wymagana"),
+        duration: Yup.object().test("at-least-one", "Czas trwania jest wymagany", value => {
             const {weeks, days, hours, minutes} = value;
             return weeks !== 0 || days !== 0 || hours !== 0 || minutes !== 0;
 
-        }).required('Czas trwania jest wymagany'),
-        activityTypeName: Yup.string().required('Typ krwinek do zdobycia jest wymagany'),
-        activityCategoryName: Yup.string().required('Kategoria aktywności jest wymagana'),
+        }).required("Czas trwania jest wymagany"),
+        activityTypeName: Yup.string().required("Typ krwinek do zdobycia jest wymagany"),
+        activityCategoryName: Yup.string().required("Kategoria aktywności jest wymagana"),
         courseGroupNames: Yup.array()
             .of(Yup.string())
             .test(
-                'contains-all-group-names',
-                'Wprowadzono niepoprawną liczbę grup',
+                "contains-all-group-names",
+                "Wprowadzono niepoprawną liczbę grup",
                 value => {
                     if (!check) {
                         check = !check;
@@ -66,7 +67,7 @@ const ActivityEditForm: React.FC = (props) => {
                     return tmpGroupNames.length === groupNames.length && groupNames.every(groupName => tmpGroupNames.includes(groupName));
                 }
             )
-            .required('Terminy powinny być ustalone dla wszystkich grup'),
+            .required("Terminy powinny być ustalone dla wszystkich grup"),
     });
 
     const formik = useFormik({
@@ -89,34 +90,40 @@ const ActivityEditForm: React.FC = (props) => {
             groupStartDate: new Date(Date.now()),
         },
         onSubmit: values => {
-            actions.editActivity(props.editedActivity.id,
+            const editActivityPromise = actions.editActivity(props.editedActivity.id,
                 values.name, values.maxScore, values.description, formUtils.serializeDuration(formik),
                 values.activityTypeName, values.activityCategoryName
                 , values.courseGroupNames,
                 values.courseGroupStartDates, authToken);
 
-            let updatedActivities = props.activities.filter(
-                (activity: any) => activity.id !== props.editedActivity.id
-            );
+            toast.promise(editActivityPromise, {
+                loading: "Edytuję aktywność...",
+                success: "Aktywność zaktualizowana!",
+                error: "Błąd podczas edycji aktywności",
+            }).then(() => {
+                const updatedActivities = props.activities.filter(
+                    (activity: any) => activity.id !== props.editedActivity.id
+                );
 
-            let updatedActivity = {
-                id: props.editedActivity.id,
-                name: values.name,
-                maxScore: values.maxScore,
-                description: values.description,
-                duration: formUtils.serializeDuration(formik),
-                activityTypeName: values.activityTypeName,
-                activityCategoryName: values.activityCategoryName,
-                courseGroupNames: values.courseGroupNames,
-                courseGroupStartDates: values.courseGroupStartDates,
-            };
-            let result = [
-                ...updatedActivities,
-                updatedActivity
-            ];
-            props.setEditedActivity(updatedActivity);
-            props.setActivities(result);
-            props.closeEditActivityForm();
+                const updatedActivity = {
+                    id: props.editedActivity.id,
+                    name: values.name,
+                    maxScore: values.maxScore,
+                    description: values.description,
+                    duration: formUtils.serializeDuration(formik),
+                    activityTypeName: values.activityTypeName,
+                    activityCategoryName: values.activityCategoryName,
+                    courseGroupNames: values.courseGroupNames,
+                    courseGroupStartDates: values.courseGroupStartDates,
+                };
+                const result = [
+                    ...updatedActivities,
+                    updatedActivity
+                ];
+                props.setEditedActivity(updatedActivity);
+                props.setActivities(result);
+                props.closeEditActivityForm();
+            });
         },
         validationSchema: validationSchema,
     });
@@ -411,34 +418,34 @@ const ActivityEditForm: React.FC = (props) => {
 
                         <table className="table-fixed w-full mb-6 mt-6">
                             <thead>
-                            <tr>
-                                <th className="w-1/2 px-4 py-2">Grupa</th>
-                                <th className="w-1/2 px-4 py-2">Termin rozpoczęcia</th>
-                                <th className="w-1/2 px-4 py-2"></th>
-                            </tr>
+                                <tr>
+                                    <th className="w-1/2 px-4 py-2">Grupa</th>
+                                    <th className="w-1/2 px-4 py-2">Termin rozpoczęcia</th>
+                                    <th className="w-1/2 px-4 py-2"></th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {formik.values.courseGroupNames.map((groupName, index) => (
-                                <tr key={index}>
-                                    <td className="block text-gray-700 font-thin text-center px-4 py-2">
-                                        {groupName}
-                                    </td>
-                                    <td className=" text-gray-700 font-thin text-center px-4 py-2">
-                                        {new Date(formik.values.courseGroupStartDates[index]).toLocaleString("pl-PL", {
-                                            year: "numeric",
-                                            month: "2-digit",
-                                            day: "2-digit",
-                                            hour: "2-digit",
-                                            minute: "2-digit",
-                                        })}
-                                    </td>
-                                    <td className=" px-4 py-2">
-                                        <button onClick={() => formUtils.handleDeleteTerm(index, formik)}>
-                                            <i className="fas fa-times text-indigo-600"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
+                                {formik.values.courseGroupNames.map((groupName, index) => (
+                                    <tr key={index}>
+                                        <td className="block text-gray-700 font-thin text-center px-4 py-2">
+                                            {groupName}
+                                        </td>
+                                        <td className=" text-gray-700 font-thin text-center px-4 py-2">
+                                            {new Date(formik.values.courseGroupStartDates[index]).toLocaleString("pl-PL", {
+                                                year: "numeric",
+                                                month: "2-digit",
+                                                day: "2-digit",
+                                                hour: "2-digit",
+                                                minute: "2-digit",
+                                            })}
+                                        </td>
+                                        <td className=" px-4 py-2">
+                                            <button onClick={() => formUtils.handleDeleteTerm(index, formik)}>
+                                                <i className="fas fa-times text-indigo-600"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                         {formik.touched.courseGroupNames && formik.errors.courseGroupNames && (

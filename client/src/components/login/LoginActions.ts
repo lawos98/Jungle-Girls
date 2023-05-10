@@ -16,8 +16,8 @@ export const login = (username: string, password: string, successCallback:Functi
         Cookies.set("token", response.data.token);
         successCallback(response.data);
     }).catch(error => {
-       if (error.response) {
-           errorCallback(error.response.data);
-       }
+        if (error.response) {
+            errorCallback(error.response.data);
+        }
     });
 };

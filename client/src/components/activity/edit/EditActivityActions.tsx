@@ -12,18 +12,18 @@ export const getActivityCategories = () => {
                 errorCallback(error.response.data.message);
             }
         });
-}
+};
 
 export const getActivities = () => {
     return api
         .get("/activity", ).then((response) => {
-        return response;
-    }).catch(error => {
+            return response;
+        }).catch(error => {
             if (error.response) {
                 errorCallback(error.response.data.message);
             }
         });
-}
+};
 
 export const getInstructorData = () => {
     return api
@@ -35,7 +35,7 @@ export const getInstructorData = () => {
                 errorCallback(error.response.data.message);
             }
         });
-}
+};
 
 export const editActivity = (
     activityId: string,
@@ -49,26 +49,26 @@ export const editActivity = (
     courseGroupStartDates: Array<Date>,
     token: string | undefined
 ) => {
-  const payload = {
-    id: activityId,
-    name: activityName,
-    maxScore: maxScore,
-    description: description,
-    duration: duration,
-    activityTypeName: activityTypeName,
-    activityCategoryName: activityCategoryName,
-    courseGroupNames: courseGroupNames,
-    courseGroupStartDates: courseGroupStartDates,
-  };
+    const payload = {
+        id: activityId,
+        name: activityName,
+        maxScore: maxScore,
+        description: description,
+        duration: duration,
+        activityTypeName: activityTypeName,
+        activityCategoryName: activityCategoryName,
+        courseGroupNames: courseGroupNames,
+        courseGroupStartDates: courseGroupStartDates,
+    };
 
-  api
-      .put("/activity/edit/" + activityId, payload, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-      });
+    return api
+        .put("/activity/edit/" + activityId, payload, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((response) => {
+            console.log(response);
+        });
 };

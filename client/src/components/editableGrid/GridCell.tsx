@@ -5,7 +5,7 @@ type GridCellProps = {
     id: string;
     value: string;
     onChange: (value: string) => void;
-    focusNextCell: (direction: 'up' | 'down' | 'left' | 'right') => void;
+    focusNextCell: (direction: "up" | "down" | "left" | "right") => void;
 };
 
 const GridCell: React.FC<GridCellProps> = React.memo(({isZoomedIn, id, value, onChange, focusNextCell}) => {
@@ -13,7 +13,7 @@ const GridCell: React.FC<GridCellProps> = React.memo(({isZoomedIn, id, value, on
 
     useEffect(() => {
         if (inputRef.current) {
-            inputRef.current.addEventListener('focus', () => {
+            inputRef.current.addEventListener("focus", () => {
                 if (inputRef.current) {
                     inputRef.current.select();
                 }
@@ -35,7 +35,7 @@ const GridCell: React.FC<GridCellProps> = React.memo(({isZoomedIn, id, value, on
 
     return (
         <input
-            className={`border-collapse border text-center transition-all duration-500 ease-in-out ${isZoomedIn? 'border-blue-400': "border-gray-300"} py-2 px-3 text-gray-700 focus:outline-none focus:z-10  w-full`}
+            className={`border-collapse border text-center transition-all duration-500 ease-in-out ${isZoomedIn? "border-blue-400": "border-gray-300"} py-2 px-3 text-gray-700 focus:outline-none focus:z-10  w-full`}
             ref={inputRef}
             id={id}
             value={value}

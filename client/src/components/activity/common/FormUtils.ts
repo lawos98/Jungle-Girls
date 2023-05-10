@@ -3,36 +3,36 @@ import {FormikProps} from "formik";
 import moment from "moment";
 
 export const handleWeeksChange = (formik: FormikProps<FormValues>) => (event: React.ChangeEvent<HTMLInputElement>) =>  {
-    const updatedDuration = formik.values.duration.set({ weeks: event.target.valueAsNumber })
-    formik.setFieldValue('duration', updatedDuration);
+    const updatedDuration = formik.values.duration.set({ weeks: event.target.valueAsNumber });
+    formik.setFieldValue("duration", updatedDuration);
 };
 
 export const handleDaysChange = (formik: FormikProps<FormValues>) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const updatedDuration = formik.values.duration.
-    set({ days: event.target.valueAsNumber })
-    formik.setFieldValue('duration', updatedDuration);
+        set({ days: event.target.valueAsNumber });
+    formik.setFieldValue("duration", updatedDuration);
 };
 
 export const handleHoursChange = (formik: FormikProps<FormValues>) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedDuration =  formik.values.duration.set({ hours: event.target.valueAsNumber })
-    formik.setFieldValue('duration', updatedDuration);
+    const updatedDuration =  formik.values.duration.set({ hours: event.target.valueAsNumber });
+    formik.setFieldValue("duration", updatedDuration);
 };
 
 export const handleMinutesChange = (formik: FormikProps<FormValues>) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedDuration =  formik.values.duration.set({ minutes: event.target.valueAsNumber })
-    formik.setFieldValue('duration', updatedDuration);
+    const updatedDuration =  formik.values.duration.set({ minutes: event.target.valueAsNumber });
+    formik.setFieldValue("duration", updatedDuration);
 };
 
 export const handleGroupStartDateChange = (formik: FormikProps<FormValues>) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    formik.setFieldValue('groupStartDate', DateTime.fromISO(event.target.value).toFormat('yyyy-MM-dd HH:mm:ss'))
-}
+    formik.setFieldValue("groupStartDate", DateTime.fromISO(event.target.value).toFormat("yyyy-MM-dd HH:mm:ss"));
+};
 
 export const handleCourseGroupChange = (formik: FormikProps<FormValues>,termsFormik: FormikProps<FormValues>) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const newGroupNames = [...formik.values.courseGroupNames, termsFormik.values.groupName];
     const newGroupStartDates = [...formik.values.courseGroupStartDates,termsFormik.values.groupStartDate];
-    formik.setFieldValue('courseGroupNames',newGroupNames);
-    formik.setFieldValue('courseGroupStartDates',newGroupStartDates);
-}
+    formik.setFieldValue("courseGroupNames",newGroupNames);
+    formik.setFieldValue("courseGroupStartDates",newGroupStartDates);
+};
 
 export function serializeDuration(formik: FormikProps<FormValues>){
     return Duration.fromObject({
@@ -58,6 +58,6 @@ export function handleDeleteTerm(index: number,formik: FormikProps<FormValues>) 
 
     newGroupNames.splice(index, 1);
     newGroupStartDates.splice(index, 1);
-    formik.setFieldValue('courseGroupNames',newGroupNames);
-    formik.setFieldValue('courseGroupStartDates',newGroupStartDates);
+    formik.setFieldValue("courseGroupNames",newGroupNames);
+    formik.setFieldValue("courseGroupStartDates",newGroupStartDates);
 }

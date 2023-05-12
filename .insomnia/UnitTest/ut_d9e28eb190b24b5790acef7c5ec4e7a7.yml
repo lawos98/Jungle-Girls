@@ -1,0 +1,10 @@
+_id: ut_d9e28eb190b24b5790acef7c5ec4e7a7
+type: UnitTest
+parentId: uts_08dd0f124ae84cddbb5225f46f50ff66
+modified: 1683880187247
+created: 1683880171959
+requestId: req_c5721367bb5c4ceabf4f67bf64b5cbd7
+name: Get groups [Group Notification]
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

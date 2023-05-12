@@ -1,0 +1,12 @@
+_id: ut_dae72874a9b849f39c92c55a3e673853
+type: UnitTest
+parentId: uts_08dd0f124ae84cddbb5225f46f50ff66
+modified: 1683880649887
+created: 1683880636075
+requestId: req_ccd08dadb092465e8aee7f0022558e56
+name: Send Student Notification Empty content
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Content is empty!");
+  expect(response.status).to.equal(400);

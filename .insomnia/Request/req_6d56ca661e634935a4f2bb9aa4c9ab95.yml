@@ -1,0 +1,33 @@
+_id: req_6d56ca661e634935a4f2bb9aa4c9ab95
+type: Request
+parentId: fld_2a12c0903e60425a91adcfb47d75dfbf
+modified: 1683879290882
+created: 1683879282418
+url: "{{ _.ServerAddress }}/api/group-notification/create"
+name: Send Group Notification Empty content
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"subject" : "Siema",
+    	"content" : "",
+    	"groupIds" : [2]
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1682607277194
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

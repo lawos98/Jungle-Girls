@@ -1,0 +1,12 @@
+_id: ut_28f9495c224a4ca086354a7756859d66
+type: UnitTest
+parentId: uts_08dd0f124ae84cddbb5225f46f50ff66
+modified: 1683879987563
+created: 1683879935729
+requestId: req_19815538d6d1465e84b2402fb53b5e66
+name: Send Group Notification Wrong group
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Wrong group id!");
+  expect(response.status).to.equal(400);

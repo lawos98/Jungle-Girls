@@ -1,0 +1,32 @@
+_id: req_c5721367bb5c4ceabf4f67bf64b5cbd7
+type: Request
+parentId: fld_2a12c0903e60425a91adcfb47d75dfbf
+modified: 1683473005446
+created: 1683472951787
+url: "{{ _.ServerAddress }}/api/group-notification/create"
+name: Get groups [Group Notification]
+description: ""
+method: GET
+body:
+  mimeType: application/json
+  text: ""
+parameters: []
+headers:
+  - id: pair_03fc85737959413eb6c6a894deb588f2
+    name: Content-Type
+    value: application/json
+    description: ""
+    disabled: true
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+  disabled: false
+metaSortKey: -1680373821704.3906
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import * as actions from "./StudentGradesActions";
-import { ActivityScore } from '../types/EditableGridTypes';
+import { ActivityScore } from "../types/EditableGridTypes";
 
 interface GradesGridProps {
     // token: string;
@@ -30,13 +30,13 @@ const StudentGrades: React.FC<GradesGridProps> = () => {
                         <div className="flex justify-center items-center">
                             <div
                                 className={`h-6 ${
-                                    grade.values !== null ? 'text-green-500' : 'text-red-500'
+                                    grade.values !== null ? "text-green-500" : "text-red-500"
                                 }`}
                             >
                                 {grade.values !== null ? (
                                     <span>
-                    {grade.values}/{grade.activity.maxScore}
-                  </span>
+                                        {grade.values}/{grade.activity.maxScore}
+                                    </span>
                                 ) : (
                                     <span>-</span>
                                 )}

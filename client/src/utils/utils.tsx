@@ -1,5 +1,5 @@
 const validateInput = (value: string, min: number, max: number) => {
-    if (value === '') {
+    if (value === "") {
         return true;
     }
 

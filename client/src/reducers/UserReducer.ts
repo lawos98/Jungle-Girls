@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const userSlice = createSlice({
-    name: 'user',
+    name: "user",
     initialState: {
-        userId: '',
-        roleId: '',
-        firstname: '',
-        lastname: '',
+        userId: "",
+        roleId: "",
+        firstname: "",
+        lastname: "",
         isLogged: false,
     },
     reducers: {
@@ -18,10 +18,10 @@ const userSlice = createSlice({
             state.isLogged = true;
         },
         clearUser: (state) => {
-            state.userId = '';
-            state.roleId = '';
-            state.firstname = '';
-            state.lastname = '';
+            state.userId = "";
+            state.roleId = "";
+            state.firstname = "";
+            state.lastname = "";
             state.isLogged = false;
         },
     },

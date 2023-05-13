@@ -38,4 +38,5 @@ interface CourseGroupRepository : ReactiveCrudRepository<CourseGroup,Long> {
     fun getAllActivityIdsAndNamesByGroupId(@Param("groupId") groupId:Long): Flux<ActivityIdWithName>
     @Query("select s.student_id, s.activity_id, s.value as score from score s inner join course_group_activity cga on s.activity_id = cga.activity_id inner join student_description sd on s.student_id = sd.id where cga.course_group_id = :groupId and sd.course_group_id = :groupId")
     fun getAllScoresWithActivityIdAndStudentIdByGroupId(@Param("groupId") groupId:Long): Flux<ScoreWithActivityIdAndStudentId>
+
 }

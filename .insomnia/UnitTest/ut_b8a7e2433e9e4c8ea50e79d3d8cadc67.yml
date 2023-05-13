@@ -1,0 +1,10 @@
+_id: ut_b8a7e2433e9e4c8ea50e79d3d8cadc67
+type: UnitTest
+parentId: uts_c9ac2887038a40adafee101dd48f2e26
+modified: 1683390994555
+created: 1683390968961
+requestId: req_156aa60d06674ae8a4ed8724d0e4278a
+name: Get Leaderboard
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

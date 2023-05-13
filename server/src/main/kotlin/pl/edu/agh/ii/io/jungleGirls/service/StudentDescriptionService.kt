@@ -1,6 +1,7 @@
 package pl.edu.agh.ii.io.jungleGirls.service
 
 import arrow.core.Either
+import arrow.core.flatMap
 import arrow.core.left
 import arrow.core.right
 import org.springframework.stereotype.Service
@@ -21,6 +22,12 @@ class StudentDescriptionService(
                 else "That user is not a student".left()
             }
         }
+    }
+    fun getStudentGroupId(studentDescription: StudentDescription): Either<String,Long>{
+        return studentDescription.courseGroupId?.right() ?: "Student does not belong to any group".left()
+    }
+    fun getUserGroupId(userId: Long): Either<String,Long>{
+        return findByUserId(userId).flatMap { studentDescription -> getStudentGroupId(studentDescription) }
     }
     fun updateStudentDescription(userId:Long,index:Long?,githubLink:String?) :Either<String,StudentDescription>{
         return studentDescriptionRepository.updateDescription(userId,index,githubLink).block()?.right() ?: "Server cant update student description".left()

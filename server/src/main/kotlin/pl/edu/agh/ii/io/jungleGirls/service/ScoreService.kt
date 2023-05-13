@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service
 import pl.edu.agh.ii.io.jungleGirls.dto.ActivityScoreList
 import pl.edu.agh.ii.io.jungleGirls.dto.StudentScore
 import pl.edu.agh.ii.io.jungleGirls.dto.ActivityScore
+import pl.edu.agh.ii.io.jungleGirls.dto.ScoreSum
 import pl.edu.agh.ii.io.jungleGirls.enum.Permissions
 import pl.edu.agh.ii.io.jungleGirls.enum.StudentNotificationType
 import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
@@ -116,6 +117,10 @@ class ScoreService(
             bufferedWriter.write("\n")
         }
 
+    }
+
+    fun getScoreSumList(groupId:Long):List<ScoreSum>{
+        return scoreRepository.getScoreSumList(groupId).collectList().block() as ArrayList;
     }
 
 }

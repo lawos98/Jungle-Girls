@@ -22,3 +22,14 @@ data class StudentScore(
     val lastCommitTime: LocalDateTime?,
     val lastCommitError: String?
 )
+
+data class ScoreSum(
+    val rank: Long,
+    val username: String,
+    val scoreSum: Double?,
+)
+
+data class LeaderboardResponse(
+    val username: String,
+    val scoreSumList: List<ScoreSum>
+)

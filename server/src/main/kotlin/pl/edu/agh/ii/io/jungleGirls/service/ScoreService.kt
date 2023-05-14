@@ -34,7 +34,7 @@ class ScoreService(
         val studentList = courseGroupService.getAllStudentsByGroupId(groupId).map { StudentScore(it.id, it.username, it.firstname, it.lastname, null,null,null) }
         val studentMap = studentList.associateBy { it.id }
         val studentDescriptionMap = studentDescriptionService.getMapOfStudentDescription()
-        val studentsWithIncorrectRepo = hashMapOf<Long,String>()
+        val studentsWithCheckedRepo = hashMapOf<Long,String?>()
 
         return activityService.getAllActivityByGroupId(groupId).distinct().map { activity ->
             val currentScoreList = scores.filter { it.activityId == activity.id }
@@ -45,15 +45,19 @@ class ScoreService(
             val studentNotHavingScoreList = studentList.filterNot { student -> studentHavingScoreList.map { it.id }.contains(student.id) }
             ActivityScoreList(activity, (studentHavingScoreList + studentNotHavingScoreList).map { activityScore ->
                 val studentDescription = studentDescriptionMap[activityScore.id] ?: return "Server cannot find student description for student ${activityScore.id}".left()
-                val (lastCommitTime, lastCommitError) = if (studentsWithIncorrectRepo.keys.contains(studentDescription.id)) {
-                        Pair(null, studentsWithIncorrectRepo[studentDescription.id])
+                val (lastCommitTime, lastCommitError) = if (studentsWithCheckedRepo.containsKey(studentDescription.id)) {
+                    if(studentsWithCheckedRepo[studentDescription.id]==null) gitHubService.getLastCommitForCorrectUser(studentDescription,activity.name)
+                    else Pair(null, studentsWithCheckedRepo[studentDescription.id])
                     } else {
-                        gitHubService.getLastCommit(studentDescription, activity.name)
+                        val lastCommit = gitHubService.getLastCommit(studentDescription, activity.name)
+                        if (lastCommit.second != null && !lastCommit.second!!.startsWith("Tag")) {
+                            studentsWithCheckedRepo[studentDescription.id] = lastCommit.second!!
+                        }else{
+                            studentsWithCheckedRepo[studentDescription.id] = null
+                        }
+                        lastCommit
                     }
-                    if (lastCommitError != null && !lastCommitError.startsWith("Tag")) {
-                        studentsWithIncorrectRepo[studentDescription.id] = lastCommitError
-                    }
-                    activityScore.copy(lastCommitTime = lastCommitTime, lastCommitError = lastCommitError)
+                activityScore.copy(lastCommitTime = lastCommitTime, lastCommitError = lastCommitError)
                 }
             )
         }.toCollection(ArrayList()).right()

@@ -33,21 +33,35 @@ class GitHubService(
         }
     }
 
+    fun getLastCommitForCorrectUser(studentDescription: StudentDescription,activityName:String): Pair<LocalDateTime?,String?> {
+        val repoUrl = studentDescription.githubLink ?: return Pair(null,"Student ${studentDescription.id} doesn't have github link")
+        val (repoOwner,repoName) = parseGithubUrl(repoUrl) ?: return Pair(null,"Student ${studentDescription.id} has invalid github link")
+        return when(val releaseInfo = getReleaseInfoForCorrectUser(repoOwner,repoName,activityName.replace(" ","_"))){
+            is Either.Left -> Pair(null,releaseInfo.value)
+            is Either.Right -> Pair(releaseInfo.value.createdAt, null)
+        }
+    }
+
     private fun getReleaseInfo(owner: String, repo: String, tag: String): Either<String, ReleaseInfo> {
         return isUserExist(owner)
             .flatMap { isRepoExist(owner, repo) }
-            .flatMap { isTagExist(owner, repo, tag) }
             .flatMap {
-                val url = "https://api.github.com/repos/$owner/$repo/releases/tags/$tag"
-                val request = RequestEntity<Any>(generateHeader(), HttpMethod.GET, URI.create(url))
-                val response = restTemplate.exchange(request, String::class.java)
-                if (response.statusCode == HttpStatus.OK) {
-                    val createdAt = parseCreatedAt(response.body)
-                    ReleaseInfo(createdAt).right()
-                } else {
-                    "Failed to get release info: ${response.statusCode}".left()
-                }
+                getReleaseInfoForCorrectUser(owner, repo, tag)
             }
+    }
+
+    fun getReleaseInfoForCorrectUser(owner: String,repo: String,tag:String): Either<String, ReleaseInfo> {
+        return isTagExist(owner,repo,tag).flatMap {
+            val url = "https://api.github.com/repos/$owner/$repo/releases/tags/$tag"
+            val request = RequestEntity<Any>(generateHeader(), HttpMethod.GET, URI.create(url))
+            val response = restTemplate.exchange(request, String::class.java)
+            if (response.statusCode == HttpStatus.OK) {
+                val createdAt = parseCreatedAt(response.body)
+                ReleaseInfo(createdAt).right()
+            } else {
+                "Failed to get release info: ${response.statusCode}".left()
+            }
+        }
     }
 
     private fun isUserExist(user: String): Either<String, None> {

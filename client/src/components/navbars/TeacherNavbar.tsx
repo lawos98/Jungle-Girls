@@ -83,6 +83,16 @@ const TeacherNavbar: React.FC = () => {
                     >
                         Kategorie
                     </Link>
+                    <Link
+                        to="/send-message"
+                        className={`${
+                            isActive("/send-message")
+                                ? "text-indigo-100 font-semibold border-b-2 border-indigo-300"
+                                : "hover:text-indigo-300"
+                        }`}
+                    >
+                        Wyślij wiadomość
+                    </Link>
                 </div>
                 <div className="flex items-center space-x-4">
                     <Link

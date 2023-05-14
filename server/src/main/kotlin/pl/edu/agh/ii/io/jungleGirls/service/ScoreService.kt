@@ -34,6 +34,7 @@ class ScoreService(
         val studentList = courseGroupService.getAllStudentsByGroupId(groupId).map { StudentScore(it.id, it.username, it.firstname, it.lastname, null,null,null) }
         val studentMap = studentList.associateBy { it.id }
         val studentDescriptionMap = studentDescriptionService.getMapOfStudentDescription()
+        val studentsWithCheckedRepo = hashMapOf<Long,String?>()
 
         return activityService.getAllActivityByGroupId(groupId).distinct().map { activity ->
             val currentScoreList = scores.filter { it.activityId == activity.id }
@@ -44,9 +45,21 @@ class ScoreService(
             val studentNotHavingScoreList = studentList.filterNot { student -> studentHavingScoreList.map { it.id }.contains(student.id) }
             ActivityScoreList(activity, (studentHavingScoreList + studentNotHavingScoreList).map { activityScore ->
                 val studentDescription = studentDescriptionMap[activityScore.id] ?: return "Server cannot find student description for student ${activityScore.id}".left()
-                val (lastCommitTime,lastCommitError)=gitHubService.getLastCommit(studentDescription,activity.name)
-                activityScore.copy(lastCommitTime = lastCommitTime,lastCommitError = lastCommitError)
-            }.sortedBy { it.id })
+                val (lastCommitTime, lastCommitError) = if (studentsWithCheckedRepo.containsKey(studentDescription.id)) {
+                    if(studentsWithCheckedRepo[studentDescription.id]==null) gitHubService.getLastCommitForCorrectUser(studentDescription,activity.name)
+                    else Pair(null, studentsWithCheckedRepo[studentDescription.id])
+                    } else {
+                        val lastCommit = gitHubService.getLastCommit(studentDescription, activity.name)
+                        if (lastCommit.second != null && !lastCommit.second!!.startsWith("Tag")) {
+                            studentsWithCheckedRepo[studentDescription.id] = lastCommit.second!!
+                        }else{
+                            studentsWithCheckedRepo[studentDescription.id] = null
+                        }
+                        lastCommit
+                    }
+                activityScore.copy(lastCommitTime = lastCommitTime, lastCommitError = lastCommitError)
+                }
+            )
         }.toCollection(ArrayList()).right()
     }
     fun getScore(user: LoginUser): Either<String, List<ActivityScore>> {
@@ -120,7 +133,7 @@ class ScoreService(
     }
 
     fun getScoreSumList(groupId:Long):List<ScoreSum>{
-        return scoreRepository.getScoreSumList(groupId).collectList().block() as ArrayList;
+        return scoreRepository.getScoreSumList(groupId).collectList().block() as ArrayList
     }
 
 }

@@ -1,5 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {getStudentNotifications, StudentNotificationResponse} from "./MainStudentViewActions";
+import {
+    getStudentNotifications,
+    StudentNotificationResponse,
+    updateReadStudentNotification
+} from "./MainStudentViewActions";
 import Marquee from "react-fast-marquee";
 
 const MainStudentView: React.FC = () => {
@@ -45,7 +49,7 @@ const MainStudentView: React.FC = () => {
                                             if (!notification.wasRead) {
                                                 notification.wasRead = true;
                                                 setNotifications([...notifications]);
-                                                //     CONNECT TO BACKEND
+                                                updateReadStudentNotification(notification.id).then(r => console.log(r));
                                             }
                                         }}
                                     >

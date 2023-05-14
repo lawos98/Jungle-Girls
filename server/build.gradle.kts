@@ -54,6 +54,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
     implementation("org.json:json:20220320")
+    implementation("com.auth0:java-jwt:3.18.2")
 }
 
 tasks.withType<KotlinCompile> {

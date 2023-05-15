@@ -1,0 +1,24 @@
+_id: req_e76f4c51ffdc434f8d04ef14cb9c5e7d
+type: Request
+parentId: fld_1ebf66938c264fc78364975209625734
+modified: 1684107687488
+created: 1684107491555
+url: "{{ _.ServerAddress }}/api/course-group/secret-code/1"
+name: Get Secret Code
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1684107491555
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

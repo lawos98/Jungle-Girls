@@ -1,0 +1,31 @@
+_id: req_f7618ca13b7c42918f3fd84114d6f8dc
+type: Request
+parentId: fld_1ebf66938c264fc78364975209625734
+modified: 1684110469159
+created: 1684107693144
+url: "{{ _.ServerAddress }}/api/course-group/secret-code"
+name: Use Secret Code Bad user
+description: ""
+method: PATCH
+body:
+  mimeType: application/json
+  text: >-
+    {
+    	"code": "{% response 'body', 'req_e76f4c51ffdc434f8d04ef14cb9c5e7d', 'b64::JC5jb2Rl::46b', 'always', 60 %}"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_205e09dbd7a74bf69bc76051b1620591',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1684107491505
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

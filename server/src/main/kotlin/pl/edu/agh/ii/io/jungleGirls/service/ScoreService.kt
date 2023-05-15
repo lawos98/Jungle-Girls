@@ -4,15 +4,14 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import org.springframework.stereotype.Service
-import pl.edu.agh.ii.io.jungleGirls.dto.ActivityScoreList
-import pl.edu.agh.ii.io.jungleGirls.dto.StudentScore
-import pl.edu.agh.ii.io.jungleGirls.dto.ActivityScore
-import pl.edu.agh.ii.io.jungleGirls.dto.ScoreSum
+import pl.edu.agh.ii.io.jungleGirls.dto.*
+import pl.edu.agh.ii.io.jungleGirls.enum.ActivityType
 import pl.edu.agh.ii.io.jungleGirls.enum.Permissions
 import pl.edu.agh.ii.io.jungleGirls.enum.StudentNotificationType
 import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import pl.edu.agh.ii.io.jungleGirls.repository.ScoreRepository
 import java.io.BufferedWriter
+import kotlin.math.min
 
 @Service
 class ScoreService(
@@ -22,7 +21,8 @@ class ScoreService(
     private val activityService: ActivityService,
     private val studentDescriptionService: StudentDescriptionService,
     private val studentNotificationService: StudentNotificationService,
-    private val gitHubService: GitHubService
+    private val gitHubService: GitHubService,
+    private val courseGroupActivityService: CourseGroupActivityService
 ) {
 
     fun getScores(groupId: Long, lecturerId: Long): Either<String, List<ActivityScoreList>> {
@@ -69,6 +69,39 @@ class ScoreService(
             val activityId= activity.id
             ActivityScore(activity,scoreRepository.getScore(activityId,student.id,groupId).block()?.value)
         }.right()
+    }
+
+    fun getTotalScore(user: LoginUser): Either<String, TotalScoreResponse> {
+        val student = studentDescriptionService.findById(user.id) ?: return "User is not a student".left()
+        val groupId = student.courseGroupId ?: return "Student is not in any course group".left()
+        val activityList = activityService.getAllActivityByGroupId(groupId)
+        val activityDeadLineMap = activityList.associateBy({ it.id }, {
+            val startTime = courseGroupActivityService.getActivity(it.id, groupId) ?: return "Server cannot find activity ${it.id} on table CourseGroupActivity".left()
+            startTime.startDate.plus(it.duration)
+        })
+        return activityList.map { activity ->
+            val activityId = activity.id
+            ActivityScore(activity, scoreRepository.getScore(activityId, student.id, groupId).block()?.value) }
+            .sortedBy { activityScore -> activityDeadLineMap[activityScore.activity.id] }
+            .fold(TotalScoreResponse(0.0, 0.0)) { acc, next ->
+                val points = next.values ?: 0.0
+                val maxPoints = next.activity.maxScore
+                when (next.activity.activityTypeId) {
+                    ActivityType.COMPULSORY.getId() -> {
+                        acc.copy(maxPoints = acc.maxPoints + maxPoints, points = acc.points + points)
+                    }
+                    ActivityType.OPTIONAL.getId() -> {
+                        acc.copy(maxPoints = acc.maxPoints, points = acc.points + points)
+                    }
+                    ActivityType.TEMPORARY_EVENT.getId() -> {
+                        acc.copy(maxPoints = acc.maxPoints, points = acc.points + points)
+                    }
+                    ActivityType.REPARATIVE.getId() -> {
+                        acc.copy(maxPoints = acc.maxPoints, points = min(acc.points + points,acc.maxPoints))
+                    }
+                    else -> return "Server error with Activity Type enum".left()
+                }
+            }.right()
     }
 
 

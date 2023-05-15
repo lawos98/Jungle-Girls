@@ -10,4 +10,7 @@ class CourseGroupActivityService (
     fun getAllByActivityId(activityId:Long):List<CourseGroupActivity>{
         return courseGroupActivityRepository.findAllByActivityId(activityId).collectList().block() as ArrayList<CourseGroupActivity>
     }
+    fun getActivity(activityId:Long,groupId:Long):CourseGroupActivity?{
+        return courseGroupActivityRepository.findByActivityIdAndCourseGroupId(activityId,groupId).block()
+    }
 }

@@ -1,0 +1,33 @@
+_id: req_8901332b6b954d2591a06f01dec71baf
+type: Request
+parentId: fld_0aa5ed9d97044288bbb2671fa3f9e725
+modified: 1684120814612
+created: 1684120544066
+url: "{{ _.ServerAddress }}/api/user"
+name: Update User Data
+description: ""
+method: PATCH
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"username": "student16",
+    	"firstname": "Tomek",
+    	"lastname": "Kozak"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_205e09dbd7a74bf69bc76051b1620591',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1684120544066
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

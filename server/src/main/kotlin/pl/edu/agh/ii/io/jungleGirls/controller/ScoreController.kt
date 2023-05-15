@@ -4,20 +4,17 @@ import arrow.core.Either
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import pl.edu.agh.ii.io.jungleGirls.dto.ActivityScore
 import pl.edu.agh.ii.io.jungleGirls.dto.ActivityScoreList
 import pl.edu.agh.ii.io.jungleGirls.dto.LeaderboardResponse
+import pl.edu.agh.ii.io.jungleGirls.dto.TotalScoreResponse
 import pl.edu.agh.ii.io.jungleGirls.enum.Permissions
 import pl.edu.agh.ii.io.jungleGirls.service.*
 import java.io.BufferedWriter
-import java.io.File
 import java.io.OutputStreamWriter
 import java.nio.charset.StandardCharsets
-import java.nio.file.Files
 
 @RestController
 @RequestMapping("/api/score")
@@ -71,6 +68,15 @@ class ScoreController(
     fun getScore(@RequestHeader("Authorization") token: String):List<ActivityScore>{
         val user = tokenService.parseToken(token.substring("Bearer".length))
         when(val score = scoreService.getScore(user)){
+            is Either.Right ->return score.value
+            is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST,score.value)
+        }
+    }
+
+    @GetMapping("/total-score")
+    fun getTotalScore(@RequestHeader("Authorization") token: String): TotalScoreResponse {
+        val user = tokenService.parseToken(token.substring("Bearer".length))
+        when(val score = scoreService.getTotalScore(user)){
             is Either.Right ->return score.value
             is Either.Left -> throw ResponseStatusException(HttpStatus.BAD_REQUEST,score.value)
         }

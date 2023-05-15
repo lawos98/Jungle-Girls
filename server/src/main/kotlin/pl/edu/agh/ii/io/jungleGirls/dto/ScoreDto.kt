@@ -33,3 +33,8 @@ data class LeaderboardResponse(
     val username: String,
     val scoreSumList: List<ScoreSum>
 )
+
+data class TotalScoreResponse(
+    val points: Double,
+    val maxPoints: Double
+)

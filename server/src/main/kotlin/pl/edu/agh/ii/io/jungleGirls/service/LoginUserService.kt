@@ -3,6 +3,7 @@ package pl.edu.agh.ii.io.jungleGirls.service
 import arrow.core.*
 import org.springframework.stereotype.Service
 import pl.edu.agh.ii.io.jungleGirls.dto.RegisterRequest
+import pl.edu.agh.ii.io.jungleGirls.dto.UpdateUserRequest
 import pl.edu.agh.ii.io.jungleGirls.repository.LoginUserRepository
 import pl.edu.agh.ii.io.jungleGirls.model.LoginUser
 import pl.edu.agh.ii.io.jungleGirls.util.Bcrypt
@@ -29,6 +30,12 @@ class LoginUserService(
         }
     }
 
+    fun updateUser(userData: UpdateUserRequest,user:LoginUser): Either<String,LoginUser>{
+        return validateUpdateUser(userData).flatMap { _ ->
+            val loginUser = loginUserRepository.update(user.id,userData.username,userData.firstname,userData.lastname).block() ?: return "Error while updating User".left()
+            return loginUser.right()
+        }
+    }
     fun login(username: String, password: String): Either<String, LoginUser> {
         return checkBlankUser(username, password).flatMap { _ ->
             val user = loginUserRepository.findByUsername(username).block() ?: return "No user found".left()
@@ -69,12 +76,17 @@ class LoginUserService(
 
     private fun validateNewUser(user: RegisterRequest): Either<String, None> {
         return checkBlankUser(user.username, user.password)
-            .flatMap { _ -> checkIsBlank(user.firstname, "Firstname cannot be empty")
-            .flatMap { _ -> checkIsBlank(user.lastname, "Lastname cannot be empty")
-            .flatMap { _ -> checkName(user.firstname, "Firstname is incorrect")
-            .flatMap { _ -> checkName(user.lastname, "Lastname is incorrect")
-            .flatMap { _ -> checkUsername(user.username)
+            .flatMap { _ -> validateUpdateUser(UpdateUserRequest(user.username,user.firstname,user.lastname)) }
             .flatMap { _ -> checkPassword(user.password) }
-                        }}}}}
+    }
+
+    private fun validateUpdateUser(user: UpdateUserRequest): Either<String, None> {
+        return checkIsBlank(user.username,"Username cannot be empty")
+            .flatMap { _ -> checkIsBlank(user.firstname, "Firstname cannot be empty")
+                .flatMap { _ -> checkIsBlank(user.lastname, "Lastname cannot be empty")
+                    .flatMap { _ -> checkName(user.firstname, "Firstname is incorrect")
+                        .flatMap { _ -> checkName(user.lastname, "Lastname is incorrect")
+                            .flatMap { _ -> checkUsername(user.username)
+                            }}}}}
     }
 }

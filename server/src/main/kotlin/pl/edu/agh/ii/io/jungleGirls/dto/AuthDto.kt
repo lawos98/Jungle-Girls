@@ -19,3 +19,9 @@ data class AuthResponse(
     val lastname: String,
     val token: String,
 )
+
+data class UpdateUserRequest(
+    val username: String,
+    val firstname: String,
+    val lastname: String,
+)

@@ -40,4 +40,8 @@ class StudentDescriptionService(
     fun getMapOfStudentDescription(): MutableMap<Long, StudentDescription> {
         return studentDescriptionRepository.findAll().collectMap { it.id }.block() ?: mutableMapOf()
     }
+
+    fun addStudentDescription(studentId:Long,courseGroupId:Long):Either<String,StudentDescription>{
+        return studentDescriptionRepository.addStudentToGroup(studentId,courseGroupId).block()?.right() ?: "Server cant add student description".left()
+    }
 }

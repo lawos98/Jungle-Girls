@@ -1,0 +1,10 @@
+_id: fld_1ebf66938c264fc78364975209625734
+type: RequestGroup
+parentId: wrk_af575f2537074b14bd2ae28ae4281a6b
+modified: 1684110251543
+created: 1684107489393
+name: Course-Group
+description: ""
+environment: {}
+environmentPropertyOrder: null
+metaSortKey: 550

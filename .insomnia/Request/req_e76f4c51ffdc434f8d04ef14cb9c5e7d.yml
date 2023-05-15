@@ -1,10 +1,10 @@
-_id: req_a41eb048e78a41728772df8b760ea8ae
+_id: req_e76f4c51ffdc434f8d04ef14cb9c5e7d
 type: Request
-parentId: fld_b87c27a307a14aada49feab267d5704c
-modified: 1681584091681
-created: 1681581182888
-url: "{{ _.ServerAddress }}/api/role/secret-code/1"
-name: Generate new secret code
+parentId: fld_1ebf66938c264fc78364975209625734
+modified: 1684107687488
+created: 1684107491555
+url: "{{ _.ServerAddress }}/api/course-group/secret-code/1"
+name: Get Secret Code
 description: ""
 method: GET
 body: {}
@@ -12,9 +12,9 @@ parameters: []
 headers: []
 authentication:
   type: bearer
-  token: "{% response 'body', 'req_d7e675e349814b6bb841c832597b86dc',
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
     'b64::JC50b2tlbg==::46b', 'always', 60 %}"
-metaSortKey: -1681581182888
+metaSortKey: -1684107491555
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

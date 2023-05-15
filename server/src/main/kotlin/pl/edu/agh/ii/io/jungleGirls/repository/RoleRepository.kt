@@ -9,6 +9,6 @@ import reactor.core.publisher.Mono
 
 @Repository
 interface RoleRepository: ReactiveCrudRepository<Role, Long> {
-    @Query("Select r.id,r.name,r.description,r.secret_code from role r inner join login_user lu on r.id = lu.role_id where lu.id = :userId")
+    @Query("Select r.id,r.name,r.description from role r inner join login_user lu on r.id = lu.role_id where lu.id = :userId")
     fun findByUserId(@Param("userId")userId: Long): Mono<Role>
 }

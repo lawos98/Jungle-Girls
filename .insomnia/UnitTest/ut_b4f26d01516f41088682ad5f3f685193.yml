@@ -1,0 +1,12 @@
+_id: ut_b4f26d01516f41088682ad5f3f685193
+type: UnitTest
+parentId: uts_63069540af444075b2fab959997b2478
+modified: 1684110527702
+created: 1684110489131
+requestId: req_f7618ca13b7c42918f3fd84114d6f8dc
+name: Using Secret Code bad user
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("You are not unauthorized user");
+  expect(response.status).to.equal(403);

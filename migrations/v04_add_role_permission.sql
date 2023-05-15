@@ -28,8 +28,8 @@ insert into role_permission(role_id, permission_id,should_be_displayed) values (
 insert into role_permission(role_id, permission_id,should_be_displayed) values (2,6,true);
 insert into role_permission(role_id, permission_id,should_be_displayed) values (2,7,false);
 insert into role_permission(role_id, permission_id,should_be_displayed) values (2,8,true);
-insert into role_permission(role_id, permission_id,should_be_displayed) values (2,9,true);
-insert into role_permission(role_id, permission_id,should_be_displayed) values (2,10,false);
+insert into role_permission(role_id, permission_id,should_be_displayed) values (2,9,false);
+insert into role_permission(role_id, permission_id,should_be_displayed) values (2,10,true);
 insert into role_permission(role_id, permission_id,should_be_displayed) values (3,1,false);
 insert into role_permission(role_id, permission_id,should_be_displayed) values (3,2,false);
 insert into role_permission(role_id, permission_id,should_be_displayed) values (3,3,false);

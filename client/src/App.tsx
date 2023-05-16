@@ -65,7 +65,7 @@ function App() {
                     <Route path="/register" element={<Register/>}/>
                     <Route path="/leaderboard" element={
                         <PrivateRoute>
-                            <Leaderboard groupId={1}/>
+                            <Leaderboard />
                         </PrivateRoute>
                     }/>
                     <Route path="/" element={

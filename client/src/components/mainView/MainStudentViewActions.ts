@@ -18,3 +18,16 @@ export interface StudentNotificationResponse {
     author: string;
     wasRead: boolean;
 }
+
+export const getScore = (callback:any) => {
+    api.get(`/score/total-score`).
+    then(response => {
+        console.log(response.data)
+        callback(response.data);
+    });
+};
+
+export interface ScoreResponse {
+    maxPoints: number;
+    points: number;
+}

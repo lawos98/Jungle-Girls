@@ -1,0 +1,12 @@
+_id: ut_236545fb41ad49888e8bfe802c0c3cde
+type: UnitTest
+parentId: uts_08dd0f124ae84cddbb5225f46f50ff66
+modified: 1683880621763
+created: 1683880599605
+requestId: req_a5f344f5d58949d691d9c9b16811ebc5
+name: Send Student Notification Empty subject
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Subject is empty!");
+  expect(response.status).to.equal(400);

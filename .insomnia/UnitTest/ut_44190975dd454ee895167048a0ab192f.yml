@@ -1,0 +1,12 @@
+_id: ut_44190975dd454ee895167048a0ab192f
+type: UnitTest
+parentId: uts_08dd0f124ae84cddbb5225f46f50ff66
+modified: 1683880150901
+created: 1683880132546
+requestId: req_6d56ca661e634935a4f2bb9aa4c9ab95
+name: Send Group Notification Empty content
+code: |-
+  const response = await insomnia.send();
+  const body = JSON.parse(response.data);
+  expect(body.message).to.equal("Content is empty!");
+  expect(response.status).to.equal(400);

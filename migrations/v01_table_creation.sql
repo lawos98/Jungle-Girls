@@ -1,5 +1,7 @@
 -- Created by Vertabelo (http://vertabelo.com)
+
 -- Last modification date: 2023-05-14 20:20:47.99
+
 
 -- tables
 -- Table: activity

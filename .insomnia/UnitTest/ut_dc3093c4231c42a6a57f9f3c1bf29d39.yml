@@ -1,0 +1,10 @@
+_id: ut_dc3093c4231c42a6a57f9f3c1bf29d39
+type: UnitTest
+parentId: uts_c9ac2887038a40adafee101dd48f2e26
+modified: 1684118755117
+created: 1684118746052
+requestId: req_9abac776d93846b985dc72106339c8ac
+name: Get Total Score
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);

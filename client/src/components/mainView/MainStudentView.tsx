@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {
     getStudentNotifications,
     StudentNotificationResponse,
+    updateReadStudentNotification,
     getScore,
     ScoreResponse,
 } from "./MainStudentViewActions";
@@ -84,32 +85,35 @@ const MainStudentView: React.FC = () => {
                         <h1 className="text-2xl font-bold mb-6">Notyfikacje</h1>
                         <table className="w-full">
                             <thead>
-                                <tr>
-                                    <th className="text-left">Data</th>
-                                    <th className="text-left">Aktywność</th>
-                                    <th className="text-left">Treść</th>
-                                    <th className="text-left">Autor</th>
-                                </tr>
+                            <tr>
+                                <th className="text-left">Data</th>
+                                <th className="text-left">Aktywność</th>
+                                <th className="text-left">Treść</th>
+                                <th className="text-left">Autor</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {notifications.map((notification) => (
-                                    <tr
-                                        key={notification.id}
-                                        className={`${notification.wasRead ? "" : "font-bold"} border-t border-gray-200`}
-                                        onMouseEnter={() => {
-                                            if (!notification.wasRead) {
-                                                notification.wasRead = true;
-                                                setNotifications([...notifications]);
-                                                //     CONNECT TO BACKEND
-                                            }
-                                        }}
-                                    >
-                                        <td className="py-2">{notification.date}</td>
-                                        <td>{notification.subject}</td>
-                                        <td>{notification.content}</td>
-                                        <td>{notification.author}</td>
-                                    </tr>
-                                ))}
+                            {notifications.map((notification) => (
+                                <tr
+                                    key={notification.id}
+                                    className={`${notification.wasRead ? "" : "font-bold"} border-t border-gray-200`}
+                                    onMouseEnter={() => {
+                                        if (!notification.wasRead) {
+                                            notification.wasRead = true;
+                                            setNotifications([...notifications]);
+                                            updateReadStudentNotification(notification.id).then(response => console.log(response)).catch(error => {
+                                                console.error("Error sending data to server:", error)
+                                            });
+
+                                        }
+                                    }}
+                                >
+                                    <td className="py-2">{notification.date}</td>
+                                    <td>{notification.subject}</td>
+                                    <td>{notification.content}</td>
+                                    <td>{notification.author}</td>
+                                </tr>
+                            ))}
                             </tbody>
                         </table>
                     </div>

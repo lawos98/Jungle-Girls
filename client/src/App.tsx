@@ -20,6 +20,7 @@ import ActivityList from "./components/activity/list/ActivityList";
 import Categories from "./components/category/Categories";
 import StudentMessages from "./components/messages/StudentMessages"
 import SendMessage from "./components/messages/SendMessage"
+import Leaderboard from "./components/leaderboard/Leaderboard"
 
 function App() {
     const user = useSelector((state: any) => state.user);
@@ -64,6 +65,11 @@ function App() {
                 <Routes>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
+                    <Route path="/leaderboard" element={
+                        <PrivateRoute>
+                            <Leaderboard />
+                        </PrivateRoute>
+                    }/>
                     <Route path="/" element={
                         <PrivateRoute>
                             {getProperMainView()}

@@ -1,0 +1,33 @@
+_id: req_a6890c557dc749db9ff26ed7d57cbc12
+type: Request
+parentId: fld_2a12c0903e60425a91adcfb47d75dfbf
+modified: 1683879395619
+created: 1683473159214
+url: "{{ _.ServerAddress }}/api/group-notification/create"
+name: Send Group Notification
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"subject" : "witam!",
+    	"content" : "z poważaniem, Jan Kowal",
+    	"groupIds" : [1,2,3]
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_a6bf1102825a4228aa9432069951d5f4',
+    'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1683473159214
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

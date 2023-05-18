@@ -63,16 +63,16 @@ const TeacherNavbar: React.FC = () => {
                     >
                         Aktywności
                     </Link>
-                    <Link
-                        to="/leaderboard"
-                        className={`${
-                            isActive("/leaderboard")
-                                ? "text-indigo-100 font-semibold border-b-2 border-indigo-300"
-                                : "hover:text-indigo-300"
-                        }`}
-                    >
-                        Leaderboard
-                    </Link>
+                    {/*<Link*/}
+                    {/*    to="/leaderboard"*/}
+                    {/*    className={`${*/}
+                    {/*        isActive("/leaderboard")*/}
+                    {/*            ? "text-indigo-100 font-semibold border-b-2 border-indigo-300"*/}
+                    {/*            : "hover:text-indigo-300"*/}
+                    {/*    }`}*/}
+                    {/*>*/}
+                    {/*    Leaderboard*/}
+                    {/*</Link>*/}
                     <Link
                         to="/categories"
                         className={`${

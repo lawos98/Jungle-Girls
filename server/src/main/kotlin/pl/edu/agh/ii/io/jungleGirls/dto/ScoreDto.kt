@@ -12,7 +12,15 @@ data class ActivityScore(
     val activity: Activity,
     val values: Double?
 )
+data class StudentIdWithScore(
+    val studentId:Long,
+    val value: Double?,
+)
 
+data class ActivityScores(
+    val activity: Activity,
+    val values: ArrayList<StudentIdWithScore>
+)
 data class StudentScore(
     val id:Long,
     val username: String,
@@ -37,4 +45,9 @@ data class LeaderboardResponse(
 data class TotalScoreResponse(
     val points: Double,
     val maxPoints: Double
+)
+
+data class TotalScoresResponse(
+    val maxPoints: Double,
+    val scoreSumList: List<ScoreSum>,
 )

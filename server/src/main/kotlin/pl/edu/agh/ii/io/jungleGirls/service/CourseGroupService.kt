@@ -58,6 +58,10 @@ class CourseGroupService(
         return courseGroupRepository.getAllStudentIdsAndNamesByGroupId(groupId).collectMap(StudentIdWithName::id, StudentIdWithName::name).block() as HashMap<Long, String>
     }
 
+    fun getAllStudentIdsAndUserNamesByGroupId(groupId: Long):HashMap<Long,String>{
+        return courseGroupRepository.getAllStudentIdsAndUserNamesByGroupId(groupId).collectMap(StudentIdWithName::id, StudentIdWithName::name).block() as HashMap<Long, String>
+    }
+
     fun getAllActivityIdsAndNames(groupId:Long):HashMap<Long,String>{
         return courseGroupRepository.getAllActivityIdsAndNamesByGroupId(groupId).collectMap(ActivityIdWithName::id, ActivityIdWithName::name).block() as HashMap<Long, String>
     }

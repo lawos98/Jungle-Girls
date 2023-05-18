@@ -169,4 +169,45 @@ class ScoreService(
         return scoreRepository.getScoreSumList(groupId).collectList().block() as ArrayList
     }
 
+    fun getLeaderboard(user: LoginUser): Either<String, List<ScoreSum>> {
+        val student = studentDescriptionService.findById(user.id) ?: return "User is not a student".left()
+        val groupId = student.courseGroupId ?: return "Student is not in any course group".left()
+        val activityList = activityService.getAllActivityByGroupId(groupId)
+        val studentUserNameMap = courseGroupService.getAllStudentIdsAndUserNamesByGroupId(groupId)
+        val studentScoreSumMap = studentUserNameMap.keys.associateWith { 0.0 }.toMutableMap()
+        val activityDeadLineMap = activityList.associateBy({ it.id }, {
+            val startTime = courseGroupActivityService.getActivity(it.id, groupId) ?: return "Server cannot find activity ${it.id} on table CourseGroupActivity".left()
+            startTime.startDate.plus(it.duration)
+        })
+        var maxPoints = 0.0
+         activityList.map { activity ->
+            val activityId = activity.id
+            ActivityScores(activity, getStudentIdsAndScoresVyActivityIdAndGroupId(groupId,activityId)) }
+            .sortedBy { activityScore -> activityDeadLineMap[activityScore.activity.id] }
+            .forEach {
+
+                when (it.activity.activityTypeId) {
+                    ActivityType.COMPULSORY.getId() -> {
+                        it.values.forEach{studentIdWithScore -> studentScoreSumMap[studentIdWithScore.studentId] = studentScoreSumMap[studentIdWithScore.studentId]!! + studentIdWithScore.value!!}
+                        maxPoints += it.activity.maxScore
+                    }
+                    ActivityType.OPTIONAL.getId(),ActivityType.TEMPORARY_EVENT.getId() -> {
+                        it.values.forEach{studentIdWithScore -> studentScoreSumMap[studentIdWithScore.studentId] = studentScoreSumMap[studentIdWithScore.studentId]!! + studentIdWithScore.value!!}
+                    }
+                    ActivityType.REPARATIVE.getId() -> {
+                        it.values.forEach{studentIdWithScore -> studentScoreSumMap[studentIdWithScore.studentId] = min(studentScoreSumMap[studentIdWithScore.studentId]!! + studentIdWithScore.value!!,maxPoints)}
+                    }
+                }
+
+            }
+        var rank = 1.toLong()
+        return studentScoreSumMap.entries.sortedBy { entry -> -entry.value }.map{entry -> ScoreSum(rank++,studentUserNameMap[entry.key]!!,entry.value)}.toList().right()
+    }
+
+    fun getStudentIdsAndScoresVyActivityIdAndGroupId(groupId: Long,activityId: Long): ArrayList<StudentIdWithScore>{
+        return scoreRepository.getStudentIdsAndScoresVyActivityIdAndGroupId(groupId,activityId).collectList().block() as ArrayList
+    }
+
+
+
 }

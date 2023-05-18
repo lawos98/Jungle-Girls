@@ -18,7 +18,6 @@ import MainStudentView from "./components/mainView/MainStudentView";
 import ActivityCreationForm from "./components/activity/create/CreateActivityForm";
 import ActivityList from "./components/activity/list/ActivityList";
 import Categories from "./components/category/Categories";
-import StudentMessages from "./components/messages/StudentMessages"
 import SendMessage from "./components/messages/SendMessage"
 import Leaderboard from "./components/leaderboard/Leaderboard"
 
@@ -106,14 +105,6 @@ function App() {
                         element={
                             <PrivateRoute>
                                 <Categories></Categories>
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route
-                        path="/messages"
-                        element={
-                            <PrivateRoute>
-                                <StudentMessages></StudentMessages>
                             </PrivateRoute>
                         }
                     />

@@ -53,16 +53,6 @@ const Navbar: React.FC = () => {
                     >
                         Leaderboard
                     </Link>
-                    <Link
-                        to="/messages"
-                        className={`${
-                            isActive("/messages")
-                                ? "text-indigo-100 font-semibold border-b-2 border-indigo-300"
-                                : "hover:text-indigo-300"
-                        }`}
-                    >
-                        Wiadomości
-                    </Link>
                 </div>
                 <div className="flex items-center space-x-4">
                     <Link

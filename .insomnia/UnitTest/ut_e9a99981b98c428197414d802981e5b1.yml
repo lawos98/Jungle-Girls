@@ -1,0 +1,15 @@
+_id: ut_e9a99981b98c428197414d802981e5b1
+type: UnitTest
+parentId: uts_b221f2747855406bbb507865c32de2bf
+modified: 1684120910013
+created: 1684120834573
+requestId: req_8901332b6b954d2591a06f01dec71baf
+name: Update User Data
+code: |-
+  const response1 = await insomnia.send();
+  expect(response1.status).to.equal(200);
+
+  const body = JSON.parse(response1.data);
+  expect(body.username).to.equal("student16");
+  expect(body.firstname).to.equal("Tomek");
+  expect(body.lastname).to.equal("Kozak");

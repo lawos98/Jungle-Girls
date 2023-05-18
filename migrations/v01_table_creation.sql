@@ -1,5 +1,7 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-04-16 21:21:15.522
+
+-- Last modification date: 2023-05-14 20:20:47.99
+
 
 -- tables
 -- Table: activity
@@ -52,10 +54,12 @@ CREATE TABLE course_group_activity (
 -- Table: course_group_notification
 CREATE TABLE course_group_notification (
                                            id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
-                                           course_group_id int  NOT NULL,
                                            date timestamp  NOT NULL,
-                                           description varchar  NOT NULL,
-                                           autor_id int  NOT NULL,
+                                           subject varchar  NOT NULL,
+                                           content varchar  NOT NULL,
+                                           author_id int  NOT NULL,
+                                           course_group_id int  NOT NULL,
+                                           was_read boolean  NOT NULL,
                                            CONSTRAINT course_group_notification_pk PRIMARY KEY (id)
 );
 
@@ -84,7 +88,6 @@ CREATE TABLE role (
                       id int  NOT NULL GENERATED ALWAYS AS IDENTITY,
                       name varchar  NOT NULL,
                       description varchar  NOT NULL,
-                      secret_code varchar  NULL,
                       CONSTRAINT role_ak_1 UNIQUE (name) NOT DEFERRABLE  INITIALLY IMMEDIATE,
                       CONSTRAINT role_pk PRIMARY KEY (id)
 );
@@ -203,7 +206,7 @@ ALTER TABLE course_group ADD CONSTRAINT group_login_user
 
 -- Reference: group_notification_login_user (table: course_group_notification)
 ALTER TABLE course_group_notification ADD CONSTRAINT group_notification_login_user
-    FOREIGN KEY (autor_id)
+    FOREIGN KEY (author_id)
         REFERENCES login_user (id)
         NOT DEFERRABLE
             INITIALLY IMMEDIATE

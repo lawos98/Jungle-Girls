@@ -1,7 +1,7 @@
 _id: req_ade1a8f1a1ea4e70b8d71bbc1d76c974
 type: Request
 parentId: fld_a2a780e7fd8b4a59b4ea9242024a45a0
-modified: 1683370731343
+modified: 1684118543861
 created: 1681692373978
 url: "{{ _.ServerAddress }}/api/score/2"
 name: Edit Grade
@@ -1205,7 +1205,7 @@ body:
     				"username": "student16",
     				"firstname": "Jan",
     				"lastname": "Kwiatkowski",
-    				"value": null,
+    				"value": 0.3,
     				"lastCommitTime": null,
     				"lastCommitError": "Student 20 doesn't have github link"
     			},
@@ -1308,7 +1308,7 @@ body:
     				"username": "student16",
     				"firstname": "Jan",
     				"lastname": "Kwiatkowski",
-    				"value": null,
+    				"value": 0.3,
     				"lastCommitTime": null,
     				"lastCommitError": "Student 20 doesn't have github link"
     			},
@@ -1411,7 +1411,7 @@ body:
     				"username": "student16",
     				"firstname": "Jan",
     				"lastname": "Kwiatkowski",
-    				"value": null,
+    				"value": 0.5,
     				"lastCommitTime": null,
     				"lastCommitError": "Student 20 doesn't have github link"
     			},
@@ -1514,7 +1514,7 @@ body:
     				"username": "student16",
     				"firstname": "Jan",
     				"lastname": "Kwiatkowski",
-    				"value": null,
+    				"value": 1,
     				"lastCommitTime": null,
     				"lastCommitError": "Student 20 doesn't have github link"
     			},
@@ -1581,7 +1581,7 @@ body:
     				"username": "student12",
     				"firstname": "Jan",
     				"lastname": "Adamczyk",
-    				"value": null,
+    				"value": 5.5,
     				"lastCommitTime": null,
     				"lastCommitError": "Tag does not exist: test/test/kartkowka"
     			},
@@ -1617,7 +1617,7 @@ body:
     				"username": "student16",
     				"firstname": "Jan",
     				"lastname": "Kwiatkowski",
-    				"value": null,
+    				"value": 5.5,
     				"lastCommitTime": null,
     				"lastCommitError": "Student 20 doesn't have github link"
     			},

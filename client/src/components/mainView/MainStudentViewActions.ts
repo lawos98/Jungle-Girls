@@ -10,6 +10,16 @@ export const getStudentNotifications = async (): Promise<StudentNotificationResp
     }
 };
 
+export const updateReadStudentNotification = async (notificationId: number) => {
+    try {
+        const response = await api.put("/student-notification/update/"+notificationId);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export interface StudentNotificationResponse {
     id: number;
     date: string;
@@ -17,4 +27,17 @@ export interface StudentNotificationResponse {
     content: string;
     author: string;
     wasRead: boolean;
+}
+
+export const getScore = (callback:any) => {
+    api.get(`/score/total-score`).
+    then(response => {
+        console.log(response.data)
+        callback(response.data);
+    });
+};
+
+export interface ScoreResponse {
+    maxPoints: number;
+    points: number;
 }

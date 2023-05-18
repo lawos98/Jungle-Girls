@@ -6,7 +6,7 @@ import {ActivityScoreList} from "../types/EditableGridTypes";
 import EditableGridSkeleton from "./EditableGridSkeleton";
 import toast from "react-hot-toast";
 import GridCell from "./GridCell";
-import validateInput from "../../utils/utils";
+import {validateInput,msToHumanReadable} from "../../utils/utils";
 type EditableGridProps = {
     groupId: number;
 }
@@ -27,6 +27,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
 
     const [data, setData] = useState<Grade[][]>([[]]);
     const [rowLabels, setRowLabels] = useState<string[]>([]);
+    const [commitTimes,setCommitTimes] = useState<string[]>([]);
 
     const [scoreData, setScoreData] = useState<ActivityScoreList[]>([]);
     const [changedCells, setChangedCells] = useState<{ [key: string]: string }>({});
@@ -37,6 +38,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
     useEffect(() => {
         actions.getGrades(groupId, (scoreData: any) => {
             setScoreData(scoreData);
+            getLastCommitTime(scoreData);
             setRowLabels(
                 scoreData[0].students.map(
                     (item: any) => item.firstname + " " + item.lastname
@@ -98,6 +100,27 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
             document.removeEventListener("click", handleBackgroundClick);
         };
     }, []);
+
+
+    // returns array the same length as students count with their last commit time
+    function getLastCommitTime(scoreData:any){
+        let lastCommit : Date[];
+        lastCommit = Array.from(scoreData[0].students.map((item: any) => new Date(item.lastCommitTime)))
+        // get newest commits
+        for(let i = 0; i<scoreData.length;i++){
+            for (let j=0;j<scoreData[0].students.length;j++){
+                lastCommit[j] = new Date(Math.max(new Date(scoreData[i].students[j].lastCommitTime).getTime(),lastCommit[j].getTime()))
+            }
+        }
+        const currentDate = Date.now();
+        setCommitTimes(lastCommit.map((date:Date)=>{
+            if(date===null || date.getFullYear() == 1970)
+                return "";
+            var time = currentDate -date.getTime();
+            return msToHumanReadable(time) + " temu";
+        }));
+    }
+
     const toggleFoldCategory = (categoryId: number) => {
         setFoldedCategories({ ...foldedCategories, [categoryId]: !foldedCategories[categoryId] });
     };
@@ -240,7 +263,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
 
             <div className=" border-collapse flex flex-col h-min overflow-auto">
                 <div className=" flex flex-row pb-1">
-                    <div className="shrink-0  w-40"></div>
+                    <div className="shrink-0  w-60"></div>
                     <div className="flex flex-row ">
                         {categories.map((category, categoryIndex) => (
                             <div key={`category-${categoryIndex}`} className={`flex flex-col ${
@@ -294,7 +317,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                             className={`border-collapse flex items-center cursor-pointer transition-all duration-500 ease-in-out ${zoomedRowIndex !== null && rowIndex !== zoomedRowIndex ? "opacity-50 max-h-20 overflow-visible" : "opacity-100 max-h-20"} ${zoomedRowIndex !== null && rowIndex == zoomedRowIndex ? "origin-top scale-[1.03] z-10" : "origin-left scale-100 z-0"}`}>
                             <div
                                 // names
-                                className="shrink-0 text-center w-40"
+                                className="text-right truncate ... shrink-0 text-center w-60 pr-3"
                                 onClick={() => {
                                     // if the column is zoomed in, zoom out and zoom in the row
                                     if (zoomedColumnIndex !== null) {
@@ -310,7 +333,8 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                                     swiper.slideTo(rowIndex, 10);
                                 }}
                             >
-                                {rowLabels[rowIndex]}
+                                <span className={`text-gray-600 text-sm pr-5`}>{commitTimes[rowIndex]}</span>
+                                <span>{rowLabels[rowIndex]}</span>
                             </div>
                             {row.map((cell, colIndex) => (
                                 // transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && colIndex !== zoomedColumnIndex ? 'opacity-0 max-w-0 max-h-0 overflow-hidden' : 'opacity-100 max-w-24 max-h-20'

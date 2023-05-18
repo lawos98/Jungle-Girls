@@ -17,4 +17,7 @@ interface LoginUserRepository : ReactiveCrudRepository<LoginUser, Long> {
 
     @Query("Insert into login_user (username,password,firstname,lastname,role_id) VALUES (:username,:password,:first_name,:last_name,:roleId) returning *")
     fun save(@Param("username")username: String, @Param("password")password: String, @Param("first_name")firstName: String, @Param("last_name")lastName: String, @Param("roleId")roleId: Long): Mono<LoginUser>
+
+    @Query("UPDATE login_user SET username=:username, firstname=:first_name, lastname=:last_name WHERE id=:id RETURNING *")
+    fun update(@Param("id")id: Long, @Param("username")username: String, @Param("first_name")firstName: String, @Param("last_name")lastName: String): Mono<LoginUser>
 }

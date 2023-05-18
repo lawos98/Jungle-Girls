@@ -5,8 +5,13 @@ import arrow.core.Either
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+import pl.edu.agh.ii.io.jungleGirls.dto.StudentNotificationRequest
 import pl.edu.agh.ii.io.jungleGirls.dto.StudentNotificationResponse
+import pl.edu.agh.ii.io.jungleGirls.dto.StudentNotificationStudentRequest
 import pl.edu.agh.ii.io.jungleGirls.model.StudentNotification
+import pl.edu.agh.ii.io.jungleGirls.repository.StudentDescriptionRepository
+import pl.edu.agh.ii.io.jungleGirls.repository.StudentNotificationRepository
+import pl.edu.agh.ii.io.jungleGirls.service.CourseGroupService
 import pl.edu.agh.ii.io.jungleGirls.service.LoginUserService
 import pl.edu.agh.ii.io.jungleGirls.service.StudentNotificationService
 import pl.edu.agh.ii.io.jungleGirls.service.TokenService
@@ -18,7 +23,8 @@ import java.time.format.DateTimeFormatter
 class StudentNotificationController(
         private val studentNotificationService: StudentNotificationService,
         private val tokenService: TokenService,
-        private val loginUserService: LoginUserService
+        private val loginUserService: LoginUserService,
+        private val courseGroupService: CourseGroupService,
     ) {
     @GetMapping
     fun getStudentNotifications(@RequestHeader("Authorization") token: String): List<StudentNotificationResponse> {
@@ -51,5 +57,22 @@ class StudentNotificationController(
                 throw ResponseStatusException(HttpStatus.BAD_REQUEST,result.value)
             }
         }
+    }
+
+
+    @GetMapping("/create")
+    fun getStudents(@RequestHeader("Authorization") token: String):List<StudentNotificationStudentRequest>{
+        val user = tokenService.parseToken(token.substring("Bearer".length))
+        return studentNotificationService.getStudents(user.id)
+    }
+
+    @PostMapping("/create")
+    fun sendStudentNotification(@RequestHeader("Authorization") token: String, @RequestBody payload:StudentNotificationRequest){
+        val user = tokenService.parseToken(token.substring("Bearer".length))
+        val result = studentNotificationService.validateStudentNotification(user.id,payload)
+        if(result is Either.Left){
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, result.value)
+        }
+        studentNotificationService.sendStudentsNotifications(user.id,payload)
     }
 }

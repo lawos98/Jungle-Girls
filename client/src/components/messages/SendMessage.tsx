@@ -146,6 +146,7 @@ const SendMessage= () => {
 
                 <div>
                     <input
+                        style={{ marginRight: '10px'}}
                         type="radio"
                         name="option"
                         value="students"
@@ -156,6 +157,7 @@ const SendMessage= () => {
                 </div>
                 <div>
                     <input
+                        style={{ marginRight: '10px' }}
                         type="radio"
                         name="option"
                         value="courseGroups"
@@ -168,7 +170,7 @@ const SendMessage= () => {
                 <div className="mb-4 mt-4">
                     <label
                         htmlFor="subject"
-                        className={labelStyle}
+                        className={`mb-2 mt-4 ${labelStyle}`}
                     >
                         Wybierz adresatów:
                     </label>
@@ -177,8 +179,8 @@ const SendMessage= () => {
                         <div>
                             <div style={{ maxHeight: '100px', overflowY: 'scroll' }}>
                                 {options[selectedOption].map((checkbox) => (
-                                    <div key={checkbox.id}>
-                                        <input
+                                    <div key={checkbox.id} >
+                                        <input style={{ marginRight: '10px' }}
                                             type="checkbox"
                                             checked={checkbox.checked}
                                             onChange={() => handleCheckboxChange(selectedOption, checkbox.id)}
@@ -187,9 +189,9 @@ const SendMessage= () => {
                                     </div>
                                 ))}
                             </div>
-                            <div>
+                            <div className="mt-2">
                                 <a onClick={handleToggleSelectAll}
-                                        className="text-indigo-600 hover:text-indigo-800 font-medium text-center mb-4"
+                                        className="text-indigo-600 hover:text-indigo-800 font-medium text-center "
                                 >
                                     {selectAll ? 'Odznacz wszystkie' : 'Zaznacz wszystkie'}
                                 </a>

@@ -87,7 +87,7 @@ const MainStudentView: React.FC = () => {
                             <thead>
                             <tr>
                                 <th className="text-left">Data</th>
-                                <th className="text-left">Aktywność</th>
+                                <th className="text-left">Temat</th>
                                 <th className="text-left">Treść</th>
                                 <th className="text-left">Autor</th>
                             </tr>

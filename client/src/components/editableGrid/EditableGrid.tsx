@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect, useCallback} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import Swiper from "swiper";
 import "swiper/css/bundle";
 import * as actions from "./EditableGridActions";
@@ -6,7 +6,8 @@ import {ActivityScoreList} from "../types/EditableGridTypes";
 import EditableGridSkeleton from "./EditableGridSkeleton";
 import toast from "react-hot-toast";
 import GridCell from "./GridCell";
-import {validateInput,msToHumanReadable} from "../../utils/utils";
+import {msToHumanReadable, validateInput} from "../../utils/utils";
+
 type EditableGridProps = {
     groupId: number;
 }
@@ -27,7 +28,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
 
     const [data, setData] = useState<Grade[][]>([[]]);
     const [rowLabels, setRowLabels] = useState<string[]>([]);
-    const [commitTimes,setCommitTimes] = useState<string[]>([]);
+    const [commitTimes, setCommitTimes] = useState<string[]>([]);
 
     const [scoreData, setScoreData] = useState<ActivityScoreList[]>([]);
     const [changedCells, setChangedCells] = useState<{ [key: string]: string }>({});
@@ -82,7 +83,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                                 const activityId = activity.activity.id;
                                 const activityCategoryId = activity.activity.activityCategoryId;
                                 const maxScore = activity.activity.maxScore;
-                                rowData.push({ score, activityId, activityCategoryId, maxScore});
+                                rowData.push({score, activityId, activityCategoryId, maxScore});
                             }
                         }
                         return rowData;
@@ -103,26 +104,26 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
 
 
     // returns array the same length as students count with their last commit time
-    function getLastCommitTime(scoreData:any){
-        let lastCommit : Date[];
+    function getLastCommitTime(scoreData: any) {
+        let lastCommit: Date[];
         lastCommit = Array.from(scoreData[0].students.map((item: any) => new Date(item.lastCommitTime)))
         // get newest commits
-        for(let i = 0; i<scoreData.length;i++){
-            for (let j=0;j<scoreData[0].students.length;j++){
-                lastCommit[j] = new Date(Math.max(new Date(scoreData[i].students[j].lastCommitTime).getTime(),lastCommit[j].getTime()))
+        for (let i = 0; i < scoreData.length; i++) {
+            for (let j = 0; j < scoreData[0].students.length; j++) {
+                lastCommit[j] = new Date(Math.max(new Date(scoreData[i].students[j].lastCommitTime).getTime(), lastCommit[j].getTime()))
             }
         }
         const currentDate = Date.now();
-        setCommitTimes(lastCommit.map((date:Date)=>{
-            if(date===null || date.getFullYear() == 1970)
+        setCommitTimes(lastCommit.map((date: Date) => {
+            if (date === null || date.getFullYear() == 1970)
                 return "";
-            var time = currentDate -date.getTime();
+            var time = currentDate - date.getTime();
             return msToHumanReadable(time) + " temu";
         }));
     }
 
     const toggleFoldCategory = (categoryId: number) => {
-        setFoldedCategories({ ...foldedCategories, [categoryId]: !foldedCategories[categoryId] });
+        setFoldedCategories({...foldedCategories, [categoryId]: !foldedCategories[categoryId]});
     };
 
     const setupSwiper = () => {
@@ -155,12 +156,12 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                 const newData = data.map((r, i) =>
                     r.map((c, j) =>
                         i === row && j === col
-                            ? { ...c, score: value }
+                            ? {...c, score: value}
                             : c
                     )
                 );
                 setData(newData);
-                setChangedCells({ ...changedCells, [`${row}-${col}`]: value });
+                setChangedCells({...changedCells, [`${row}-${col}`]: value});
             } else {
                 toast.error(
                     `Wartość musi być między 0 a ${data[row][col].maxScore}`
@@ -216,18 +217,18 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
         let newCol = col;
 
         switch (direction) {
-        case "up":
-            newRow = newRow - 1 >= 0 ? newRow - 1 : newRow;
-            break;
-        case "down":
-            newRow = newRow + 1 < data.length ? newRow + 1 : newRow;
-            break;
-        case "left":
-            newCol = newCol - 1 >= 0 ? newCol - 1 : newCol;
-            break;
-        case "right":
-            newCol = newCol + 1 < data[row].length ? newCol + 1 : newCol;
-            break;
+            case "up":
+                newRow = newRow - 1 >= 0 ? newRow - 1 : newRow;
+                break;
+            case "down":
+                newRow = newRow + 1 < data.length ? newRow + 1 : newRow;
+                break;
+            case "left":
+                newCol = newCol - 1 >= 0 ? newCol - 1 : newCol;
+                break;
+            case "right":
+                newCol = newCol + 1 < data[row].length ? newCol + 1 : newCol;
+                break;
         }
         // if row is zoomed in, prevent moving to other rows
         if (zoomedRowIndex !== null) {
@@ -238,14 +239,11 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
             newCol = col;
         }
         // if the cell is in a folded category, move to the next available cell
-        if(direction === "right")
-        {
-            while(foldedCategories[data[newRow][newCol].activityCategoryId] && newCol < data[newRow].length - 1)
+        if (direction === "right") {
+            while (foldedCategories[data[newRow][newCol].activityCategoryId] && newCol < data[newRow].length - 1)
                 newCol++;
-        }
-        else if(direction === "left")
-        {
-            while(foldedCategories[data[newRow][newCol].activityCategoryId] && newCol > 0)
+        } else if (direction === "left") {
+            while (foldedCategories[data[newRow][newCol].activityCategoryId] && newCol > 0)
                 newCol--;
         }
         if (newRow !== row || newCol !== col) {
@@ -256,6 +254,17 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
             }
         }
     };
+
+    const downloadCSV = () => {
+        actions.downloadCSV(groupId, (url:any) => {
+            const link = document.createElement('a');
+            link.href = url;
+            const filename = `oceny-grupa${groupId}.csv`;
+            link.setAttribute('download', filename);
+            document.body.appendChild(link);
+            link.click();
+        });
+    }
 
     return (
         <div ref={containerRef}>
@@ -295,8 +304,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                                                         setTimeout(() => {
                                                             setZoomedColumnIndex(zoomedColumnIndex === item.activity.id ? null : item.activity.id);
                                                         }, 200);
-                                                    }
-                                                    else {
+                                                    } else {
                                                         setZoomedColumnIndex(zoomedColumnIndex === item.activity.id ? null : item.activity.id);
                                                     }
                                                 }}
@@ -314,7 +322,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                 {data.map((row, rowIndex) => {
                     return (
                         <div key={`row-${rowIndex}`}
-                            className={`border-collapse flex items-center cursor-pointer transition-all duration-500 ease-in-out ${zoomedRowIndex !== null && rowIndex !== zoomedRowIndex ? "opacity-50 max-h-20 overflow-visible" : "opacity-100 max-h-20"} ${zoomedRowIndex !== null && rowIndex == zoomedRowIndex ? "origin-top scale-[1.03] z-10" : "origin-left scale-100 z-0"}`}>
+                             className={`border-collapse flex items-center cursor-pointer transition-all duration-500 ease-in-out ${zoomedRowIndex !== null && rowIndex !== zoomedRowIndex ? "opacity-50 max-h-20 overflow-visible" : "opacity-100 max-h-20"} ${zoomedRowIndex !== null && rowIndex == zoomedRowIndex ? "origin-top scale-[1.03] z-10" : "origin-left scale-100 z-0"}`}>
                             <div
                                 // names
                                 className="text-right truncate ... shrink-0 text-center w-60 pr-3"
@@ -325,8 +333,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                                         setTimeout(() => {
                                             setZoomedRowIndex(zoomedRowIndex === rowIndex ? null : rowIndex);
                                         }, 200);
-                                    }
-                                    else {
+                                    } else {
                                         setZoomedRowIndex(zoomedRowIndex === rowIndex ? null : rowIndex);
                                     }
                                     // slide to the row
@@ -339,7 +346,7 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
                             {row.map((cell, colIndex) => (
                                 // transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && colIndex !== zoomedColumnIndex ? 'opacity-0 max-w-0 max-h-0 overflow-hidden' : 'opacity-100 max-w-24 max-h-20'
                                 <div key={`cell-${rowIndex}-${colIndex}`}
-                                    className={`shrink-0 w-24 border-collapse transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && cell.activityId !== zoomedColumnIndex ? "opacity-50 overflow-hidden" : "opacity-100"} ${zoomedColumnIndex !== null && cell.activityId == zoomedColumnIndex ? "origin-top scale-110 z-10" : "origin-bottom scale-100 z-0"} ${foldedCategories[cell.activityCategoryId]? "fade-out overflow-hidden" : "fade-in"}`}>
+                                     className={`shrink-0 w-24 border-collapse transition-all duration-500 ease-in-out ${zoomedColumnIndex !== null && cell.activityId !== zoomedColumnIndex ? "opacity-50 overflow-hidden" : "opacity-100"} ${zoomedColumnIndex !== null && cell.activityId == zoomedColumnIndex ? "origin-top scale-110 z-10" : "origin-bottom scale-100 z-0"} ${foldedCategories[cell.activityCategoryId] ? "fade-out overflow-hidden" : "fade-in"}`}>
                                     <GridCell
                                         isZoomedIn={rowIndex === zoomedRowIndex || cell.activityId === zoomedColumnIndex}
                                         id={`cell-${rowIndex}-${colIndex}`}
@@ -367,9 +374,16 @@ const EditableGrid: React.FC<EditableGridProps> = ({groupId}) => {
             </div>
             <div className={"mt-5 flex justify-center"}>
                 {!isLoading && (
-                    <button onClick={handleSaveGrades} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Save Grades
-                    </button>)
+                    <div className="flex flex-col justify-center align-middle gap-2">
+                        <button onClick={handleSaveGrades}
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Save Grades
+                        </button>
+                        <button onClick={downloadCSV}
+                                className="bg-blue-500 hover:bg-blue-700 text-white text-sm py-1 px-3 rounded">
+                            Download CSV
+                        </button>
+                    </div>)
                 }
             </div>
         </div>

@@ -24,16 +24,6 @@ const TeacherNavbar: React.FC = () => {
             <div className="container mx-auto flex items-center justify-between">
                 <div className="flex space-x-4">
                     <Link
-                        to="/"
-                        className={`${
-                            isActive("/")
-                                ? "text-indigo-100 font-semibold border-b-2 border-indigo-300"
-                                : "hover:text-indigo-300"
-                        }`}
-                    >
-                        Główny widok
-                    </Link>
-                    <Link
                         to="/edit-grades"
                         className={`${
                             isActive("/edit-grades")
@@ -85,16 +75,6 @@ const TeacherNavbar: React.FC = () => {
                     </Link>
                 </div>
                 <div className="flex items-center space-x-4">
-                    <Link
-                        to="/account"
-                        className={`${
-                            isActive("/account")
-                                ? "text-indigo-100 font-semibold border-b-2 border-indigo-300"
-                                : "hover:text-indigo-300"
-                        }`}
-                    >
-                        Konto
-                    </Link>
                     <span className="font-semibold">{user.firstname} {user.lastname}</span>
                     <button
                         onClick={handleLogout}

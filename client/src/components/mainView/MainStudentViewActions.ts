@@ -37,7 +37,22 @@ export const getScore = (callback:any) => {
     });
 };
 
+
 export interface ScoreResponse {
     maxPoints: number;
     points: number;
+}
+
+export const getEvents = (callback:any) => {
+    api.get(`/activity/temporary-events`).
+    then(response => {
+        console.log(response.data)
+        callback(response.data);
+    });
+}
+
+export interface EventResponse {
+    name: string;
+    duration: string;
+    startDate: string;
 }

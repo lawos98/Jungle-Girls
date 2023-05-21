@@ -5,6 +5,7 @@ import org.springframework.data.repository.query.Param
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Repository
 import pl.edu.agh.ii.io.jungleGirls.dto.ScoreSum
+import pl.edu.agh.ii.io.jungleGirls.dto.StudentIdWithScore
 import pl.edu.agh.ii.io.jungleGirls.model.Score
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -29,4 +30,6 @@ interface ScoreRepository: ReactiveCrudRepository<Score, Long> {
 
     @Query("select lu.username, row_number() over(order by COALESCE(sum(s.value), -1)  desc) as rank, sum(s.value)  as score_sum  from login_user lu inner join student_description sd on lu.id = sd.id left outer join score s on lu.id = s.student_id where sd.course_group_id = :groupId group by lu.id")
     fun getScoreSumList(@Param("groupId") groupId: Long):Flux<ScoreSum>
+    @Query("select sd.id as student_id, s.value  as value from student_description sd left join score s on sd.id = s.student_id where sd.course_group_id = :groupId and s.activity_id = :activityId union select sd.id as student_id, 0 as value from student_description sd where sd.course_group_id = :groupId and not exists (select 1 from score as s where s.student_id = sd.id and s.activity_id = :activityId);")
+    fun getStudentIdsAndScoresVyActivityIdAndGroupId(@Param("groupId") groupId: Long,@Param("activityId") activityId: Long):Flux<StudentIdWithScore>
 }

@@ -27,6 +27,7 @@ interface CourseGroupRepository : ReactiveCrudRepository<CourseGroup,Long> {
 
     @Query("Select lu.id,lu.username,lu.password,lu.firstname,lu.lastname,lu.role_id from login_user lu inner join student_description sd on lu.id = sd.id where sd.course_group_id = :groupId")
     fun getAllStudentsByGroupId(@Param("groupId") groupId:Long): Flux<LoginUser>
+
     @Query("select name from course_group where id = :groupId")
     fun findNameById(@Param("groupId")groupId: Long): Mono<String>
 
@@ -34,6 +35,9 @@ interface CourseGroupRepository : ReactiveCrudRepository<CourseGroup,Long> {
     fun getAllGroups(@Param("instructorId") instructorId:Long): Flux<CourseGroup>
     @Query("Select sd.id,concat(lu.firstname,' ',lu.lastname) as name from student_description sd inner join login_user lu on sd.id = lu.id where course_group_id = :groupId")
     fun getAllStudentIdsAndNamesByGroupId(@Param("groupId") groupId:Long): Flux<StudentIdWithName>
+
+    @Query("Select sd.id,lu.username as name from student_description sd inner join login_user lu on sd.id = lu.id where course_group_id = :groupId")
+    fun getAllStudentIdsAndUserNamesByGroupId(@Param("groupId") groupId:Long): Flux<StudentIdWithName>
     @Query("Select a.id,a.name from course_group_activity as cga inner join activity a on a.id = cga.activity_id where cga.course_group_id = :groupId")
     fun getAllActivityIdsAndNamesByGroupId(@Param("groupId") groupId:Long): Flux<ActivityIdWithName>
     @Query("select s.student_id, s.activity_id, s.value as score from score s inner join course_group_activity cga on s.activity_id = cga.activity_id inner join student_description sd on s.student_id = sd.id where cga.course_group_id = :groupId and sd.course_group_id = :groupId")

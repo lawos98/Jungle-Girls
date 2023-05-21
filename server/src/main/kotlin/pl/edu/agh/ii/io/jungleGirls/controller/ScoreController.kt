@@ -98,15 +98,15 @@ class ScoreController(
     @GetMapping("/leaderboard")
     fun getLeaderboard(@RequestHeader("Authorization") token: String):LeaderboardResponse{
         val user = tokenService.parseToken(token.substring("Bearer".length))
-        when(val courseGroupId = studentDescriptionService.getUserGroupId(user.id)){
+        when(val leaderboard = scoreService.getLeaderboard(user)){
             is Either.Right ->{
                 return LeaderboardResponse(
                     username = user.username,
-                    scoreSumList = scoreService.getScoreSumList(courseGroupId.value)
+                    scoreSumList = leaderboard.value
                 )
             }
             is Either.Left -> {
-                throw ResponseStatusException(HttpStatus.BAD_REQUEST,courseGroupId.value)
+                throw ResponseStatusException(HttpStatus.BAD_REQUEST,leaderboard.value)
             }
         }
 

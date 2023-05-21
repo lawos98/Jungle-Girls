@@ -24,6 +24,7 @@ import Leaderboard from "./components/leaderboard/Leaderboard"
 function App() {
     const user = useSelector((state: any) => state.user);
 
+
     const getProperNavbar = () => {
         if (user.roleId === 1) {
             return (
@@ -51,7 +52,7 @@ function App() {
             );
         } else if (user.roleId === 3 || user.roleId === 4) {
             return (
-                <h1>Teacher</h1>
+                <EditGrades/>
             );
         }
     };

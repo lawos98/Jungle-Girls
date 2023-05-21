@@ -25,3 +25,10 @@ export const getCategories = (activityCategoryIds: Array<number>, callback: any)
         callback(filteredCategories);
     });
 };
+
+export const downloadCSV = (id: number, callback:any) => {
+    api.get(`/score/to-csv/${id}`, { responseType: "blob" }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        callback(url);
+    });
+}

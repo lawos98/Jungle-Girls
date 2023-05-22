@@ -31,14 +31,12 @@ const Register: React.FC = () => {
     });
 
     const successCallback = (userData: any) => {
-        dispatch(setUser(userData));
         getDescription((userDesc:any) => {
             dispatch(setUser({...userData, ...userDesc}));
-            navigate("/");
         }, (message:any) => {
-            console.log(message);
+            dispatch(setUser(userData));
         });
-        navigate("/");
+        navigate("/secret-code");
     };
 
     const formik = useFormik({

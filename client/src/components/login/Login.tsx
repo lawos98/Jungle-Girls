@@ -20,18 +20,23 @@ const Login: React.FC = () => {
     });
 
     const successCallback = (userData: any) => {
-        dispatch(setUser(userData));
         actions.getDescription((userDesc:any) => {
             dispatch(setUser({...userData, ...userDesc}));
             navigate("/");
         }, (message:any) => {
-            console.log(message);
+            dispatch(setUser(userData));
+            navigate("/");
         });
     };
 
     useEffect(() => {
         if (user.isLogged) {
-            navigate("/");
+            if (user.courseGroupId) {
+                navigate("/");
+            }
+            else {
+                navigate("/secret-code");
+            }
         }
     },[]);
 

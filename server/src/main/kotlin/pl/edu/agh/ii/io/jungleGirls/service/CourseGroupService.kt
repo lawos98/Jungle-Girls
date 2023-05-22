@@ -100,4 +100,8 @@ class CourseGroupService(
             }
     }
 
+    fun createCourseGroup(name:String, instructorId: Long): Either<String, CourseGroup> {
+        return courseGroupRepository.createCourseGroup(name, instructorId).block()?.right() ?: "Server error group cannot be created".left()
+    }
+
 }

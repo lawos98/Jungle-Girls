@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import * as actions from "./RegisterActions";
+import {getDescription} from "../login/LoginActions";
 import { inputStyle, labelStyle, buttonStyle, formStyle, errorStyle } from "../../utils/formStyles";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -31,6 +32,12 @@ const Register: React.FC = () => {
 
     const successCallback = (userData: any) => {
         dispatch(setUser(userData));
+        getDescription((userDesc:any) => {
+            dispatch(setUser({...userData, ...userDesc}));
+            navigate("/");
+        }, (message:any) => {
+            console.log(message);
+        });
         navigate("/");
     };
 

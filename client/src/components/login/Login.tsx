@@ -21,7 +21,12 @@ const Login: React.FC = () => {
 
     const successCallback = (userData: any) => {
         dispatch(setUser(userData));
-        navigate("/");
+        actions.getDescription((userDesc:any) => {
+            dispatch(setUser({...userData, ...userDesc}));
+            navigate("/");
+        }, (message:any) => {
+            console.log(message);
+        });
     };
 
     useEffect(() => {

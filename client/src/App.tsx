@@ -26,7 +26,7 @@ function App() {
 
 
     const getProperNavbar = () => {
-        if (user.roleId === 1) {
+        if (user.courseGroupId === null || user.courseGroupId === "") {
             return (
                 <SecretCode/>
             );

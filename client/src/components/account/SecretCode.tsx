@@ -16,8 +16,8 @@ const SecretCode: React.FC = () => {
         secretCode: Yup.string().required("Sekretny kod jest wymagany"),
     });
 
-    const successCallback = () => {
-        dispatch(setUser({roleId: 2}));
+    const successCallback = (userInfo:any) => {
+        dispatch(setUser({...userInfo}));
         navigate("/");
     };
 

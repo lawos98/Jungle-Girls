@@ -17,8 +17,10 @@ const Account: React.FC = () => {
     const validationSchema = Yup.object({
         studentIndex: Yup.string().required("Indeks studenta jest wymagany"),
         githubLink: Yup.string()
-            .url("Podaj prawidłowy adres URL")
-            .required("Link do GitHub'a jest wymagany"),
+            .url("Podaj prawidłowy adres URL"),
+        username: Yup.string().required("Nazwa użytkownika jest wymagana"),
+        firstname: Yup.string().required("Imię jest wymagane"),
+        lastname: Yup.string().required("Nazwisko jest wymagane"),
     });
 
 
@@ -33,11 +35,14 @@ const Account: React.FC = () => {
 
     const formik = useFormik({
         initialValues: {
-            studentIndex: "",
-            githubLink: "",
+            studentIndex: user.index,
+            githubLink: user.githubLink,
+            username: user.username,
+            firstname: user.firstname,
+            lastname: user.lastname,
         },
         onSubmit: (values) => {
-            const updateAccountPromise = actions.updateAccount(values.studentIndex, values.githubLink);
+            const updateAccountPromise = actions.updateAccount(values.studentIndex, values.githubLink, values.username, values.firstname, values.lastname);
 
             toast.promise(updateAccountPromise, {
                 loading: "Aktualizowanie danych...",
@@ -47,8 +52,8 @@ const Account: React.FC = () => {
 
             updateAccountPromise
                 .then((response) => {
-                    formik.setFieldValue("studentIndex", response.data.index ? response.data.index : "");
-                    formik.setFieldValue("githubLink", response.data.githubLink ? response.data.githubLink : "");
+                    dispatch(setUser({...response[0].data, ...response[1].data}));
+                    setServerError("");
                 })
                 .catch((error) => {
                     setServerError(error.response.data.message);
@@ -77,7 +82,7 @@ const Account: React.FC = () => {
                         className={inputStyle}
                     />
                     {formik.touched.studentIndex && formik.errors.studentIndex && (
-                        <div className={errorStyle}>{formik.errors.studentIndex}</div>
+                        <div className={errorStyle}>{formik.errors.studentIndex.toString()}</div>
                     )}
                 </div>
 
@@ -93,7 +98,55 @@ const Account: React.FC = () => {
                         className={inputStyle}
                     />
                     {formik.touched.githubLink && formik.errors.githubLink && (
-                        <div className={errorStyle}>{formik.errors.githubLink}</div>
+                        <div className={errorStyle}>{formik.errors.githubLink.toString()}</div>
+                    )}
+                </div>
+
+                <div className="mb-6">
+                    <label htmlFor="username" className={labelStyle}>
+                        Nazwa użytkownika
+                    </label>
+                    <input
+                        id="username"
+                        type="text"
+                        value={formik.values.username}
+                        onChange={formik.handleChange}
+                        className={inputStyle}
+                    />
+                    {formik.touched.username && formik.errors.username && (
+                        <div className={errorStyle}>{formik.errors.username.toString()}</div>
+                    )}
+                </div>
+
+                <div className="mb-6">
+                    <label htmlFor="firstname" className={labelStyle}>
+                        Imię
+                    </label>
+                    <input
+                        id="firstname"
+                        type="text"
+                        value={formik.values.firstname}
+                        onChange={formik.handleChange}
+                        className={inputStyle}
+                    />
+                    {formik.touched.firstname && formik.errors.firstname && (
+                        <div className={errorStyle}>{formik.errors.firstname.toString()}</div>
+                    )}
+                </div>
+
+                <div className="mb-6">
+                    <label htmlFor="lastname" className={labelStyle}>
+                        Nazwisko
+                    </label>
+                    <input
+                        id="lastname"
+                        type="text"
+                        value={formik.values.lastname}
+                        onChange={formik.handleChange}
+                        className={inputStyle}
+                    />
+                    {formik.touched.lastname && formik.errors.lastname && (
+                        <div className={errorStyle}>{formik.errors.lastname.toString()}</div>
                     )}
                 </div>
 

@@ -6,7 +6,6 @@ plugins {
     id("io.spring.dependency-management") version "1.1.0"
     kotlin("jvm") version "1.7.22"
     kotlin("plugin.spring") version "1.7.22"
-    id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
 }
 
 group = "pl.edu.agh.ii.io"
@@ -19,14 +18,6 @@ application {
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
-    }
-}
-
-ktlint {
-    ignoreFailures.set(false)
-    reporters {
-        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN)
-        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
     }
 }
 
@@ -52,7 +43,6 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
     implementation("org.json:json:20220320")
     implementation("com.auth0:java-jwt:3.18.2")
 }

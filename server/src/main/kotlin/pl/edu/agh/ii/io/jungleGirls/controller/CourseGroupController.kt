@@ -4,6 +4,8 @@ import arrow.core.Either
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+import pl.edu.agh.ii.io.jungleGirls.dto.CourseGroupRespone
+import pl.edu.agh.ii.io.jungleGirls.dto.CreateCourseGroup
 import pl.edu.agh.ii.io.jungleGirls.dto.SecretCode
 import pl.edu.agh.ii.io.jungleGirls.enum.Permissions
 import pl.edu.agh.ii.io.jungleGirls.enum.Roles
@@ -55,6 +57,28 @@ class CourseGroupController(
                    }
                }
            }
+            is Either.Left -> {
+                throw ResponseStatusException(HttpStatus.BAD_REQUEST,role.value)
+            }
+        }
+    }
+
+    @PutMapping
+    fun createGroup(@RequestBody payload:CreateCourseGroup,@RequestHeader("Authorization") token: String):CourseGroupRespone{
+        val user = tokenService.parseToken(token.substring("Bearer".length))
+        when(val role = roleService.getRoleByUserId(user.id)){
+            is Either.Right ->{
+                print(role)
+                if(role.value.id!=Roles.COORDINATOR.getId() && role.value.id!=Roles.LECTURER.getId())throw ResponseStatusException(HttpStatus.FORBIDDEN,"You are not coordinator or lecturer")
+                when(val courseGroup = courseGroupService.createCourseGroup(payload.name,user.id)){
+                    is Either.Right ->{
+                        return CourseGroupRespone(courseGroup.value.id,courseGroup.value.name,courseGroup.value.instructorId)
+                    }
+                    is Either.Left -> {
+                        throw ResponseStatusException(HttpStatus.BAD_REQUEST,courseGroup.value)
+                    }
+                }
+            }
             is Either.Left -> {
                 throw ResponseStatusException(HttpStatus.BAD_REQUEST,role.value)
             }

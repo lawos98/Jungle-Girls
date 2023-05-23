@@ -4,7 +4,7 @@ export const joinGroup = (secretCode: string, successCallback:Function, errorCal
     const payload = {
         code : secretCode
     };
-    api.patch("/role/secret-code", payload,
+    api.patch("/course-group/secret-code", payload,
         {
             headers: {
                 "Content-Type": "application/json"

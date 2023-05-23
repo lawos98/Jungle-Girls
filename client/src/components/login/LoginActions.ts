@@ -17,7 +17,23 @@ export const login = (username: string, password: string, successCallback:Functi
         successCallback(response.data);
     }).catch(error => {
         if (error.response) {
-            errorCallback(error.response.data);
+            errorCallback(error.response.data.message);
         }
     });
 };
+
+export const getDescription = (successCallback:Function, errorCallback: Function ) => {
+    api.get("/student-description",
+        {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+    ).then(response => {
+        successCallback(response.data);
+    }).catch(error => {
+        if (error.response) {
+            errorCallback(error.response.data.message);
+        }
+    });
+}

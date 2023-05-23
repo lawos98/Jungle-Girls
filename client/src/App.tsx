@@ -26,11 +26,7 @@ function App() {
 
 
     const getProperNavbar = () => {
-        if (user.roleId === 1) {
-            return (
-                <SecretCode/>
-            );
-        } else if (user.roleId === 2) {
+        if (user.roleId === 2) {
             return (
                 <StudentNavbar/>
             );
@@ -42,17 +38,19 @@ function App() {
     };
 
     const getProperMainView = () => {
-        if (user.roleId === 1) {
-            return (
-                <SecretCode/>
-            );
-        } else if (user.roleId === 2) {
+        if (user.roleId === 2) {
             return (
                 <MainStudentView/>
             );
         } else if (user.roleId === 3 || user.roleId === 4) {
             return (
                 <EditGrades/>
+            );
+        }
+        else if (!user.courseGroupId)
+        {
+            return (
+                <SecretCode/>
             );
         }
     };
@@ -65,6 +63,7 @@ function App() {
                 <Routes>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
+                    <Route path="/secret-code" element={<SecretCode/>}/>
                     <Route path="/leaderboard" element={
                         <PrivateRoute>
                             <Leaderboard />

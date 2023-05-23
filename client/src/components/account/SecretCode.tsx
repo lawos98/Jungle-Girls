@@ -4,20 +4,21 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import * as actions from "./SecretCodeActions";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setUser, clearUser} from "../../reducers/UserReducer";
 
 const SecretCode: React.FC = () => {
     const navigate = useNavigate();
     const [serverError, setServerError] = useState("");
     const dispatch = useDispatch();
+    const user = useSelector((state: any) => state.user);
 
     const validationSchema = Yup.object({
         secretCode: Yup.string().required("Sekretny kod jest wymagany"),
     });
 
-    const successCallback = () => {
-        dispatch(setUser({roleId: 2}));
+    const successCallback = (userInfo:any) => {
+        dispatch(setUser({...user,...userInfo, roleId:2}));
         navigate("/");
     };
 

@@ -1,18 +1,23 @@
 import api from "../../api/axios";
 
 
-export const updateAccount = (index: string, link: string) => {
+export const updateAccount = (index: string, link: string, username: string, firstname: string, lastname: string) => {
     const payload = {
         index : index,
-        githubLink : link
+        githubLink : link,
     };
-    return api.patch("/student-description", payload,
-        {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }
-    );
+
+    const payload2 = {
+        username : username,
+        firstname : firstname,
+        lastname : lastname
+    }
+
+    const prom1 = api.patch("/user", payload2,);
+
+    const prom2 = api.patch("/student-description", payload,);
+
+    return Promise.all([prom1, prom2]);
 };
 
 export const getAccount = (successCallback:Function, errorCallback:Function ) => {

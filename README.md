@@ -22,8 +22,8 @@ Our application is designed to improve the "Object Oriented Programming" course 
 ## Tech stack
 
 - For the frontend, the app uses React.js
-- For the backend. the app uses Spring Boot
-- For persistent storage, the app uses PostgreSQL
+- For the backend. the app uses Kotlin Spring Boot 
+- For persistent storage, the app uses PostgreSQL with Docker
 
 ![divider](assets/divider.png)
 <a name="key-features"></a>
@@ -31,7 +31,6 @@ Our application is designed to improve the "Object Oriented Programming" course 
 
 - GitHub Integration 
 - Representation of points in the form of zombie and a vial of blood cells
-- Login using OAuth (accounts.iiet)
 
 For more advanced installation and usage [documentation](docks), see the docs/ directory of the distribution
 
@@ -45,8 +44,8 @@ See [LICENSE](https://github.com/dec0dOS/amazing-github-template/blob/main/LICEN
 ![divider](assets/divider.png)
 <a name="contributors"></a>
 ## Contributors
-* Jakub Spólnik
-* Magdalena Królikowska
-* Paweł Gacek
-* Piotr Ryczek
-* Wojciech Siwek
+* Jakub Spólnik - Backend
+* Magdalena Królikowska - Frontend
+* Paweł Gacek -Backend
+* Piotr Ryczek - Frontend
+* Wojciech Siwek - Fronted
